@@ -5,6 +5,7 @@ import (
 	"fmt"
 	// "log"
 	"os"
+	"strings"
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
@@ -25,7 +26,7 @@ import (
 // }
 
 func Genv3(name string, space string) (uuid.UUID, error) {
-	switch space {
+	switch strings.ToUpper(space) {
 	case "DNS":
 		return uuid.NewMD5(uuid.NameSpaceDNS, []byte(name)), nil
 	case "OID":
@@ -49,7 +50,7 @@ func Genv4() (uuid.UUID, error) {
 }
 
 func Genv5(name string, space string) (uuid.UUID, error) {
-	switch space {
+	switch strings.ToUpper(space) {
 	case "DNS":
 		return uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name)), nil
 	case "OID":

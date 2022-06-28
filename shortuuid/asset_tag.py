@@ -50,7 +50,7 @@ def main(alphabet, decode, encode, name, namespace):
     elif encode:
         print(shortuuid.ShortUUID(alphabet=alphabet).encode(uuid=uuid.UUID(encode)))
     elif name:
-        match namespace:
+        match namespace.upper():
             case 'DNS':
                 print(
                     shortuuid.ShortUUID(alphabet=alphabet).encode(
