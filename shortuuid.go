@@ -26,11 +26,11 @@ import (
 
 func Genv3(name string, space string) (uuid.UUID, error) {
 	switch space {
-	case "Dns":
+	case "DNS":
 		return uuid.NewMD5(uuid.NameSpaceDNS, []byte(name)), nil
-	case "Oid":
+	case "OID":
 		return uuid.NewMD5(uuid.NameSpaceOID, []byte(name)), nil
-	case "Url":
+	case "URL":
 		return uuid.NewMD5(uuid.NameSpaceURL, []byte(name)), nil
 	case "X500":
 		return uuid.NewMD5(uuid.NameSpaceX500, []byte(name)), nil
@@ -50,11 +50,11 @@ func Genv4() (uuid.UUID, error) {
 
 func Genv5(name string, space string) (uuid.UUID, error) {
 	switch space {
-	case "Dns":
+	case "DNS":
 		return uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name)), nil
-	case "Oid":
+	case "OID":
 		return uuid.NewSHA1(uuid.NameSpaceOID, []byte(name)), nil
-	case "Url":
+	case "URL":
 		return uuid.NewSHA1(uuid.NameSpaceURL, []byte(name)), nil
 	case "X500":
 		return uuid.NewSHA1(uuid.NameSpaceX500, []byte(name)), nil
@@ -84,9 +84,9 @@ func main() {
 	// base64    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
 	// base64url '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'
 
-	// lluu, err := Genv3("python.org", "Url")
+	// lluu, err := Genv3("python.org", "URL")
 	lluu, err := Genv4()
-	// lluu, err := Genv5("python.org", "Dns")
+	// lluu, err := Genv5("python.org", "DNS")
 	// lluu, err := uuid.Parse("cd5d0bff-2444-5d26-ab53-4f7db1cb733d")
 
 	enc := base58Encoder{}
