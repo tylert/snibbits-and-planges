@@ -17,7 +17,7 @@ func main() {
 
 func moo(w http.ResponseWriter, r *http.Request) {
 	requesterIpAndPort := r.RemoteAddr
-	requesterIp, _, _ := strings.Cut(requesterIpAndPort, ":")
+	requesterIp := r.RemoteAddr[:strings.LastIndex(r.RemoteAddr, ":")]
 
 	fmt.Println(requesterIpAndPort)
 	w.Write([]byte(requesterIp + "\n"))
