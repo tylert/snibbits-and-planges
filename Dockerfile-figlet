@@ -2,3 +2,4 @@ ARG FROM=alpine:edge
 FROM ${FROM}
 RUN apk add --no-cache figlet
 ENTRYPOINT ["figlet"]
+# CMD ["-v"]
