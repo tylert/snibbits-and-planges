@@ -13,6 +13,7 @@ import (
 )
 
 // func Genv1() (uuid.UUID, error) {
+// }
 
 // func Genv2(domain string, id uint32) (uuid.UUID, error) {
 //   switch domain {
@@ -90,16 +91,16 @@ func main() {
 	// lluu, err := Genv5("python.org", "DNS")
 	// lluu, err := uuid.Parse("cd5d0bff-2444-5d26-ab53-4f7db1cb733d")
 
-	enc := base58Encoder{}
-	// lluu, err := enc.Decode("SMqCfPLDiH5aTTgLmGR4np")
-	shuu := enc.Encode(lluu)
-
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	fmt.Println(lluu)
+	enc := base58Encoder{}
+	// lluu, err := enc.Decode("SMqCfPLDiH5aTTgLmGR4np")
+	shuu := enc.Encode(lluu)
+
+	// fmt.Println(lluu)
 	fmt.Println(shuu)
 }
 
