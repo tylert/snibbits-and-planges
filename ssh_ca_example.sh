@@ -27,17 +27,17 @@ gen_ssh_keypair() {
         return 3
     else
         ssh-keygen                       \
-            -C "${comment}"              \
-            -N ''                        \
             -a 2147483647                \
+            -C "${comment}"              \
             -f "${private_key_filename}" \
+            -N ''                        \
             -t ed25519
     fi
 
-    # -C, comment
-    # -N, symmetric passphrase
     # -a, rounds for key derivation function (max value 2^31-1)
+    # -C, comment
     # -f, private key filename (append .pub to this for public key filename)
+    # -N, symmetric passphrase
     # -t, key type (-b bitsize option ignored for this key type)
 }
 
@@ -48,6 +48,7 @@ sign_ssh_pubkey() {
     local principals="${3}"
     local key_to_sign="${4}"
     local signing_key="${5}"
+    local serial_num="${6}"
 
     if [ -z "${type}" ]; then
         echo 'Undefined type.'
@@ -76,30 +77,30 @@ sign_ssh_pubkey() {
 
     if [ 'host' == "${type}" ]; then
         ssh-keygen              \
-            -I "${identity}"    \
-            -V '-5m:+403d'      \
             -h                  \
+            -I "${identity}"    \
             -n "${principals}"  \
             -s "${signing_key}" \
-            -z 0                \
+            -V '-5m:+403d'      \
+            -z "${serial_num}"  \
             "${key_to_sign}"
     elif [ 'user' == "${type}" ]; then
         ssh-keygen              \
             -I "${identity}"    \
-            -V '-5m:+403d'      \
             -n "${principals}"  \
             -s "${signing_key}" \
-            -z 0                \
+            -V '-5m:+403d'      \
+            -z "${serial_num}"  \
             "${key_to_sign}"
     else
         echo 'Undefined type.'
     fi
 
-    # -I, identity
-    # -V, validity interval (5 minutes ago to 1*Y+M+W+D from now)
     # -h, create a host certificate instead of a user certificate
+    # -I, identity
     # -n, principals
     # -s, signing private key
+    # -V, validity interval (5 minutes ago to 1*Y+M+W+D from now)
     # -z, serial number (default 0), use '+' prefix to autoincrement
     # public key file to sign
 }
@@ -111,12 +112,12 @@ main() {
 
     for host in ${hosts}; do
         gen_ssh_keypair "root@${host}" "ssh_host_ed25519_key_${host}"
-        sign_ssh_pubkey 'host' "${host}" "${host}" "ssh_host_ed25519_key_${host}" 'hostca'
+        sign_ssh_pubkey 'host' "${host}" "${host}" "ssh_host_ed25519_key_${host}" 'hostca' 0
     done
 
     for user in ${users}; do
         gen_ssh_keypair "${user}" "id_ed25519_${user}"
-        sign_ssh_pubkey 'user' "${user}" "${user}" "id_ed25519_${user}" 'userca'
+        sign_ssh_pubkey 'user' "${user}" "${user}" "id_ed25519_${user}" 'userca' 0
     done
 }
 
