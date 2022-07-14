@@ -1,10 +1,17 @@
 ssss
 ----
 
-Replace the "s4" stuff with something simpler.  Get rid of the "github.com/pkg/errors" stuff too.
+* http://point-at-infinity.org/ssss/  original C version
+* https://pkg.go.dev/github.com/simonfrey/s4 -> https://pkg.go.dev/github.com/corvus-ch/shamir ???
+* https://github.com/simonfrey/s4 -> https://github.com/corvus-ch/shamir ???
+* https://github.com/simonfrey/s4 -> https://github.com/hashicorp/vault/tree/main/shamir ???
 
-* https://pkg.go.dev/github.com/simonfrey/s4 -> https://pkg.go.dev/github.com/corvus-ch/shamir
-* https://github.com/simonfrey/s4 -> https://github.com/corvus-ch/shamir
+
+zbase32
+-------
+
+* https://github.com/tv42/zbase32
+* https://github.com/corvus-ch/zbase32
 
 
 figlet
