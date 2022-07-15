@@ -44,7 +44,7 @@ import click
     '--wordlist',
     '-w',
     help='Use this wordlist file for the random passphrase generation.',
-    default='/tmp/eff-short.txt',
+    default='/tmp/eff_short_1.wordlist',
     required=False,
 )
 def main(language, mnemonic, passphrase, subwallets, wordlist):
