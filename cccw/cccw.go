@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	entropy, err := bip39.NewEntropy(256)
+	entropy, err := bip39.NewEntropy(128)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	secret_list, err := diceware.Generate(24)
+	secret_list, err := diceware.Generate(12)
 	if err != nil {
 		log.Fatal(err)
 	}
