@@ -49,8 +49,8 @@ func Genv4() (uuid.UUID, error) {
 	// uuid.EnableRandPool()
 	// uuid.DisableRandPool()
 
-	lluu, err := uuid.NewRandom()
-	return lluu, err
+	luu, err := uuid.NewRandom()
+	return luu, err
 }
 
 func Genv5(n string, ns string) (uuid.UUID, error) {
@@ -74,73 +74,90 @@ func Genv5(n string, ns string) (uuid.UUID, error) {
 
 type base58Encoder struct{}
 
-func (enc base58Encoder) Encode(lluu uuid.UUID) string {
-	return base58.Encode(lluu[:])
+func (enc base58Encoder) Encode(luu uuid.UUID) string {
+	return base58.Encode(luu[:])
 }
 
-func (enc base58Encoder) Decode(shuu string) (uuid.UUID, error) {
-	return uuid.FromBytes(base58.Decode(shuu))
+func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
+	return uuid.FromBytes(base58.Decode(suu))
 }
 
 var (
+	// Long options
 	// d  = flag.String("domain", "", "Domain")
-	n  = flag.String("name", "", "Name")
-	ns = flag.String("namespace", "DNS", "Namespace")
-	s  = flag.String("shorten", "", "UUID to shorten")
-	uv = flag.String("uuidver", "4", "UUID Version (3, 4, 5)")
+	l  = flag.Bool("long", false, "Show long UUID instead of short one")
+	n  = flag.String("name", "", "Name to hash")
+	ns = flag.String("namespace", "DNS", "Namespace for hash")
+	u  = flag.String("uuid", "", "Existing UUID to lengthen or shorten")
+	uv = flag.String("uuidver", "4", "Generate UUID version:  3, 4, 5")
 )
 
 func init() {
+	// Short options
 	// flag.StringVar(n, "d", "", "Domain")
-	flag.StringVar(n, "n", "", "Name")
-	flag.StringVar(ns, "ns", "DNS", "Namespace")
-	flag.StringVar(s, "s", "", "UUID to shorten")
-	flag.StringVar(uv, "uv", "4", "UUID Version (3, 4, 5)")
+	flag.BoolVar(l, "l", false, "Show long UUID instead of short one")
+	flag.StringVar(n, "n", "", "Name to hash")
+	flag.StringVar(ns, "ns", "DNS", "Namespace for hash")
+	flag.StringVar(u, "u", "", "Existing UUID to lengthen or shorten")
+	flag.StringVar(uv, "uv", "4", "Generate UUID version:  3, 4, 5")
 }
 
 func main() {
 	flag.Parse()
 
 	var (
-		lluu uuid.UUID
-		err  error
+		luu uuid.UUID
+		suu string
+		err error
 	)
 
-	// Shorten an existing UUID or generate a new one
-	if *s != "" {
-		lluu, err = uuid.Parse(*s)
+	enc := base58Encoder{}
+
+	// Lengthen or shorten an existing UUID or generate a new one
+	if *u != "" {
+		luu, err = uuid.Parse(*u)
+
+		// It might be a short UUID already
+		if err != nil {
+			luu, err = enc.Decode(*u)
+		}
 	} else {
 		// A non-empty name but default version means we want either a UUID5 or a UUID3 (but UUID5 is awesomer)
 		if *n != "" && *uv == "4" {
 			*uv = "5"
 		}
 
+		// Generate a new long UUID of the desired version
 		switch strings.ToUpper(*uv) {
 		// case "2":
-		// 	lluu, err = Genv2(*d, *id)
+		// 	luu, err = Genv2(*d, *id)
 		case "3":
-			lluu, err = Genv3(*n, *ns)
+			luu, err = Genv3(*n, *ns)
 		case "4":
-			lluu, err = Genv4()
+			luu, err = Genv4()
 		case "5":
-			lluu, err = Genv5(*n, *ns)
+			luu, err = Genv5(*n, *ns)
 		default:
 			fmt.Println("Invalid UUID version")
 			os.Exit(2)
 		}
 	}
-	// lluu, err = enc.Decode("SMqCfPLDiH5aTTgLmGR4np")
 
+	// Did something go wrong?
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	enc := base58Encoder{}
-	shuu := enc.Encode(lluu)
+	// Shorten the long UUID
+	suu = enc.Encode(luu)
 
-	// fmt.Println(lluu)
-	fmt.Println(shuu)
+	// Display the desired UUID representation
+	if *l {
+		fmt.Println(luu)
+	} else {
+		fmt.Println(suu)
+	}
 }
 
 // base57    '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
