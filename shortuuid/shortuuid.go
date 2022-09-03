@@ -86,14 +86,16 @@ var (
 	// d  = flag.String("domain", "", "Domain")
 	n  = flag.String("name", "", "Name")
 	ns = flag.String("namespace", "DNS", "Namespace")
-	uv = flag.String("uuidver", "4", "UUID Version")
+	s  = flag.String("shorten", "", "UUID to shorten")
+	uv = flag.String("uuidver", "4", "UUID Version (3, 4, 5)")
 )
 
 func init() {
 	// flag.StringVar(n, "d", "", "Domain")
 	flag.StringVar(n, "n", "", "Name")
 	flag.StringVar(ns, "ns", "DNS", "Namespace")
-	flag.StringVar(uv, "uv", "4", "UUID Version")
+	flag.StringVar(s, "s", "", "UUID to shorten")
+	flag.StringVar(uv, "uv", "4", "UUID Version (3, 4, 5)")
 }
 
 func main() {
@@ -104,20 +106,29 @@ func main() {
 		err  error
 	)
 
-	switch strings.ToUpper(*uv) {
-	// case "2":
-	// 	lluu, err = Genv2(*d, *id)
-	case "3":
-		lluu, err = Genv3(*n, *ns)
-	case "4":
-		lluu, err = Genv4()
-	case "5":
-		lluu, err = Genv5(*n, *ns)
-	default:
-		fmt.Println("Invalid UUID version")
-		os.Exit(2)
+	// Shorten an existing UUID or generate a new one
+	if *s != "" {
+		lluu, err = uuid.Parse(*s)
+	} else {
+		// A non-empty name but default version means we want either a UUID5 or a UUID3 (but UUID5 is awesomer)
+		if *n != "" && *uv == "4" {
+			*uv = "5"
+		}
+
+		switch strings.ToUpper(*uv) {
+		// case "2":
+		// 	lluu, err = Genv2(*d, *id)
+		case "3":
+			lluu, err = Genv3(*n, *ns)
+		case "4":
+			lluu, err = Genv4()
+		case "5":
+			lluu, err = Genv5(*n, *ns)
+		default:
+			fmt.Println("Invalid UUID version")
+			os.Exit(2)
+		}
 	}
-	// lluu, err = uuid.Parse("cd5d0bff-2444-5d26-ab53-4f7db1cb733d")
 	// lluu, err = enc.Decode("SMqCfPLDiH5aTTgLmGR4np")
 
 	if err != nil {
