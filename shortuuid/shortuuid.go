@@ -65,22 +65,22 @@ func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
 
 // Long options
 var (
-	l  = flag.Bool("long", false, "Show long UUID instead of short one (default false)")
+	l  = flag.Bool("long", false, "Show the long UUID instead of the short one")
 	n  = flag.String("name", "", "Name to use for UUIDv5 or v3 hash")
 	ns = flag.String("namespace", "DNS", "Namespace to use for UUIDv5 or v3 hash")
-	u  = flag.String("uuid", "", "Existing UUID to shorten/lengthen")
+	u  = flag.String("uuid", "", "Existing UUID to shorten or lengthen")
 	uv = flag.String("uuidver", "4", "Generate UUIDv5, v4 or v3")
-	v  = flag.Bool("version", false, "Display version information")
+	v  = flag.Bool("version", false, "Display version information and exit")
 )
 
 // Short options
 func init() {
-	flag.BoolVar(l, "l", false, "Show long UUID instead of short one (default false)")
+	flag.BoolVar(l, "l", false, "Show the long UUID instead of the short one")
 	flag.StringVar(n, "n", "", "Name to use for UUIDv5 or v3 hash")
 	flag.StringVar(ns, "ns", "DNS", "Namespace to use for UUIDv5 or v3 hash")
-	flag.StringVar(u, "u", "", "Existing UUID to shorten/lengthen")
+	flag.StringVar(u, "u", "", "Existing UUID to shorten or lengthen")
 	flag.StringVar(uv, "uv", "4", "Generate UUIDv5, v4 or v3")
-	flag.BoolVar(v, "v", false, "Display version information")
+	flag.BoolVar(v, "v", false, "Display version information and exit")
 }
 
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
@@ -89,24 +89,21 @@ var Version string = ""
 func main() {
 	flag.Parse()
 
+	// Print out the version information
 	if *v {
-		// Extract additional info about the binary
 		var barch, bos, bmod, brev, btime, suffix string
 		if info, ok := debug.ReadBuildInfo(); ok {
 			for _, setting := range info.Settings {
-				if setting.Key == "GOARCH" {
+				switch setting.Key {
+				case "GOARCH":
 					barch = setting.Value
-				}
-				if setting.Key == "GOOS" {
+				case "GOOS":
 					bos = setting.Value
-				}
-				if setting.Key == "vcs.modified" {
+				case "vcs.modified":
 					bmod = setting.Value
-				}
-				if setting.Key == "vcs.revision" {
+				case "vcs.revision":
 					brev = setting.Value[0:7]
-				}
-				if setting.Key == "vcs.time" {
+				case "vcs.time":
 					btime = setting.Value
 				}
 			}
@@ -139,7 +136,7 @@ func main() {
 			luu, err = enc.Decode(*u)
 		}
 	} else {
-		// A non-empty name but default version means we probably want UUID5
+		// A non-empty name but default version means we probably want UUIDv5
 		if *n != "" && *uv == "4" {
 			*uv = "5"
 		}
@@ -163,7 +160,6 @@ func main() {
 	}
 
 	suu = enc.Encode(luu)
-
 	if *l {
 		fmt.Println(luu)
 	} else {
