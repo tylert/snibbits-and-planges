@@ -172,13 +172,6 @@ func main() {
 		if *n != "" && *uv == "4" {
 			*uv = "5"
 		}
-		// A non-empty domain or id with default version means we probably want UUIDv2
-		if *d != "" && *uv == "4" {
-			*uv = "2"
-		}
-		if *id != "0" && *uv == "4" {
-			*uv = "2"
-		}
 
 		// Get the base10 uint32 value from the id string (always runs since default id is "0")
 		if *id != "" {
