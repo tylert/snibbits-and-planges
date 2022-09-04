@@ -83,7 +83,7 @@ func init() {
 	flag.BoolVar(v, "v", false, "Display version information")
 }
 
-// go build -ldflags "-X main.Version=moo"
+// go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string = ""
 
 func main() {
