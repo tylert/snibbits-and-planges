@@ -6,8 +6,8 @@ import (
 	"fmt"
 	// "log"
 	"os"
+	"runtime/debug"
 	"strings"
-	// "runtime/debug"
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
@@ -68,9 +68,9 @@ var (
 	l  = flag.Bool("long", false, "Show long UUID instead of short one (default false)")
 	n  = flag.String("name", "", "Name to use for UUIDv5 or v3 hash")
 	ns = flag.String("namespace", "DNS", "Namespace to use for UUIDv5 or v3 hash")
-	u  = flag.String("uuid", "", "Existing UUID to lengthen/shorten")
+	u  = flag.String("uuid", "", "Existing UUID to shorten/lengthen")
 	uv = flag.String("uuidver", "4", "Generate UUIDv5, v4 or v3")
-	v  = flag.Bool("version", false, "Show tool version information")
+	v  = flag.Bool("version", false, "Display version information")
 )
 
 // Short options
@@ -78,19 +78,48 @@ func init() {
 	flag.BoolVar(l, "l", false, "Show long UUID instead of short one (default false)")
 	flag.StringVar(n, "n", "", "Name to use for UUIDv5 or v3 hash")
 	flag.StringVar(ns, "ns", "DNS", "Namespace to use for UUIDv5 or v3 hash")
-	flag.StringVar(u, "u", "", "Existing UUID to lengthen/shorten")
+	flag.StringVar(u, "u", "", "Existing UUID to shorten/lengthen")
 	flag.StringVar(uv, "uv", "4", "Generate UUIDv5, v4 or v3")
-	flag.BoolVar(v, "v", false, "Show tool version information")
+	flag.BoolVar(v, "v", false, "Display version information")
 }
 
-// go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
-var Version string = "0.0.0"
+// go build -ldflags "-X main.Version=moo"
+var Version string = "unspecified version"
 
 func main() {
 	flag.Parse()
 
 	if *v {
-		fmt.Println(Version)
+		// Extract additional info about the binary
+		var barch, bos, bmod, brev, btime, suffix string
+		if info, ok := debug.ReadBuildInfo(); ok {
+			for _, setting := range info.Settings {
+				if setting.Key == "GOARCH" {
+					barch = setting.Value
+				}
+				if setting.Key == "GOOS" {
+					bos = setting.Value
+				}
+				if setting.Key == "vcs.modified" {
+					bmod = setting.Value
+				}
+				if setting.Key == "vcs.revision" {
+					brev = setting.Value[0:7]
+				}
+				if setting.Key == "vcs.time" {
+					btime = setting.Value
+				}
+			}
+		}
+		// If we didn't specify a version string, use the git commit
+		if Version == "unspecified version" {
+			Version = brev
+		}
+		// If the git repo wasn't clean, say so in the version string
+		if bmod == "true" {
+			suffix = "-dirty"
+		}
+		fmt.Println(fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime))
 		os.Exit(0)
 	}
 
