@@ -7,7 +7,6 @@ import (
 	// "log"
 	"os"
 	"runtime/debug"
-	"strconv"
 	"strings"
 
 	"github.com/btcsuite/btcd/btcutil/base58"
@@ -15,29 +14,16 @@ import (
 	// "github.com/nicksnyder/basen"
 )
 
-func Genv2(d string, id uint32) (uuid.UUID, error) {
-	switch strings.ToLower(d) {
-	case "person":
-		return uuid.NewDCESecurity(uuid.Person, id)
-	case "group":
-		return uuid.NewDCESecurity(uuid.Group, id)
-	case "org":
-		return uuid.NewDCESecurity(uuid.Org, id)
-	default:
-		return uuid.Nil, errors.New("Unsupported domain")
-	}
-}
-
-func Genv3(n string, ns string) (uuid.UUID, error) {
-	switch strings.ToUpper(ns) {
+func Genv3(name string, namespace string) (uuid.UUID, error) {
+	switch strings.ToUpper(namespace) {
 	case "DNS":
-		return uuid.NewMD5(uuid.NameSpaceDNS, []byte(n)), nil
+		return uuid.NewMD5(uuid.NameSpaceDNS, []byte(name)), nil
 	case "OID":
-		return uuid.NewMD5(uuid.NameSpaceOID, []byte(n)), nil
+		return uuid.NewMD5(uuid.NameSpaceOID, []byte(name)), nil
 	case "URL":
-		return uuid.NewMD5(uuid.NameSpaceURL, []byte(n)), nil
+		return uuid.NewMD5(uuid.NameSpaceURL, []byte(name)), nil
 	case "X500":
-		return uuid.NewMD5(uuid.NameSpaceX500, []byte(n)), nil
+		return uuid.NewMD5(uuid.NameSpaceX500, []byte(name)), nil
 	default:
 		return uuid.Nil, errors.New("Unsupported namespace")
 	}
@@ -48,16 +34,16 @@ func Genv4() (uuid.UUID, error) {
 	return luu, err
 }
 
-func Genv5(n string, ns string) (uuid.UUID, error) {
-	switch strings.ToUpper(ns) {
+func Genv5(name string, namespace string) (uuid.UUID, error) {
+	switch strings.ToUpper(namespace) {
 	case "DNS":
-		return uuid.NewSHA1(uuid.NameSpaceDNS, []byte(n)), nil
+		return uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name)), nil
 	case "OID":
-		return uuid.NewSHA1(uuid.NameSpaceOID, []byte(n)), nil
+		return uuid.NewSHA1(uuid.NameSpaceOID, []byte(name)), nil
 	case "URL":
-		return uuid.NewSHA1(uuid.NameSpaceURL, []byte(n)), nil
+		return uuid.NewSHA1(uuid.NameSpaceURL, []byte(name)), nil
 	case "X500":
-		return uuid.NewSHA1(uuid.NameSpaceX500, []byte(n)), nil
+		return uuid.NewSHA1(uuid.NameSpaceX500, []byte(name)), nil
 	default:
 		return uuid.Nil, errors.New("Unsupported namespace")
 	}
@@ -67,14 +53,14 @@ func Genv5(n string, ns string) (uuid.UUID, error) {
 // func Genv7() (uuid.UUID, error) {
 // func Genv8() (uuid.UUID, error) {
 
-func extraInfo(u uuid.UUID) string {
+func extraInfo(uu uuid.UUID) string {
 	var output string
-	ver := strings.Split(u.Version().String(), "_")
-	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], u.Variant())
+	ver := strings.Split(uu.Version().String(), "_")
+	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], uu.Variant())
 
 	switch ver[1] {
 	case "2":
-		output += fmt.Sprintf(" Domain:%s Id:%s", u.Domain().String(), u.ID())
+		output += fmt.Sprintf(" Domain:%s Id:%s", uu.Domain().String(), uu.ID())
 	}
 
 	return output
@@ -92,26 +78,22 @@ func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
 
 // Long options
 var (
-	d  = flag.String("domain", "Person", "Domain to use for the UUIDv2 value")
-	id = flag.String("id", "0", "ID to use for the UUIDv2 value")
 	l  = flag.Bool("long", false, "Show the long UUID instead of the short one (default false)")
 	n  = flag.String("name", "", "Name to use for the UUIDv5 or v3 hash (default UUIDv5)")
 	ns = flag.String("namespace", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
 	u  = flag.String("uuid", "", "Existing UUID to shorten or lengthen")
-	uv = flag.String("uuidver", "4", "Generate a UUIDv5, v4, v3 or v2 value")
+	uv = flag.String("uuidver", "4", "Generate a UUIDv5, v4 or v3 value")
 	v  = flag.Bool("version", false, "Display version information")
 	x  = flag.Bool("extra", false, "Display extra information about the UUID (default false)")
 )
 
 // Short options
 func init() {
-	flag.StringVar(d, "d", "Person", "Domain to use for the UUIDv2 value")
-	flag.StringVar(id, "i", "0", "ID to use for the UUIDv2 value")
 	flag.BoolVar(l, "l", false, "Show the long UUID instead of the short one (default false)")
 	flag.StringVar(n, "n", "", "Name to use for the UUIDv5 or v3 hash (default UUIDv5)")
 	flag.StringVar(ns, "ns", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
 	flag.StringVar(u, "u", "", "Existing UUID to shorten or lengthen")
-	flag.StringVar(uv, "uv", "4", "Generate a UUIDv5, v4, v3 or v2 value")
+	flag.StringVar(uv, "uv", "4", "Generate a UUIDv5, v4 or v3 value")
 	flag.BoolVar(v, "v", false, "Display version information")
 	flag.BoolVar(x, "x", false, "Display extra information about the UUID (default false)")
 }
@@ -162,8 +144,6 @@ func main() {
 		err error
 		luu uuid.UUID
 		suu string
-		u64 uint64
-		u32 uint32
 	)
 
 	// Lengthen or shorten an existing UUID or generate a new one
@@ -179,28 +159,8 @@ func main() {
 		if *n != "" && *uv == "4" {
 			*uv = "5"
 		}
-		// A non-empty domain or id with default version means we probably want UUIDv2
-		if *d != "" && *uv == "4" {
-			*uv = "2"
-		}
-		if *id != "0" && *uv == "4" {
-			*uv = "2"
-		}
-
-		// Get the base10 uint32 value from the id string (always runs since default id is "0")
-		if *id != "" {
-			u64, err = strconv.ParseUint(*id, 10, 32)
-			u32 = uint32(u64)
-
-			if err != nil {
-				fmt.Println("Error parsing uint32 string")
-				os.Exit(3)
-			}
-		}
 
 		switch strings.ToUpper(*uv) {
-		case "2":
-			luu, err = Genv2(*d, u32)
 		case "3":
 			luu, err = Genv3(*n, *ns)
 		case "4":
