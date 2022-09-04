@@ -217,14 +217,22 @@ func main() {
 	}
 }
 
+// Other UUID versions???
+//   https://pkg.go.dev/github.com/google/uuid
+//   https://github.com/google/uuid
+//   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-03  (check after 2022-10-02)
+//   https://datatracker.ietf.org/doc/html/rfc4122
+//   https://en.wikipedia.org/wiki/Universally_unique_identifier
+
+// Other alphabets???
+//   https://datatracker.ietf.org/doc/html/draft-msporny-base58-03
+//   https://stackoverflow.com/questions/41996761/golang-number-base-conversion/48362821#48362821
 // base57    '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base58    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base62    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 // base64    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
 // base64url '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'
 
-// https://stackoverflow.com/questions/41996761/golang-number-base-conversion/48362821#48362821
-// https://github.com/yeqown/go-qrcode  generating a barcode bitmap
-// https://github.com/signintech/gopdf  generating a PDF
-// https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-03  (check after 2022-10-02)
-// https://datatracker.ietf.org/doc/html/draft-msporny-base58-03
+// Other features???
+//   https://github.com/yeqown/go-qrcode  generating a barcode bitmap
+//   https://github.com/signintech/gopdf  generating a PDF
