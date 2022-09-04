@@ -24,7 +24,7 @@ func Genv2(d string, id uint32) (uuid.UUID, error) {
 	case "org":
 		return uuid.NewDCESecurity(uuid.Org, id)
 	default:
-		return uuid.Nil, errors.New("Invalid domain")
+		return uuid.Nil, errors.New("Unsupported domain")
 	}
 }
 
@@ -39,7 +39,7 @@ func Genv3(n string, ns string) (uuid.UUID, error) {
 	case "X500":
 		return uuid.NewMD5(uuid.NameSpaceX500, []byte(n)), nil
 	default:
-		return uuid.Nil, errors.New("Invalid namespace")
+		return uuid.Nil, errors.New("Unsupported namespace")
 	}
 }
 
@@ -59,13 +59,26 @@ func Genv5(n string, ns string) (uuid.UUID, error) {
 	case "X500":
 		return uuid.NewSHA1(uuid.NameSpaceX500, []byte(n)), nil
 	default:
-		return uuid.Nil, errors.New("Invalid namespace")
+		return uuid.Nil, errors.New("Unsupported namespace")
 	}
 }
 
 // func Genv6() (uuid.UUID, error) {
 // func Genv7() (uuid.UUID, error) {
 // func Genv8() (uuid.UUID, error) {
+
+func extraInfo(u uuid.UUID) string {
+	var output string
+	ver := strings.Split(u.Version().String(), "_")
+	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], u.Variant())
+
+	switch ver[1] {
+	case "2":
+		output += fmt.Sprintf(" Domain:%s Id:%s", u.Domain().String(), u.ID())
+	}
+
+	return output
+}
 
 type base58Encoder struct{}
 
@@ -87,7 +100,7 @@ var (
 	u  = flag.String("uuid", "", "Existing UUID to shorten or lengthen")
 	uv = flag.String("uuidver", "4", "Generate a UUIDv5, v4, v3 or v2 value")
 	v  = flag.Bool("version", false, "Display version information")
-	// x  = flag.Bool("extract", false, "Extract information from the UUID")
+	x  = flag.Bool("extra", false, "Display extra information about the UUID")
 )
 
 // Short options
@@ -100,7 +113,7 @@ func init() {
 	flag.StringVar(u, "u", "", "Existing UUID to shorten or lengthen")
 	flag.StringVar(uv, "uv", "4", "Generate a UUIDv5, v4, v3 or v2 value")
 	flag.BoolVar(v, "v", false, "Display version information")
-	// flag.BoolVar(x, "x", false, "Extract information from the UUID")
+	flag.BoolVar(x, "x", false, "Display extra information about the UUID")
 }
 
 // XXX FIXME TODO  Add handling for decoding and displaying detailed info about UUIDs???
@@ -108,7 +121,7 @@ func init() {
 // XXX FIXME TODO  Try to detect the alphabet used for the shortening???
 
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
-var Version string = ""
+var Version string
 
 func main() {
 	flag.Parse()
@@ -167,7 +180,7 @@ func main() {
 			*uv = "5"
 		}
 
-		// Get a base10 uint32 from a string
+		// Get the base10 uint32 value from the id string
 		if *id != "" {
 			u64, err = strconv.ParseUint(*id, 10, 32)
 			u32 = uint32(u64)
@@ -188,7 +201,7 @@ func main() {
 		case "5":
 			luu, err = Genv5(*n, *ns)
 		default:
-			fmt.Println("Invalid UUID version")
+			fmt.Println("Unsupported UUID version")
 			os.Exit(2)
 		}
 	}
@@ -203,6 +216,10 @@ func main() {
 		fmt.Println(luu)
 	} else {
 		fmt.Println(suu)
+	}
+
+	if *x {
+		fmt.Println(extraInfo(luu))
 	}
 }
 
