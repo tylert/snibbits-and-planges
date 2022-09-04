@@ -79,29 +79,33 @@ func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
 
 // Long options
 var (
-	d  = flag.String("domain", "Person", "Domain to use for UUIDv2 value")
-	id = flag.String("id", "0", "ID to use for UUIDv2 value")
+	d  = flag.String("domain", "Person", "Domain to use for the UUIDv2 value")
+	id = flag.String("id", "0", "ID to use for the UUIDv2 value")
 	l  = flag.Bool("long", false, "Show the long UUID instead of the short one")
-	n  = flag.String("name", "", "Name to use for UUIDv5 or v3 hash")
-	ns = flag.String("namespace", "DNS", "Namespace to use for UUIDv5 or v3 hash")
+	n  = flag.String("name", "", "Name to use for the UUIDv5 or v3 hash")
+	ns = flag.String("namespace", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
 	u  = flag.String("uuid", "", "Existing UUID to shorten or lengthen")
 	uv = flag.String("uuidver", "4", "Generate a UUIDv5, v4, v3 or v2 value")
 	v  = flag.Bool("version", false, "Display version information")
+	// x  = flag.Bool("extract", false, "Extract information from the UUID")
 )
 
 // Short options
 func init() {
-	flag.StringVar(d, "d", "Person", "Domain to use for UUIDv2 value")
-	flag.StringVar(id, "i", "0", "ID to use for UUIDv2 value")
+	flag.StringVar(d, "d", "Person", "Domain to use for the UUIDv2 value")
+	flag.StringVar(id, "i", "0", "ID to use for the UUIDv2 value")
 	flag.BoolVar(l, "l", false, "Show the long UUID instead of the short one")
-	flag.StringVar(n, "n", "", "Name to use for UUIDv5 or v3 hash")
-	flag.StringVar(ns, "ns", "DNS", "Namespace to use for UUIDv5 or v3 hash")
+	flag.StringVar(n, "n", "", "Name to use for the UUIDv5 or v3 hash")
+	flag.StringVar(ns, "ns", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
 	flag.StringVar(u, "u", "", "Existing UUID to shorten or lengthen")
 	flag.StringVar(uv, "uv", "4", "Generate a UUIDv5, v4, v3 or v2 value")
 	flag.BoolVar(v, "v", false, "Display version information")
+	// flag.BoolVar(x, "x", false, "Extract information from the UUID")
 }
 
-// XXX FIXME TODO  Add handling for decoding and displaying detailed info about UUIDs
+// XXX FIXME TODO  Add handling for decoding and displaying detailed info about UUIDs???
+// XXX FIXME TODO  Can we use alphabets other than base58 easily???
+// XXX FIXME TODO  Try to detect the alphabet used for the shortening???
 
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string = ""
@@ -142,9 +146,9 @@ func main() {
 
 	enc := base58Encoder{}
 	var (
+		err error
 		luu uuid.UUID
 		suu string
-		err error
 		u64 uint64
 		u32 uint32
 	)
@@ -163,7 +167,7 @@ func main() {
 			*uv = "5"
 		}
 
-		// Get a uint32 from a string
+		// Get a base10 uint32 from a string
 		if *id != "" {
 			u64, err = strconv.ParseUint(*id, 10, 32)
 			u32 = uint32(u64)
