@@ -84,7 +84,7 @@ func init() {
 }
 
 // go build -ldflags "-X main.Version=moo"
-var Version string = "unspecified version"
+var Version string = ""
 
 func main() {
 	flag.Parse()
@@ -112,7 +112,7 @@ func main() {
 			}
 		}
 		// If we didn't specify a version string, use the git commit
-		if Version == "unspecified version" {
+		if Version == "" {
 			Version = brev
 		}
 		// If the git repo wasn't clean, say so in the version string
