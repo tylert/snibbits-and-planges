@@ -94,26 +94,26 @@ func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
 var (
 	d  = flag.String("domain", "Person", "Domain to use for the UUIDv2 value")
 	id = flag.String("id", "0", "ID to use for the UUIDv2 value")
-	l  = flag.Bool("long", false, "Show the long UUID instead of the short one")
-	n  = flag.String("name", "", "Name to use for the UUIDv5 or v3 hash")
+	l  = flag.Bool("long", false, "Show the long UUID instead of the short one (default false)")
+	n  = flag.String("name", "", "Name to use for the UUIDv5 or v3 hash (default UUIDv5)")
 	ns = flag.String("namespace", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
 	u  = flag.String("uuid", "", "Existing UUID to shorten or lengthen")
 	uv = flag.String("uuidver", "4", "Generate a UUIDv5, v4, v3 or v2 value")
 	v  = flag.Bool("version", false, "Display version information")
-	x  = flag.Bool("extra", false, "Display extra information about the UUID")
+	x  = flag.Bool("extra", false, "Display extra information about the UUID (default false)")
 )
 
 // Short options
 func init() {
 	flag.StringVar(d, "d", "Person", "Domain to use for the UUIDv2 value")
 	flag.StringVar(id, "i", "0", "ID to use for the UUIDv2 value")
-	flag.BoolVar(l, "l", false, "Show the long UUID instead of the short one")
-	flag.StringVar(n, "n", "", "Name to use for the UUIDv5 or v3 hash")
+	flag.BoolVar(l, "l", false, "Show the long UUID instead of the short one (default false)")
+	flag.StringVar(n, "n", "", "Name to use for the UUIDv5 or v3 hash (default UUIDv5)")
 	flag.StringVar(ns, "ns", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
 	flag.StringVar(u, "u", "", "Existing UUID to shorten or lengthen")
 	flag.StringVar(uv, "uv", "4", "Generate a UUIDv5, v4, v3 or v2 value")
 	flag.BoolVar(v, "v", false, "Display version information")
-	flag.BoolVar(x, "x", false, "Display extra information about the UUID")
+	flag.BoolVar(x, "x", false, "Display extra information about the UUID (default false)")
 }
 
 // XXX FIXME TODO  Add handling for decoding and displaying detailed info about UUIDs???
@@ -179,8 +179,15 @@ func main() {
 		if *n != "" && *uv == "4" {
 			*uv = "5"
 		}
+		// A non-empty domain or id with default version means we probably want UUIDv2
+		if *d != "" && *uv == "4" {
+			*uv = "2"
+		}
+		if *id != "0" && *uv == "4" {
+			*uv = "2"
+		}
 
-		// Get the base10 uint32 value from the id string
+		// Get the base10 uint32 value from the id string (always runs since default id is "0")
 		if *id != "" {
 			u64, err = strconv.ParseUint(*id, 10, 32)
 			u32 = uint32(u64)
@@ -217,7 +224,6 @@ func main() {
 	} else {
 		fmt.Println(suu)
 	}
-
 	if *x {
 		fmt.Println(extraInfo(luu))
 	}
