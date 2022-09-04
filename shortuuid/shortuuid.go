@@ -7,12 +7,26 @@ import (
 	// "log"
 	"os"
 	"runtime/debug"
+	"strconv"
 	"strings"
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
 	// "github.com/nicksnyder/basen"
 )
+
+func Genv2(d string, id uint32) (uuid.UUID, error) {
+	switch strings.ToLower(d) {
+	case "person":
+		return uuid.NewDCESecurity(uuid.Person, id)
+	case "group":
+		return uuid.NewDCESecurity(uuid.Group, id)
+	case "org":
+		return uuid.NewDCESecurity(uuid.Org, id)
+	default:
+		return uuid.Nil, errors.New("Invalid domain")
+	}
+}
 
 func Genv3(n string, ns string) (uuid.UUID, error) {
 	switch strings.ToUpper(ns) {
@@ -65,23 +79,29 @@ func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
 
 // Long options
 var (
+	d  = flag.String("domain", "Person", "Domain to use for UUIDv2 value")
+	id = flag.String("id", "0", "ID to use for UUIDv2 value")
 	l  = flag.Bool("long", false, "Show the long UUID instead of the short one")
 	n  = flag.String("name", "", "Name to use for UUIDv5 or v3 hash")
 	ns = flag.String("namespace", "DNS", "Namespace to use for UUIDv5 or v3 hash")
 	u  = flag.String("uuid", "", "Existing UUID to shorten or lengthen")
-	uv = flag.String("uuidver", "4", "Generate UUIDv5, v4 or v3")
-	v  = flag.Bool("version", false, "Display version information and exit")
+	uv = flag.String("uuidver", "4", "Generate a UUIDv5, v4, v3 or v2 value")
+	v  = flag.Bool("version", false, "Display version information")
 )
 
 // Short options
 func init() {
+	flag.StringVar(d, "d", "Person", "Domain to use for UUIDv2 value")
+	flag.StringVar(id, "i", "0", "ID to use for UUIDv2 value")
 	flag.BoolVar(l, "l", false, "Show the long UUID instead of the short one")
 	flag.StringVar(n, "n", "", "Name to use for UUIDv5 or v3 hash")
 	flag.StringVar(ns, "ns", "DNS", "Namespace to use for UUIDv5 or v3 hash")
 	flag.StringVar(u, "u", "", "Existing UUID to shorten or lengthen")
-	flag.StringVar(uv, "uv", "4", "Generate UUIDv5, v4 or v3")
-	flag.BoolVar(v, "v", false, "Display version information and exit")
+	flag.StringVar(uv, "uv", "4", "Generate a UUIDv5, v4, v3 or v2 value")
+	flag.BoolVar(v, "v", false, "Display version information")
 }
+
+// XXX FIXME TODO  Add handling for decoding and displaying detailed info about UUIDs
 
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string = ""
@@ -125,6 +145,8 @@ func main() {
 		luu uuid.UUID
 		suu string
 		err error
+		u64 uint64
+		u32 uint32
 	)
 
 	// Lengthen or shorten an existing UUID or generate a new one
@@ -141,7 +163,20 @@ func main() {
 			*uv = "5"
 		}
 
+		// Get a uint32 from a string
+		if *id != "" {
+			u64, err = strconv.ParseUint(*id, 10, 32)
+			u32 = uint32(u64)
+
+			if err != nil {
+				fmt.Println("Error parsing uint32 string")
+				os.Exit(3)
+			}
+		}
+
 		switch strings.ToUpper(*uv) {
+		case "2":
+			luu, err = Genv2(*d, u32)
 		case "3":
 			luu, err = Genv3(*n, *ns)
 		case "4":
