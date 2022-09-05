@@ -16,7 +16,7 @@ import (
 )
 
 func Genv2(domain string, id uint32) (uuid.UUID, error) {
-	uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
+	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
 	switch strings.ToLower(domain) {
 	case "person":
 		return uuid.NewDCESecurity(uuid.Person, id)
@@ -64,7 +64,7 @@ func Genv5(name string, namespace string) (uuid.UUID, error) {
 	}
 }
 
-func extraInfo(uu uuid.UUID) string {
+func xtraInfo(uu uuid.UUID) string {
 	var output string
 	ver := strings.Split(uu.Version().String(), "_")
 	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], uu.Variant())
@@ -87,40 +87,64 @@ func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
 	return uuid.FromBytes(base58.Decode(suu))
 }
 
-// Long options
 var (
-	d  = flag.String("domain", "Person", "Domain to use for the UUIDv2 value")
-	id = flag.String("id", "0", "ID to use for the UUIDv2 value")
-	l  = flag.Bool("long", false, "Show the long UUID instead of the short one (default false)")
-	n  = flag.String("name", "", "Name to use for the UUIDv5 or v3 hash (default UUIDv5)")
-	ns = flag.String("namespace", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
-	u  = flag.String("uuid", "", "Existing UUID to shorten or lengthen")
-	uv = flag.String("uuidver", "4", "Generate a new UUIDv5, v4, v3 or v2 value")
-	v  = flag.Bool("version", false, "Display version information")
-	x  = flag.Bool("extra", false, "Display extra information about the UUID (default false)")
+	aDomain    string
+	aId        string
+	aLong      bool
+	aName      string
+	aNamespace string
+	aUuid      string
+	aUuidType  string
+	aVersion   bool
+	aXtra      bool
 )
 
-// Short options
 func init() {
-	flag.StringVar(d, "d", "Person", "Domain to use for the UUIDv2 value")
-	flag.StringVar(id, "i", "0", "ID to use for the UUIDv2 value")
-	flag.BoolVar(l, "l", false, "Show the long UUID instead of the short one (default false)")
-	flag.StringVar(n, "n", "", "Name to use for the UUIDv5 or v3 hash (default UUIDv5)")
-	flag.StringVar(ns, "ns", "DNS", "Namespace to use for the UUIDv5 or v3 hash")
-	flag.StringVar(u, "u", "", "Existing UUID to shorten or lengthen")
-	flag.StringVar(uv, "uv", "4", "Generate a new UUIDv5, v4, v3 or v2 value")
-	flag.BoolVar(v, "v", false, "Display version information")
-	flag.BoolVar(x, "x", false, "Display extra information about the UUID (default false)")
+	const (
+		sDomain    = "Domain to use for the UUIDv2 value"
+		sId        = "ID to use for the UUIDv2 value"
+		sLong      = "Show the long UUID instead of the short one (default false)"
+		sName      = "Name to use for the UUIDv5 or v3 hash"
+		sNamespace = "Namespace to use for the UUIDv5 or v3 hash"
+		sUuid      = "Existing UUID to shorten or lengthen"
+		sUuidType  = "Generate a new UUID of version v5, v4, v3 or v2"
+		sVersion   = "Display build version information (default false)"
+		sXtra      = "Show extra details about the UUID (default false)"
+	)
+
+	flag.StringVar(&aDomain, "domain", "Person", sDomain)
+	flag.StringVar(&aDomain, "d", "Person", sDomain)
+	flag.StringVar(&aId, "id", "0", sId)
+	flag.StringVar(&aId, "i", "0", sId)
+	flag.BoolVar(&aLong, "long", false, sLong)
+	flag.BoolVar(&aLong, "l", false, sLong)
+	flag.StringVar(&aName, "name", "", sName)
+	flag.StringVar(&aName, "n", "", sName)
+	flag.StringVar(&aNamespace, "namespace", "DNS", sNamespace)
+	flag.StringVar(&aNamespace, "ns", "DNS", sNamespace)
+	flag.StringVar(&aUuid, "uuid", "", sUuid)
+	flag.StringVar(&aUuid, "u", "", sUuid)
+	flag.StringVar(&aUuidType, "uuidver", "4", sUuidType)
+	flag.StringVar(&aUuidType, "uv", "4", sUuidType)
+	flag.BoolVar(&aVersion, "version", false, sVersion)
+	flag.BoolVar(&aVersion, "v", false, sVersion)
+	flag.BoolVar(&aXtra, "xtra", false, sXtra)
+	flag.BoolVar(&aXtra, "x", false, sXtra)
+	flag.Parse()
+
+	if flag.NArg() > 0 {
+		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
+		flag.Usage()
+		os.Exit(4)
+	}
 }
 
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string
 
 func main() {
-	flag.Parse()
-
 	// Print out the version information
-	if *v {
+	if aVersion {
 		var barch, bos, bmod, brev, btime, suffix string
 		if info, ok := debug.ReadBuildInfo(); ok {
 			for _, setting := range info.Settings {
@@ -160,22 +184,22 @@ func main() {
 	)
 
 	// Lengthen or shorten an existing UUID or generate a new one
-	if *u != "" {
-		luu, err = uuid.Parse(*u)
+	if aUuid != "" {
+		luu, err = uuid.Parse(aUuid)
 
 		// It might be a short UUID already
 		if err != nil {
-			luu, err = enc.Decode(*u)
+			luu, err = enc.Decode(aUuid)
 		}
 	} else {
 		// A non-empty name but default version means we probably want UUIDv5
-		if *n != "" && *uv == "4" {
-			*uv = "5"
+		if aName != "" && aUuidType == "4" {
+			aUuidType = "5"
 		}
 
 		// Get the base10 uint32 value from the id string (always runs since default id is "0")
-		if *id != "" {
-			u64, err = strconv.ParseUint(*id, 10, 32)
+		if aId != "" {
+			u64, err = strconv.ParseUint(aId, 10, 32)
 			u32 = uint32(u64)
 
 			if err != nil {
@@ -184,17 +208,17 @@ func main() {
 			}
 		}
 
-		switch strings.ToUpper(*uv) {
+		switch strings.ToUpper(aUuidType) {
 		// case "1":
 		//	luu, err = Genv1()
 		case "2":
-			luu, err = Genv2(*d, u32)
+			luu, err = Genv2(aDomain, u32)
 		case "3":
-			luu, err = Genv3(*n, *ns)
+			luu, err = Genv3(aName, aNamespace)
 		case "4":
 			luu, err = Genv4()
 		case "5":
-			luu, err = Genv5(*n, *ns)
+			luu, err = Genv5(aName, aNamespace)
 		default:
 			fmt.Println("Unsupported UUID version")
 			os.Exit(2)
@@ -207,13 +231,13 @@ func main() {
 	}
 
 	suu = enc.Encode(luu)
-	if *l {
+	if aLong {
 		fmt.Println(luu)
 	} else {
 		fmt.Println(suu)
 	}
-	if *x {
-		fmt.Println(extraInfo(luu))
+	if aXtra {
+		fmt.Println(xtraInfo(luu))
 	}
 }
 
