@@ -135,42 +135,46 @@ func init() {
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
 		flag.Usage()
-		os.Exit(4)
+		os.Exit(1)
 	}
 }
 
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string
 
+func printVersion() {
+	var barch, bos, bmod, brev, btime, suffix string
+	if info, ok := debug.ReadBuildInfo(); ok {
+		for _, setting := range info.Settings {
+			switch setting.Key {
+			case "GOARCH":
+				barch = setting.Value
+			case "GOOS":
+				bos = setting.Value
+			case "vcs.modified":
+				bmod = setting.Value
+			case "vcs.revision":
+				brev = setting.Value[0:7]
+			case "vcs.time":
+				btime = setting.Value
+			}
+		}
+	}
+	// If we didn't specify a version string, use the git commit
+	if Version == "" {
+		Version = brev
+	}
+	// If the git repo wasn't clean, say so in the version string
+	if bmod == "true" {
+		suffix = "-dirty"
+	}
+	fmt.Println(fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime))
+}
+
 func main() {
 	// Print out the version information
 	if aVersion {
-		var barch, bos, bmod, brev, btime, suffix string
-		if info, ok := debug.ReadBuildInfo(); ok {
-			for _, setting := range info.Settings {
-				switch setting.Key {
-				case "GOARCH":
-					barch = setting.Value
-				case "GOOS":
-					bos = setting.Value
-				case "vcs.modified":
-					bmod = setting.Value
-				case "vcs.revision":
-					brev = setting.Value[0:7]
-				case "vcs.time":
-					btime = setting.Value
-				}
-			}
-		}
-		// If we didn't specify a version string, use the git commit
-		if Version == "" {
-			Version = brev
-		}
-		// If the git repo wasn't clean, say so in the version string
-		if bmod == "true" {
-			suffix = "-dirty"
-		}
-		fmt.Println(fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime))
+		printVersion()
 		os.Exit(0)
 	}
 
@@ -204,7 +208,7 @@ func main() {
 
 			if err != nil {
 				fmt.Println("Error parsing uint32 string")
-				os.Exit(3)
+				os.Exit(2)
 			}
 		}
 
@@ -221,13 +225,13 @@ func main() {
 			luu, err = Genv5(aName, aNamespace)
 		default:
 			fmt.Println("Unsupported UUID version")
-			os.Exit(2)
+			os.Exit(3)
 		}
 	}
 
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
+		os.Exit(4)
 	}
 
 	suu = enc.Encode(luu)

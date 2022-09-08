@@ -1,15 +1,75 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
+	"os"
+	"runtime/debug"
 	"strings"
 
 	"github.com/sethvargo/go-diceware/diceware"
 	"github.com/tyler-smith/go-bip39"
 )
 
+var aVersion bool
+
+func init() {
+	const (
+		sVersion = "Display build version information (default false)"
+	)
+
+	flag.BoolVar(&aVersion, "version", false, sVersion)
+	flag.BoolVar(&aVersion, "v", false, sVersion)
+
+	flag.Parse()
+
+	if flag.NArg() > 0 {
+		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
+		flag.Usage()
+		os.Exit(1)
+	}
+}
+
+// go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
+var Version string
+
+func printVersion() {
+	var barch, bos, bmod, brev, btime, suffix string
+	if info, ok := debug.ReadBuildInfo(); ok {
+		for _, setting := range info.Settings {
+			switch setting.Key {
+			case "GOARCH":
+				barch = setting.Value
+			case "GOOS":
+				bos = setting.Value
+			case "vcs.modified":
+				bmod = setting.Value
+			case "vcs.revision":
+				brev = setting.Value[0:7]
+			case "vcs.time":
+				btime = setting.Value
+			}
+		}
+	}
+	// If we didn't specify a version string, use the git commit
+	if Version == "" {
+		Version = brev
+	}
+	// If the git repo wasn't clean, say so in the version string
+	if bmod == "true" {
+		suffix = "-dirty"
+	}
+	fmt.Println(fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime))
+}
+
 func main() {
+	// Print out the version information
+	if aVersion {
+		printVersion()
+		os.Exit(0)
+	}
+
 	entropy, err := bip39.NewEntropy(128)
 	if err != nil {
 		log.Fatal(err)
