@@ -246,6 +246,7 @@ func main() {
 }
 
 // Other UUID versions???
+//   https://github.com/uuid6/uuid6go-proto
 //   https://pkg.go.dev/github.com/google/uuid
 //   https://github.com/google/uuid
 //   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-03  (check after 2022-10-02)
