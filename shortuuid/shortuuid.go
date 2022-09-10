@@ -12,6 +12,7 @@ import (
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
+	// uuid2 "github.com/uuid6/uuid6go-proto"
 	// "github.com/nicksnyder/basen"
 )
 
@@ -64,14 +65,14 @@ func Genv5(name string, namespace string) (uuid.UUID, error) {
 	}
 }
 
-func xtraInfo(uu uuid.UUID) string {
+func xtraInfo(luu uuid.UUID) string {
 	var output string
-	ver := strings.Split(uu.Version().String(), "_")
-	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], uu.Variant())
+	ver := strings.Split(luu.Version().String(), "_")
+	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], luu.Variant())
 
 	switch ver[1] {
 	case "2":
-		output += fmt.Sprintf(" Domain:%s Id:%s", uu.Domain().String(), uu.ID())
+		output += fmt.Sprintf(" Domain:%s Id:%s", luu.Domain().String(), luu.ID())
 	}
 
 	return output
@@ -223,6 +224,12 @@ func main() {
 			luu, err = Genv4()
 		case "5":
 			luu, err = Genv5(aName, aNamespace)
+		// case "6":
+		// 	luu, err = Genv6()
+		// case "7":
+		// 	luu, err = Genv7()
+		// case "8":
+		// 	luu, err = Genv8()
 		default:
 			fmt.Println("Unsupported UUID version")
 			os.Exit(3)
