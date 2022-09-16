@@ -12,6 +12,9 @@ import (
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
+	"github.com/yeqown/go-qrcode/v2"
+	"github.com/yeqown/go-qrcode/writer/standard"
+	// "github.com/yeqown/go-qrcode/writer/terminal"
 	// uuid2 "github.com/uuid6/uuid6go-proto"
 	// "github.com/nicksnyder/basen"
 )
@@ -94,6 +97,8 @@ var (
 	aLong      bool
 	aName      string
 	aNamespace string
+	aQrFile    string
+	aQrTerm    bool
 	aUuid      string
 	aUuidType  string
 	aVersion   bool
@@ -107,6 +112,8 @@ func init() {
 		sLong      = "Show the long UUID instead of the short one (default false)"
 		sName      = "Name to use for the UUIDv5 or v3 hash"
 		sNamespace = "Namespace to use for the UUIDv5 or v3 hash"
+		sQrFile    = "Output short UUID to a QR code bitmap file"
+		sQrTerm    = "Output short UUID to a QR code in the terminal"
 		sUuid      = "Existing UUID to shorten or lengthen"
 		sUuidType  = "Generate a new UUID of version v5, v4, v3 or v2"
 		sVersion   = "Display build version information (default false)"
@@ -123,6 +130,8 @@ func init() {
 	flag.StringVar(&aName, "n", "", sName)
 	flag.StringVar(&aNamespace, "namespace", "DNS", sNamespace)
 	flag.StringVar(&aNamespace, "ns", "DNS", sNamespace)
+	flag.StringVar(&aQrFile, "qrfile", "", sQrFile)
+	flag.BoolVar(&aQrTerm, "qrterm", false, sQrTerm)
 	flag.StringVar(&aUuid, "uuid", "", sUuid)
 	flag.StringVar(&aUuid, "u", "", sUuid)
 	flag.StringVar(&aUuidType, "uuidver", "4", sUuidType)
@@ -249,6 +258,22 @@ func main() {
 	}
 	if aXtra {
 		fmt.Println(xtraInfo(luu))
+	}
+
+	qrc, err := qrcode.New(suu)
+	if err != nil {
+		fmt.Println("QR code error %v", err)
+		return
+	}
+	if aQrFile != "" {
+		w, err := standard.New(aQrFile)
+		if err != nil {
+			fmt.Println("Standard failed %v", err)
+			return
+		}
+		if err = qrc.Save(w); err != nil {
+			fmt.Println("Save failed %v", err)
+		}
 	}
 }
 
