@@ -112,7 +112,7 @@ func init() {
 		sLong      = "Show the long UUID instead of the short one (default false)"
 		sName      = "Name to use for the UUIDv5 or v3 hash"
 		sNamespace = "Namespace to use for the UUIDv5 or v3 hash"
-		sQrFile    = "Output short UUID to a QR code bitmap file"
+		sQrFile    = "Output short UUID to a QR code JPEG file"
 		sQrTerm    = "Output short UUID to a QR code in the terminal"
 		sUuid      = "Existing UUID to shorten or lengthen"
 		sUuidType  = "Generate a new UUID of version v5, v4, v3 or v2"
@@ -260,19 +260,17 @@ func main() {
 		fmt.Println(xtraInfo(luu))
 	}
 
-	qrc, err := qrcode.New(suu)
-	if err != nil {
-		fmt.Println("QR code error %v", err)
-		return
-	}
 	if aQrFile != "" {
+		qrc, err := qrcode.New(suu)
+		if err != nil {
+			panic(err)
+		}
 		w, err := standard.New(aQrFile)
 		if err != nil {
-			fmt.Println("Standard failed %v", err)
-			return
+			panic(err)
 		}
 		if err = qrc.Save(w); err != nil {
-			fmt.Println("Save failed %v", err)
+			panic(err)
 		}
 	}
 }
