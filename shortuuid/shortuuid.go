@@ -18,6 +18,11 @@ import (
 	// "github.com/nicksnyder/basen"
 )
 
+func Genv1() (uuid.UUID, error) {
+	luu, err := uuid.NewUUID()
+	return luu, err
+}
+
 func Genv2(domain string, id uint32) (uuid.UUID, error) {
 	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
 	switch strings.ToLower(domain) {
@@ -222,8 +227,8 @@ func main() {
 		}
 
 		switch strings.ToUpper(aUuidType) {
-		// case "1":
-		//	luu, err = Genv1()
+		case "1":
+			luu, err = Genv1()
 		case "2":
 			luu, err = Genv2(aDomain, u32)
 		case "3":
