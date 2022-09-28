@@ -119,7 +119,7 @@ func init() {
 		sQrFile    = "Output short UUID to a QR code JPEG file"
 		sQrTerm    = "Output short UUID to a QR code in the terminal"
 		sUuid      = "Existing UUID to shorten or lengthen"
-		sUuidType  = "Generate a new UUID of version v5, v4, v3 or v2"
+		sUuidType  = "Generate a new UUID of version v5/v4/v3/v2/v1"
 		sVersion   = "Display build version information (default false)"
 		sXtra      = "Show extra details about the UUID (default false)"
 	)
