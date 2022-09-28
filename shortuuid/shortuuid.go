@@ -14,7 +14,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
-	// "github.com/yeqown/go-qrcode/writer/terminal"
 	// uuid2 "github.com/uuid6/uuid6go-proto"
 	// "github.com/nicksnyder/basen"
 )
@@ -258,6 +257,10 @@ func main() {
 	}
 	if aXtra {
 		fmt.Println(xtraInfo(luu))
+	}
+
+	if aQrTerm {
+		fmt.Println("go-qrcode terminal stuff doesn't work!!!")
 	}
 
 	if aQrFile != "" {
