@@ -11,6 +11,7 @@ import (
 	. "github.com/ian-kent/envconf"
 	"github.com/sethvargo/go-diceware/diceware"
 	"github.com/tyler-smith/go-bip39"
+	"github.com/vharitonsky/iniflags"
 )
 
 // Command-line arguments
@@ -26,7 +27,7 @@ func init() {
 
 	flag.BoolVar(&aVersion, "version", FromEnvP("CCCW_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aVersion, "v", FromEnvP("CCCW_VERSION", false).(bool), sVersion)
-	flag.Parse()
+	iniflags.Parse()
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")

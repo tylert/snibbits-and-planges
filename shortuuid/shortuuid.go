@@ -13,10 +13,11 @@ import (
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
 	. "github.com/ian-kent/envconf"
+	// "github.com/nicksnyder/basen"
+	"github.com/vharitonsky/iniflags"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
 	// uuid2 "github.com/uuid6/uuid6go-proto"
-	// "github.com/nicksnyder/basen"
 )
 
 // Command-line arguments
@@ -72,7 +73,7 @@ func init() {
 	flag.BoolVar(&aVersion, "v", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aXtra, "xtra", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
 	flag.BoolVar(&aXtra, "x", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
-	flag.Parse()
+	iniflags.Parse()
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")

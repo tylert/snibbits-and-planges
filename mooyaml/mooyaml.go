@@ -9,7 +9,7 @@ import (
 
 	// "github.com/goccy/go-yaml"
 	. "github.com/ian-kent/envconf"
-	// "github.com/vharitonsky/iniflags"
+	"github.com/vharitonsky/iniflags"
 )
 
 // Command-line arguments
@@ -33,8 +33,7 @@ func init() {
 	flag.StringVar(&aImport, "i", FromEnvP("MOOYAML_IMPORT", "").(string), sImport)
 	flag.BoolVar(&aVersion, "version", FromEnvP("MOOYAML_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aVersion, "v", FromEnvP("MOOYAML_VERSION", false).(bool), sVersion)
-	// iniflags.Parse()
-	flag.Parse()
+	iniflags.Parse()
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
