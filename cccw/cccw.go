@@ -7,21 +7,21 @@ import (
 	"os"
 	"runtime/debug"
 	"strings"
-
-	"github.com/sethvargo/go-diceware/diceware"
-	"github.com/tyler-smith/go-bip39"
 )
 
-var aVersion bool
+// Command-line arguments
+var (
+	aVersion bool
+)
 
 func init() {
+	// Help for command-line arguments
 	const (
 		sVersion = "Display build version information (default false)"
 	)
 
 	flag.BoolVar(&aVersion, "version", false, sVersion)
 	flag.BoolVar(&aVersion, "v", false, sVersion)
-
 	flag.Parse()
 
 	if flag.NArg() > 0 {
@@ -34,7 +34,7 @@ func init() {
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string
 
-func printVersion() {
+func getVersion() string {
 	var barch, bos, bmod, brev, btime, suffix string
 	if info, ok := debug.ReadBuildInfo(); ok {
 		for _, setting := range info.Settings {
@@ -60,13 +60,13 @@ func printVersion() {
 	if bmod == "true" {
 		suffix = "-dirty"
 	}
-	fmt.Println(fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime))
+	return fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime)
 }
 
 func main() {
 	// Print out the version information
 	if aVersion {
-		printVersion()
+		fmt.Println(getVersion())
 		os.Exit(0)
 	}
 

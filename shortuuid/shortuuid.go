@@ -16,7 +16,6 @@ import (
 	"github.com/yeqown/go-qrcode/writer/standard"
 	// uuid2 "github.com/uuid6/uuid6go-proto"
 	// "github.com/nicksnyder/basen"
-	// "github.com/vharitonsky/iniflags"
 )
 
 // Command-line arguments
@@ -70,7 +69,6 @@ func init() {
 	flag.BoolVar(&aVersion, "v", false, sVersion)
 	flag.BoolVar(&aXtra, "xtra", false, sXtra)
 	flag.BoolVar(&aXtra, "x", false, sXtra)
-	// iniflags.Parse()
 	flag.Parse()
 
 	if flag.NArg() > 0 {
@@ -286,9 +284,8 @@ func Genv5(name string, namespace string) (uuid.UUID, error) {
 }
 
 func xtraInfo(luu uuid.UUID) string {
-	var output string
 	ver := strings.Split(luu.Version().String(), "_")
-	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], luu.Variant())
+	output := fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], luu.Variant())
 
 	switch ver[1] {
 	case "2":
