@@ -24,8 +24,8 @@ func init() {
 		sVersion = "Display build version information (default false)"
 	)
 
-	flag.BoolVar(&aVersion, "version", FromEnvP("VERSION", false).(bool), sVersion)
-	flag.BoolVar(&aVersion, "v", FromEnvP("VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aVersion, "version", FromEnvP("CCCW_VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aVersion, "v", FromEnvP("CCCW_VERSION", false).(bool), sVersion)
 	flag.Parse()
 
 	if flag.NArg() > 0 {
