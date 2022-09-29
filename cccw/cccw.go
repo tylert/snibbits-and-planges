@@ -7,6 +7,10 @@ import (
 	"os"
 	"runtime/debug"
 	"strings"
+
+	. "github.com/ian-kent/envconf"
+	"github.com/sethvargo/go-diceware/diceware"
+	"github.com/tyler-smith/go-bip39"
 )
 
 // Command-line arguments
@@ -20,8 +24,8 @@ func init() {
 		sVersion = "Display build version information (default false)"
 	)
 
-	flag.BoolVar(&aVersion, "version", false, sVersion)
-	flag.BoolVar(&aVersion, "v", false, sVersion)
+	flag.BoolVar(&aVersion, "version", FromEnvP("VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aVersion, "v", FromEnvP("VERSION", false).(bool), sVersion)
 	flag.Parse()
 
 	if flag.NArg() > 0 {

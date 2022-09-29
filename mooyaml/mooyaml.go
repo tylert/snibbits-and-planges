@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"os"
 	"runtime/debug"
+
 	// "github.com/goccy/go-yaml"
+	. "github.com/ian-kent/envconf"
 	// "github.com/vharitonsky/iniflags"
 )
 
@@ -25,12 +27,12 @@ func init() {
 		sVersion = "Display build version information (default false)"
 	)
 
-	flag.StringVar(&aExport, "export", "", sExport)
-	flag.StringVar(&aExport, "e", "", sExport)
-	flag.StringVar(&aImport, "import", "", sImport)
-	flag.StringVar(&aImport, "i", "", sImport)
-	flag.BoolVar(&aVersion, "version", false, sVersion)
-	flag.BoolVar(&aVersion, "v", false, sVersion)
+	flag.StringVar(&aExport, "export", FromEnvP("EXPORT", "").(string), sExport)
+	flag.StringVar(&aExport, "e", FromEnvP("EXPORT", "").(string), sExport)
+	flag.StringVar(&aImport, "import", FromEnvP("IMPORT", "").(string), sImport)
+	flag.StringVar(&aImport, "i", FromEnvP("IMPORT", "").(string), sImport)
+	flag.BoolVar(&aVersion, "version", FromEnvP("VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aVersion, "v", FromEnvP("VERSION", false).(bool), sVersion)
 	// iniflags.Parse()
 	flag.Parse()
 

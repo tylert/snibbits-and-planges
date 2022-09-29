@@ -12,6 +12,7 @@ import (
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
+	. "github.com/ian-kent/envconf"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
 	// uuid2 "github.com/uuid6/uuid6go-proto"
@@ -49,26 +50,28 @@ func init() {
 		sXtra      = "Show extra details about the UUID (default false)"
 	)
 
-	flag.StringVar(&aDomain, "domain", "Person", sDomain)
-	flag.StringVar(&aDomain, "d", "Person", sDomain)
-	flag.StringVar(&aId, "id", "0", sId)
-	flag.StringVar(&aId, "i", "0", sId)
-	flag.BoolVar(&aLong, "long", false, sLong)
-	flag.BoolVar(&aLong, "l", false, sLong)
-	flag.StringVar(&aName, "name", "", sName)
-	flag.StringVar(&aName, "n", "", sName)
-	flag.StringVar(&aNamespace, "namespace", "DNS", sNamespace)
-	flag.StringVar(&aNamespace, "ns", "DNS", sNamespace)
-	flag.StringVar(&aQrFile, "qrfile", "", sQrFile)
-	flag.BoolVar(&aQrTerm, "qrterm", false, sQrTerm)
-	flag.StringVar(&aUuid, "uuid", "", sUuid)
-	flag.StringVar(&aUuid, "u", "", sUuid)
-	flag.StringVar(&aUuidType, "uuidver", "4", sUuidType)
-	flag.StringVar(&aUuidType, "uv", "4", sUuidType)
-	flag.BoolVar(&aVersion, "version", false, sVersion)
-	flag.BoolVar(&aVersion, "v", false, sVersion)
-	flag.BoolVar(&aXtra, "xtra", false, sXtra)
-	flag.BoolVar(&aXtra, "x", false, sXtra)
+	flag.StringVar(&aDomain, "domain", FromEnvP("DOMAIN", "Person").(string), sDomain)
+	flag.StringVar(&aDomain, "d", FromEnvP("DOMAIN", "Person").(string), sDomain)
+	flag.StringVar(&aId, "id", FromEnvP("ID", "0").(string), sId)
+	flag.StringVar(&aId, "i", FromEnvP("ID", "0").(string), sId)
+	flag.BoolVar(&aLong, "long", FromEnvP("LONG", false).(bool), sLong)
+	flag.BoolVar(&aLong, "l", FromEnvP("LONG", false).(bool), sLong)
+	flag.StringVar(&aName, "name", FromEnvP("NAME", "").(string), sName)
+	flag.StringVar(&aName, "n", FromEnvP("NAME", "").(string), sName)
+	flag.StringVar(&aNamespace, "namespace", FromEnvP("NAMESPACE", "DNS").(string), sNamespace)
+	flag.StringVar(&aNamespace, "ns", FromEnvP("NAMESPACE", "DNS").(string), sNamespace)
+	flag.StringVar(&aQrFile, "qrfile", FromEnvP("QRFILE", "").(string), sQrFile)
+	flag.StringVar(&aQrFile, "qf", FromEnvP("QRFILE", "").(string), sQrFile)
+	flag.BoolVar(&aQrTerm, "qrterm", FromEnvP("QRTERM", false).(bool), sQrTerm)
+	flag.BoolVar(&aQrTerm, "qt", FromEnvP("QRTERM", false).(bool), sQrTerm)
+	flag.StringVar(&aUuid, "uuid", FromEnvP("UUID", "").(string), sUuid)
+	flag.StringVar(&aUuid, "u", FromEnvP("UUID", "").(string), sUuid)
+	flag.StringVar(&aUuidType, "uuidver", FromEnvP("UUIDVER", "4").(string), sUuidType)
+	flag.StringVar(&aUuidType, "uv", FromEnvP("UUIDVER", "4").(string), sUuidType)
+	flag.BoolVar(&aVersion, "version", FromEnvP("VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aVersion, "v", FromEnvP("VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aXtra, "xtra", FromEnvP("XTRA", false).(bool), sXtra)
+	flag.BoolVar(&aXtra, "x", FromEnvP("XTRA", false).(bool), sXtra)
 	flag.Parse()
 
 	if flag.NArg() > 0 {
