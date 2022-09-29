@@ -16,85 +16,10 @@ import (
 	"github.com/yeqown/go-qrcode/writer/standard"
 	// uuid2 "github.com/uuid6/uuid6go-proto"
 	// "github.com/nicksnyder/basen"
+	// "github.com/vharitonsky/iniflags"
 )
 
-func Genv1() (uuid.UUID, error) {
-	luu, err := uuid.NewUUID()
-	return luu, err
-}
-
-func Genv2(domain string, id uint32) (uuid.UUID, error) {
-	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
-	switch strings.ToLower(domain) {
-	case "person":
-		return uuid.NewDCESecurity(uuid.Person, id)
-	case "group":
-		return uuid.NewDCESecurity(uuid.Group, id)
-	case "org":
-		return uuid.NewDCESecurity(uuid.Org, id)
-	default:
-		return uuid.Nil, errors.New("Unsupported domain")
-	}
-}
-
-func Genv3(name string, namespace string) (uuid.UUID, error) {
-	switch strings.ToUpper(namespace) {
-	case "DNS":
-		return uuid.NewMD5(uuid.NameSpaceDNS, []byte(name)), nil
-	case "OID":
-		return uuid.NewMD5(uuid.NameSpaceOID, []byte(name)), nil
-	case "URL":
-		return uuid.NewMD5(uuid.NameSpaceURL, []byte(name)), nil
-	case "X500":
-		return uuid.NewMD5(uuid.NameSpaceX500, []byte(name)), nil
-	default:
-		return uuid.Nil, errors.New("Unsupported namespace")
-	}
-}
-
-func Genv4() (uuid.UUID, error) {
-	luu, err := uuid.NewRandom()
-	return luu, err
-}
-
-func Genv5(name string, namespace string) (uuid.UUID, error) {
-	switch strings.ToUpper(namespace) {
-	case "DNS":
-		return uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name)), nil
-	case "OID":
-		return uuid.NewSHA1(uuid.NameSpaceOID, []byte(name)), nil
-	case "URL":
-		return uuid.NewSHA1(uuid.NameSpaceURL, []byte(name)), nil
-	case "X500":
-		return uuid.NewSHA1(uuid.NameSpaceX500, []byte(name)), nil
-	default:
-		return uuid.Nil, errors.New("Unsupported namespace")
-	}
-}
-
-func xtraInfo(luu uuid.UUID) string {
-	var output string
-	ver := strings.Split(luu.Version().String(), "_")
-	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], luu.Variant())
-
-	switch ver[1] {
-	case "2":
-		output += fmt.Sprintf(" Domain:%s Id:%s", luu.Domain().String(), luu.ID())
-	}
-
-	return output
-}
-
-type base58Encoder struct{}
-
-func (enc base58Encoder) Encode(luu uuid.UUID) string {
-	return base58.Encode(luu[:])
-}
-
-func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
-	return uuid.FromBytes(base58.Decode(suu))
-}
-
+// Command-line arguments
 var (
 	aDomain    string
 	aId        string
@@ -110,6 +35,7 @@ var (
 )
 
 func init() {
+	// Help for command-line arguments
 	const (
 		sDomain    = "Domain to use for the UUIDv2 value"
 		sId        = "ID to use for the UUIDv2 value"
@@ -144,6 +70,7 @@ func init() {
 	flag.BoolVar(&aVersion, "v", false, sVersion)
 	flag.BoolVar(&aXtra, "xtra", false, sXtra)
 	flag.BoolVar(&aXtra, "x", false, sXtra)
+	// iniflags.Parse()
 	flag.Parse()
 
 	if flag.NArg() > 0 {
@@ -156,7 +83,7 @@ func init() {
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string
 
-func printVersion() {
+func getVersion() string {
 	var barch, bos, bmod, brev, btime, suffix string
 	if info, ok := debug.ReadBuildInfo(); ok {
 		for _, setting := range info.Settings {
@@ -182,13 +109,13 @@ func printVersion() {
 	if bmod == "true" {
 		suffix = "-dirty"
 	}
-	fmt.Println(fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime))
+	return fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime)
 }
 
 func main() {
 	// Print out the version information
 	if aVersion {
-		printVersion()
+		fmt.Println(getVersion())
 		os.Exit(0)
 	}
 
@@ -303,3 +230,80 @@ func main() {
 // Other features???
 //   https://github.com/yeqown/go-qrcode  generating a barcode bitmap
 //   https://github.com/signintech/gopdf  generating a PDF
+
+func Genv1() (uuid.UUID, error) {
+	luu, err := uuid.NewUUID()
+	return luu, err
+}
+
+func Genv2(domain string, id uint32) (uuid.UUID, error) {
+	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
+	switch strings.ToLower(domain) {
+	case "person":
+		return uuid.NewDCESecurity(uuid.Person, id)
+	case "group":
+		return uuid.NewDCESecurity(uuid.Group, id)
+	case "org":
+		return uuid.NewDCESecurity(uuid.Org, id)
+	default:
+		return uuid.Nil, errors.New("Unsupported domain")
+	}
+}
+
+func Genv3(name string, namespace string) (uuid.UUID, error) {
+	switch strings.ToUpper(namespace) {
+	case "DNS":
+		return uuid.NewMD5(uuid.NameSpaceDNS, []byte(name)), nil
+	case "OID":
+		return uuid.NewMD5(uuid.NameSpaceOID, []byte(name)), nil
+	case "URL":
+		return uuid.NewMD5(uuid.NameSpaceURL, []byte(name)), nil
+	case "X500":
+		return uuid.NewMD5(uuid.NameSpaceX500, []byte(name)), nil
+	default:
+		return uuid.Nil, errors.New("Unsupported namespace")
+	}
+}
+
+func Genv4() (uuid.UUID, error) {
+	luu, err := uuid.NewRandom()
+	return luu, err
+}
+
+func Genv5(name string, namespace string) (uuid.UUID, error) {
+	switch strings.ToUpper(namespace) {
+	case "DNS":
+		return uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name)), nil
+	case "OID":
+		return uuid.NewSHA1(uuid.NameSpaceOID, []byte(name)), nil
+	case "URL":
+		return uuid.NewSHA1(uuid.NameSpaceURL, []byte(name)), nil
+	case "X500":
+		return uuid.NewSHA1(uuid.NameSpaceX500, []byte(name)), nil
+	default:
+		return uuid.Nil, errors.New("Unsupported namespace")
+	}
+}
+
+func xtraInfo(luu uuid.UUID) string {
+	var output string
+	ver := strings.Split(luu.Version().String(), "_")
+	output = fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], luu.Variant())
+
+	switch ver[1] {
+	case "2":
+		output += fmt.Sprintf(" Domain:%s Id:%s", luu.Domain().String(), luu.ID())
+	}
+
+	return output
+}
+
+type base58Encoder struct{}
+
+func (enc base58Encoder) Encode(luu uuid.UUID) string {
+	return base58.Encode(luu[:])
+}
+
+func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
+	return uuid.FromBytes(base58.Decode(suu))
+}

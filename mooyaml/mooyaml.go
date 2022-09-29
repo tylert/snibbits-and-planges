@@ -1,14 +1,13 @@
 package main
 
 import (
+	// "encoding/json"
 	"flag"
 	"fmt"
 	"os"
 	"runtime/debug"
-
-	// "encoding/json"
 	// "github.com/goccy/go-yaml"
-	"github.com/vharitonsky/iniflags"
+	// "github.com/vharitonsky/iniflags"
 )
 
 // Command-line arguments
@@ -32,7 +31,8 @@ func init() {
 	flag.StringVar(&aImport, "i", "", sImport)
 	flag.BoolVar(&aVersion, "version", false, sVersion)
 	flag.BoolVar(&aVersion, "v", false, sVersion)
-	iniflags.Parse()
+	// iniflags.Parse()
+	flag.Parse()
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
@@ -44,7 +44,7 @@ func init() {
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string
 
-func printVersion() {
+func getVersion() string {
 	var barch, bos, bmod, brev, btime, suffix string
 	if info, ok := debug.ReadBuildInfo(); ok {
 		for _, setting := range info.Settings {
@@ -70,13 +70,13 @@ func printVersion() {
 	if bmod == "true" {
 		suffix = "-dirty"
 	}
-	fmt.Println(fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime))
+	return fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime)
 }
 
 func main() {
 	// Print out the version information
 	if aVersion {
-		printVersion()
+		fmt.Println(getVersion())
 		os.Exit(0)
 	}
 }
