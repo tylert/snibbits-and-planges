@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"os"
 	"runtime/debug"
+
 	// "encoding/json"
 	// "github.com/goccy/go-yaml"
+	"github.com/vharitonsky/iniflags"
 )
 
+// Command-line arguments
 var (
 	aExport  string
 	aImport  string
@@ -16,6 +19,7 @@ var (
 )
 
 func init() {
+	// Help for command-line arguments
 	const (
 		sExport  = "Export YAML or JSON to a file"
 		sImport  = "Import YAML or JSON from a file"
@@ -28,7 +32,7 @@ func init() {
 	flag.StringVar(&aImport, "i", "", sImport)
 	flag.BoolVar(&aVersion, "version", false, sVersion)
 	flag.BoolVar(&aVersion, "v", false, sVersion)
-	flag.Parse()
+	iniflags.Parse()
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
