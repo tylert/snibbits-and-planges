@@ -37,11 +37,11 @@ var (
 func init() {
 	// Help for command-line arguments
 	const (
-		sDomain    = "Domain to use for the UUIDv2 value"
+		sDomain    = "Domain to use for the UUIDv2 value (Person, Group, Org)"
 		sId        = "ID to use for the UUIDv2 value"
 		sLong      = "Show the long UUID instead of the short one (default false)"
 		sName      = "Name to use for the UUIDv5 or v3 hash"
-		sNamespace = "Namespace to use for the UUIDv5 or v3 hash"
+		sNamespace = "Namespace to use for the UUIDv5 or v3 hash (DNS, OID, URL, X500)"
 		sQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		sQrTerm    = "Also output the UUID as a QR code to the terminal"
 		sUuid      = "Existing UUID to shorten or lengthen"
@@ -67,7 +67,7 @@ func init() {
 	flag.StringVar(&aUuid, "uuid", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
 	flag.StringVar(&aUuid, "u", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
 	flag.StringVar(&aUuidType, "uuidtype", FromEnvP("SHORTUUID_UUIDTYPE", "4").(string), sUuidType)
-	flag.StringVar(&aUuidType, "t", FromEnvP("SHORTUUID_UUIDTYPE", "4").(string), sUuidType)
+	flag.StringVar(&aUuidType, "ut", FromEnvP("SHORTUUID_UUIDTYPE", "4").(string), sUuidType)
 	flag.BoolVar(&aVersion, "version", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aVersion, "v", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aXtra, "xtra", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
