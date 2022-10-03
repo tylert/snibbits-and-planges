@@ -216,7 +216,7 @@ func main() {
 //   https://github.com/uuid6/uuid6go-proto
 //   https://pkg.go.dev/github.com/google/uuid
 //   https://github.com/google/uuid
-//   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-03  (check after 2022-10-02)
+//   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04
 //   https://datatracker.ietf.org/doc/html/rfc4122
 //   https://en.wikipedia.org/wiki/Universally_unique_identifier
 
