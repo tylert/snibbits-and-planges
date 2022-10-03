@@ -80,4 +80,10 @@ func main() {
 		fmt.Println(getVersion())
 		os.Exit(0)
 	}
+
+	// bs, err := json.MarshalIndent(foo, "", "  ")
+	// if err != nil {
+	//   panic(err)
+	// }
+	// fmt.Println(string(bs))
 }
