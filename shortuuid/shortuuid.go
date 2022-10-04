@@ -85,7 +85,7 @@ func init() {
 // go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
 var Version string
 
-func getVersion() string {
+func GetVersion() string {
 	var barch, bos, bmod, brev, btime, suffix string
 	if info, ok := debug.ReadBuildInfo(); ok {
 		for _, setting := range info.Settings {
@@ -117,7 +117,7 @@ func getVersion() string {
 func main() {
 	// Print out the version information
 	if aVersion {
-		fmt.Println(getVersion())
+		fmt.Println(GetVersion())
 		os.Exit(0)
 	}
 
