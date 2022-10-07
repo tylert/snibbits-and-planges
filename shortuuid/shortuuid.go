@@ -230,6 +230,7 @@ func main() {
 // base64url '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'
 
 // Other features???
+//   https://paulgorman.org/technical/blog/20171113164018.html  JSON config
 //   https://github.com/yeqown/go-qrcode  generating a barcode bitmap
 //   https://github.com/signintech/gopdf  generating a PDF
 
