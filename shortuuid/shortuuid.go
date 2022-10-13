@@ -13,7 +13,7 @@ import (
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
 	. "github.com/ian-kent/envconf"
-	// "github.com/nicksnyder/basen"
+	// "github.com/tv42/base58"
 	"github.com/vharitonsky/iniflags"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
@@ -29,8 +29,8 @@ var (
 	aNamespace string
 	aQrFile    string
 	aQrTerm    bool
+	aTypeUuid  string
 	aUuid      string
-	aUuidType  string
 	aVersion   bool
 	aXtra      bool
 )
@@ -45,8 +45,8 @@ func init() {
 		sNamespace = "Namespace to use for the UUIDv5 or v3 hash (DNS, OID, URL, X500)"
 		sQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		sQrTerm    = "Also output the UUID as a QR code to the terminal"
+		sTypeUuid  = "Generate a new UUID of version (type) v5/v4/v3/v2/v1"
 		sUuid      = "Existing UUID to shorten or lengthen"
-		sUuidType  = "Generate a new UUID of version v5/v4/v3/v2/v1"
 		sVersion   = "Display build version information (default false)"
 		sXtra      = "Show extra details about the UUID (default false)"
 	)
@@ -65,10 +65,10 @@ func init() {
 	flag.StringVar(&aQrFile, "qf", FromEnvP("SHORTUUID_QRFILE", "").(string), sQrFile)
 	flag.BoolVar(&aQrTerm, "qrterm", FromEnvP("SHORTUUID_QRTERM", false).(bool), sQrTerm)
 	flag.BoolVar(&aQrTerm, "qt", FromEnvP("SHORTUUID_QRTERM", false).(bool), sQrTerm)
+	flag.StringVar(&aTypeUuid, "typeuuid", FromEnvP("SHORTUUID_TYPEUUID", "4").(string), sTypeUuid)
+	flag.StringVar(&aTypeUuid, "t", FromEnvP("SHORTUUID_TYPEUUID", "4").(string), sTypeUuid)
 	flag.StringVar(&aUuid, "uuid", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
 	flag.StringVar(&aUuid, "u", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
-	flag.StringVar(&aUuidType, "uuidtype", FromEnvP("SHORTUUID_UUIDTYPE", "4").(string), sUuidType)
-	flag.StringVar(&aUuidType, "ut", FromEnvP("SHORTUUID_UUIDTYPE", "4").(string), sUuidType)
 	flag.BoolVar(&aVersion, "version", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aVersion, "v", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aXtra, "xtra", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
@@ -140,8 +140,8 @@ func main() {
 		}
 	} else {
 		// A non-empty name but default version means we probably want UUIDv5
-		if aName != "" && aUuidType == "4" {
-			aUuidType = "5"
+		if aName != "" && aTypeUuid == "4" {
+			aTypeUuid = "5"
 		}
 
 		// Get the base10 uint32 value from the id string (always runs since default id is "0")
@@ -155,7 +155,7 @@ func main() {
 			}
 		}
 
-		switch strings.ToUpper(aUuidType) {
+		switch strings.ToUpper(aTypeUuid) {
 		case "1":
 			luu, err = Genv1()
 		case "2":
@@ -231,7 +231,6 @@ func main() {
 
 // Other features???
 //   https://paulgorman.org/technical/blog/20171113164018.html  JSON config
-//   https://github.com/yeqown/go-qrcode  generating a barcode bitmap
 //   https://github.com/signintech/gopdf  generating a PDF
 
 func Genv1() (uuid.UUID, error) {

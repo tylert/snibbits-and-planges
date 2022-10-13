@@ -1,2 +1,5 @@
 click
+reportlab
+segno
 shortuuid
+svglib
