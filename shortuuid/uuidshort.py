@@ -9,58 +9,46 @@ import shortuuid
 def genv3(name, namespace, alphabet):
     match namespace.upper():
         case 'DNS':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid3(namespace=u.NAMESPACE_DNS, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid3(namespace=u.NAMESPACE_DNS, name=name)
             )
         case 'OID':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid3(namespace=u.NAMESPACE_OID, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid3(namespace=u.NAMESPACE_OID, name=name)
             )
         case 'URL':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid3(namespace=u.NAMESPACE_URL, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid3(namespace=u.NAMESPACE_URL, name=name)
             )
         case 'X500':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid3(namespace=u.NAMESPACE_X500, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid3(namespace=u.NAMESPACE_X500, name=name)
             )
         case _:
             raise ValueError
 
 
+def genv4(alphabet):
+    return shortuuid.ShortUUID(alphabet=alphabet).encode(uuid=u.uuid4())
+
+
 def genv5(name, namespace, alphabet):
     match namespace.upper():
         case 'DNS':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid5(namespace=u.NAMESPACE_DNS, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid5(namespace=u.NAMESPACE_DNS, name=name)
             )
         case 'OID':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid5(namespace=u.NAMESPACE_OID, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid5(namespace=u.NAMESPACE_OID, name=name)
             )
         case 'URL':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid5(namespace=u.NAMESPACE_URL, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid5(namespace=u.NAMESPACE_URL, name=name)
             )
         case 'X500':
-            print(
-                shortuuid.ShortUUID(alphabet=alphabet).encode(
-                    uuid=u.uuid5(namespace=u.NAMESPACE_X500, name=name)
-                )
+            return shortuuid.ShortUUID(alphabet=alphabet).encode(
+                uuid=u.uuid5(namespace=u.NAMESPACE_X500, name=name)
             )
         case _:
             raise ValueError
@@ -118,13 +106,13 @@ def main(alphabet, decode, name, namespace, typeuuid, uuid):
     elif name:
         match typeuuid:
             case '3':
-                genv3(name=name, namespace=namespace, alphabet=alphabet)
+                print(genv3(name=name, namespace=namespace, alphabet=alphabet))
             case '5':
-                genv5(name=name, namespace=namespace, alphabet=alphabet)
+                print(genv5(name=name, namespace=namespace, alphabet=alphabet))
             case _:
-                genv5(name=name, namespace=namespace, alphabet=alphabet)
+                print(genv5(name=name, namespace=namespace, alphabet=alphabet))
     else:
-        print(shortuuid.ShortUUID(alphabet=alphabet).encode(uuid=u.uuid4()))
+        print(genv4(alphabet=alphabet))
 
 
 if __name__ == '__main__':
