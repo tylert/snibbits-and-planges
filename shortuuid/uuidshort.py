@@ -10,6 +10,23 @@ def genv1(node: str = None, clock_seq: str = None) -> str:
     return u.uuid1(node=node, clock_seq=clock_seq)
 
 
+def genv2(
+    node: str = None, clock_seq: str = None, domain: str = None, id: int = 0
+) -> str:
+    match domain.lower():
+        case 'person':
+            uuid = u.uuid1(node=node, clock_seq=clock_seq)
+            return uuid
+        case 'group':
+            uuid = u.uuid1(node=node, clock_seq=clock_seq)
+            return uuid
+        case 'org':
+            uuid = u.uuid1(node=node, clock_seq=clock_seq)
+            return uuid
+        case _:
+            raise ValueError
+
+
 def genv3(name: str = None, namespace: str = None) -> str:
     match namespace.upper():
         case 'DNS':
@@ -50,6 +67,12 @@ def genv5(name: str = None, namespace: str = None) -> str:
     default='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
 )
 @click.option(
+    '--clock_seq',
+    '-c',
+    help='Clock sequence to use for UUIDv1 sequence number',
+    default=None,
+)
+@click.option(
     '--long',
     '-l',
     help='Show the long UUID instead of the short one (default false)',
@@ -71,6 +94,12 @@ def genv5(name: str = None, namespace: str = None) -> str:
     show_default=True,
 )
 @click.option(
+    '--node',
+    '-o',
+    help='Node to use for the UUIDv2 or v1 hash',
+    default=None,
+)
+@click.option(
     '--typeuuid',
     '-t',
     help='Generate a new UUID of version (type) v5/v4/v3/v2/v1',
@@ -84,7 +113,7 @@ def genv5(name: str = None, namespace: str = None) -> str:
     default=None,
 )
 @click.help_option('--help', '-h')
-def main(alphabet, long, name, namespace, typeuuid, uuid):
+def main(alphabet, clock_seq, long, name, namespace, node, typeuuid, uuid):
     '''Generate a short UUIDv4 if no parameters specified'''
 
     if uuid:
@@ -99,8 +128,10 @@ def main(alphabet, long, name, namespace, typeuuid, uuid):
             typeuuid = '5'
 
         match typeuuid:
-            # case '1':
-            #     luu = genv1(node=node, clock_seq=clock_seq)
+            case '1':
+                luu = genv1(node=node, clock_seq=clock_seq)
+            # case '2':
+            #     luu = genv2(node=node, clock_seq=clock_seq, domain=domain, id=id)
             case '3':
                 luu = genv3(name=name, namespace=namespace)
             case '4':
@@ -125,6 +156,7 @@ if __name__ == '__main__':
 # https://docs.python.org/3/library/typing.html
 # https://github.com/skorokithakis/shortuuid
 # https://pypi.org/project/shortuuid/
+# https://click.palletsprojects.com/en/8.1.x/
 
 # default alphabet '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base57)
 # desired alphabet '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base58)

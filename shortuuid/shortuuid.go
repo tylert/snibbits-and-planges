@@ -227,6 +227,7 @@ func main() {
 //   https://github.com/tv42/zbase32
 //   https://github.com/Dasio/base45/blob/main/base45.go
 //   https://cs.opensource.google/go/go/+/master:src/encoding/base64/base64.go
+//   https://www.rfc-editor.org/info/rfc9285
 // base57    '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base58    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base62    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
@@ -238,12 +239,16 @@ func main() {
 //   https://github.com/signintech/gopdf  generating a PDF
 
 func Genv1() (uuid.UUID, error) {
+	// uuid.SetClockSequence(-1)
+	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
+	// uuid.SetNodInterface("")
 	luu, err := uuid.NewUUID()
 	return luu, err
 }
 
 func Genv2(domain string, id uint32) (uuid.UUID, error) {
 	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
+	// uuid.SetNodInterface("")
 	switch strings.ToLower(domain) {
 	case "person":
 		return uuid.NewDCESecurity(uuid.Person, id)
