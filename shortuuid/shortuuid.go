@@ -139,7 +139,7 @@ func main() {
 			luu, err = enc.Decode(aUuid)
 		}
 	} else {
-		// A non-empty name but default version means we probably want UUIDv5
+		// A non-empty name but default type means we probably want UUIDv5
 		if aName != "" && aTypeUuid == "4" {
 			aTypeUuid = "5"
 		}
@@ -155,7 +155,7 @@ func main() {
 			}
 		}
 
-		switch strings.ToUpper(aTypeUuid) {
+		switch aTypeUuid {
 		case "1":
 			luu, err = Genv1()
 		case "2":
@@ -223,13 +223,17 @@ func main() {
 // Other alphabets???
 //   https://datatracker.ietf.org/doc/html/draft-msporny-base58-03
 //   https://stackoverflow.com/questions/41996761/golang-number-base-conversion/48362821#48362821
+//   https://github.com/tv42/base58
+//   https://github.com/tv42/zbase32
+//   https://github.com/Dasio/base45/blob/main/base45.go
+//   https://cs.opensource.google/go/go/+/master:src/encoding/base64/base64.go
 // base57    '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base58    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base62    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 // base64    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
 // base64url '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'
 
-// Other features???
+// Other features like 2D barcodes, sheets of PDFs???
 //   https://paulgorman.org/technical/blog/20171113164018.html  JSON config
 //   https://github.com/signintech/gopdf  generating a PDF
 

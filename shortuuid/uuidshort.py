@@ -6,50 +6,38 @@ import click
 import shortuuid
 
 
-def genv3(name, namespace, alphabet):
+def genv1(node=None, clock_seq=None):
+    return u.uuid1(node=node, clock_seq=clock_seq)
+
+
+def genv3(name=None, namespace=None):
     match namespace.upper():
         case 'DNS':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid3(namespace=u.NAMESPACE_DNS, name=name)
-            )
+            return u.uuid3(namespace=u.NAMESPACE_DNS, name=name)
         case 'OID':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid3(namespace=u.NAMESPACE_OID, name=name)
-            )
+            return u.uuid3(namespace=u.NAMESPACE_OID, name=name)
         case 'URL':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid3(namespace=u.NAMESPACE_URL, name=name)
-            )
+            return u.uuid3(namespace=u.NAMESPACE_URL, name=name)
         case 'X500':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid3(namespace=u.NAMESPACE_X500, name=name)
-            )
+            return u.uuid3(namespace=u.NAMESPACE_X500, name=name)
         case _:
             raise ValueError
 
 
-def genv4(alphabet):
-    return shortuuid.ShortUUID(alphabet=alphabet).encode(uuid=u.uuid4())
+def genv4():
+    return u.uuid4()
 
 
-def genv5(name, namespace, alphabet):
+def genv5(name=None, namespace=None):
     match namespace.upper():
         case 'DNS':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid5(namespace=u.NAMESPACE_DNS, name=name)
-            )
+            return u.uuid5(namespace=u.NAMESPACE_DNS, name=name)
         case 'OID':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid5(namespace=u.NAMESPACE_OID, name=name)
-            )
+            return u.uuid5(namespace=u.NAMESPACE_OID, name=name)
         case 'URL':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid5(namespace=u.NAMESPACE_URL, name=name)
-            )
+            return u.uuid5(namespace=u.NAMESPACE_URL, name=name)
         case 'X500':
-            return shortuuid.ShortUUID(alphabet=alphabet).encode(
-                uuid=u.uuid5(namespace=u.NAMESPACE_X500, name=name)
-            )
+            return u.uuid5(namespace=u.NAMESPACE_X500, name=name)
         case _:
             raise ValueError
 
@@ -62,28 +50,32 @@ def genv5(name, namespace, alphabet):
     default='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz',
 )
 @click.option(
-    '--decode',
-    '-d',
-    help='Convert (decode) a short UUID to a long UUID',
-    default=None,
+    '--long',
+    '-l',
+    help='Show the long UUID instead of the short one (default false)',
+    default=False,
+    is_flag=True,
+    show_default=True,  # click insists that the default remains hidden if the default value is false
 )
 @click.option(
     '--name',
     '-n',
-    help='Generate a UUIDv5 using a specified name instead of a UUIDv4',
-    default=None,
+    help='Name to use for the UUIDv5 or v3 hash',
+    default='',
 )
 @click.option(
     '--namespace',
     '-ns',
-    help='Namespace to use for the UUIDv5 name (default "DNS")',
+    help='Namespace to use for the UUIDv5 or v3 hash (DNS, OID, URL, X500)',
     default='DNS',
+    show_default=True,
 )
 @click.option(
     '--typeuuid',
     '-t',
-    help='Generate a new UUID of version (type) v5/v4/v3/v2/v1 (default "4")',
+    help='Generate a new UUID of version (type) v5/v4/v3/v2/v1',
     default='4',
+    show_default=True,
 )
 @click.option(
     '--uuid',
@@ -92,33 +84,47 @@ def genv5(name, namespace, alphabet):
     default=None,
 )
 @click.help_option('--help', '-h')
-def main(alphabet, decode, name, namespace, typeuuid, uuid):
+def main(alphabet, long, name, namespace, typeuuid, uuid):
     '''Generate a short UUIDv4 if no parameters specified'''
 
-    # default alphabet '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base57)
-    # desired alphabet '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base58)
-    # 122 bits of entropy for UUIDs
-
-    if decode:
-        print(shortuuid.ShortUUID(alphabet=alphabet).decode(string=decode))
-    elif uuid:
-        print(shortuuid.ShortUUID(alphabet=alphabet).encode(uuid=u.UUID(uuid)))
-    elif name:
-        match typeuuid:
-            case '3':
-                print(genv3(name=name, namespace=namespace, alphabet=alphabet))
-            case '5':
-                print(genv5(name=name, namespace=namespace, alphabet=alphabet))
-            case _:
-                print(genv5(name=name, namespace=namespace, alphabet=alphabet))
+    if uuid:
+        try:
+            luu = u.UUID(uuid)
+        except ValueError:
+            # It might be a short UUID already
+            luu = shortuuid.ShortUUID(alphabet=alphabet).decode(string=uuid)
     else:
-        print(genv4(alphabet=alphabet))
+        # A non-empty name but default type means we probably want UUIDv5
+        if name and typeuuid == '4':
+            typeuuid = '5'
+
+        match typeuuid:
+            # case '1':
+            #     luu = genv1(node=node, clock_seq=clock_seq)
+            case '3':
+                luu = genv3(name=name, namespace=namespace)
+            case '4':
+                luu = genv4()
+            case '5':
+                luu = genv5(name=name, namespace=namespace)
+            case _:
+                raise ValueError
+
+    suu = shortuuid.ShortUUID(alphabet=alphabet).encode(luu)
+    if long:
+        print(luu)
+    else:
+        print(suu)
 
 
 if __name__ == '__main__':
     main()
 
 
-# https://docs.python.org/3/library/uuid.html  python uuid standard library
-# https://github.com/skorokithakis/shortuuid  python implementation
-# https://pypi.org/project/shortuuid/  python implementation
+# https://docs.python.org/3/library/uuid.html
+# https://github.com/skorokithakis/shortuuid
+# https://pypi.org/project/shortuuid/
+
+# default alphabet '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base57)
+# desired alphabet '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base58)
+# 122 bits of entropy for UUIDs
