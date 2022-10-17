@@ -124,7 +124,7 @@ func main() {
 	enc := base58Encoder{}
 	var (
 		err error
-		luu uuid.UUID
+		luu string
 		suu string
 		u64 uint64
 		u32 uint32
@@ -132,12 +132,13 @@ func main() {
 
 	// Lengthen or shorten an existing UUID or generate a new one
 	if aUuid != "" {
-		luu, err = uuid.Parse(aUuid)
+		auu, err := uuid.Parse(aUuid)
 
 		// It might be a short UUID already
 		if err != nil {
-			luu, err = enc.Decode(aUuid)
+			auu, err = enc.Decode(aUuid)
 		}
+		luu = auu.String()
 	} else {
 		// A non-empty name but default type means we probably want UUIDv5
 		if aName != "" && aTypeUuid == "4" {
@@ -183,14 +184,16 @@ func main() {
 		os.Exit(4)
 	}
 
-	suu = enc.Encode(luu)
+	auu, _ := uuid.Parse(luu)
+	suu = enc.Encode(auu)
 	if aLong {
 		fmt.Println(luu)
 	} else {
 		fmt.Println(suu)
 	}
 	if aXtra {
-		fmt.Println(xtraInfo(luu))
+		auu, _ := uuid.Parse(luu)
+		fmt.Println(xtraInfo(auu))
 	}
 
 	if aQrTerm {
@@ -238,61 +241,72 @@ func main() {
 //   https://paulgorman.org/technical/blog/20171113164018.html  JSON config
 //   https://github.com/signintech/gopdf  generating a PDF
 
-func Genv1() (uuid.UUID, error) {
+func Genv1() (string, error) {
 	// uuid.SetClockSequence(-1)
 	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
 	// uuid.SetNodInterface("")
-	luu, err := uuid.NewUUID()
-	return luu, err
+	uu, err := uuid.NewUUID()
+	return uu.String(), err
 }
 
-func Genv2(domain string, id uint32) (uuid.UUID, error) {
+func Genv2(domain string, id uint32) (string, error) {
 	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
 	// uuid.SetNodInterface("")
 	switch strings.ToLower(domain) {
 	case "person":
-		return uuid.NewDCESecurity(uuid.Person, id)
+		uu, err := uuid.NewDCESecurity(uuid.Person, id)
+		return uu.String(), err
 	case "group":
-		return uuid.NewDCESecurity(uuid.Group, id)
+		uu, err := uuid.NewDCESecurity(uuid.Group, id)
+		return uu.String(), err
 	case "org":
-		return uuid.NewDCESecurity(uuid.Org, id)
+		uu, err := uuid.NewDCESecurity(uuid.Org, id)
+		return uu.String(), err
 	default:
-		return uuid.Nil, errors.New("Unsupported domain")
+		return uuid.Nil.String(), errors.New("Unsupported domain")
 	}
 }
 
-func Genv3(name string, namespace string) (uuid.UUID, error) {
+func Genv3(name string, namespace string) (string, error) {
 	switch strings.ToUpper(namespace) {
 	case "DNS":
-		return uuid.NewMD5(uuid.NameSpaceDNS, []byte(name)), nil
+		uu := uuid.NewMD5(uuid.NameSpaceDNS, []byte(name))
+		return uu.String(), nil
 	case "OID":
-		return uuid.NewMD5(uuid.NameSpaceOID, []byte(name)), nil
+		uu := uuid.NewMD5(uuid.NameSpaceOID, []byte(name))
+		return uu.String(), nil
 	case "URL":
-		return uuid.NewMD5(uuid.NameSpaceURL, []byte(name)), nil
+		uu := uuid.NewMD5(uuid.NameSpaceURL, []byte(name))
+		return uu.String(), nil
 	case "X500":
-		return uuid.NewMD5(uuid.NameSpaceX500, []byte(name)), nil
+		uu := uuid.NewMD5(uuid.NameSpaceX500, []byte(name))
+		return uu.String(), nil
 	default:
-		return uuid.Nil, errors.New("Unsupported namespace")
+		return uuid.Nil.String(), errors.New("Unsupported namespace")
 	}
 }
 
-func Genv4() (uuid.UUID, error) {
-	luu, err := uuid.NewRandom()
-	return luu, err
+func Genv4() (string, error) {
+	uu, err := uuid.NewRandom()
+	return uu.String(), err
 }
 
-func Genv5(name string, namespace string) (uuid.UUID, error) {
+func Genv5(name string, namespace string) (string, error) {
 	switch strings.ToUpper(namespace) {
 	case "DNS":
-		return uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name)), nil
+		uu := uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name))
+		return uu.String(), nil
 	case "OID":
-		return uuid.NewSHA1(uuid.NameSpaceOID, []byte(name)), nil
+		uu := uuid.NewSHA1(uuid.NameSpaceOID, []byte(name))
+		return uu.String(), nil
 	case "URL":
-		return uuid.NewSHA1(uuid.NameSpaceURL, []byte(name)), nil
+		uu := uuid.NewSHA1(uuid.NameSpaceURL, []byte(name))
+		return uu.String(), nil
 	case "X500":
-		return uuid.NewSHA1(uuid.NameSpaceX500, []byte(name)), nil
+		uu := uuid.NewSHA1(uuid.NameSpaceX500, []byte(name))
+		return uu.String(), nil
 	default:
-		return uuid.Nil, errors.New("Unsupported namespace")
+		return uuid.Nil.String(), errors.New("Unsupported namespace")
 	}
 }
 
