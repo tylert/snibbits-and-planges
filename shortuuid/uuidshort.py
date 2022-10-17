@@ -6,11 +6,11 @@ import click
 import shortuuid
 
 
-def genv1(node=None, clock_seq=None):
+def genv1(node: str = None, clock_seq: str = None) -> str:
     return u.uuid1(node=node, clock_seq=clock_seq)
 
 
-def genv3(name=None, namespace=None):
+def genv3(name: str = None, namespace: str = None) -> str:
     match namespace.upper():
         case 'DNS':
             return u.uuid3(namespace=u.NAMESPACE_DNS, name=name)
@@ -24,11 +24,11 @@ def genv3(name=None, namespace=None):
             raise ValueError
 
 
-def genv4():
+def genv4() -> str:
     return u.uuid4()
 
 
-def genv5(name=None, namespace=None):
+def genv5(name: str = None, namespace: str = None) -> str:
     match namespace.upper():
         case 'DNS':
             return u.uuid5(namespace=u.NAMESPACE_DNS, name=name)
@@ -122,6 +122,7 @@ if __name__ == '__main__':
 
 
 # https://docs.python.org/3/library/uuid.html
+# https://docs.python.org/3/library/typing.html
 # https://github.com/skorokithakis/shortuuid
 # https://pypi.org/project/shortuuid/
 
