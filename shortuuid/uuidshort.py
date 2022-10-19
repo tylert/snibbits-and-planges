@@ -6,6 +6,12 @@ import click
 import shortuuid
 
 
+# https://github.com/google/UUID/blob/v1.0.0/version1.go  UUIDv1
+# https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
+# https://en.wikipedia.org/wiki/Universally_unique_identifier
+# https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04  UUIDv6/v7/v8
+
+
 def genv1(node: str = None, clock_seq: str = None) -> str:
     return u.uuid1(node=node, clock_seq=clock_seq)
 

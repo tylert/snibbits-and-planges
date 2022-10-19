@@ -237,7 +237,7 @@ func main() {
 // base64    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
 // base64url '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'
 
-// Other features like 2D barcodes, sheets of PDFs???
+// Other features???
 //   https://paulgorman.org/technical/blog/20171113164018.html  JSON config
 //   https://github.com/signintech/gopdf  generating a PDF
 
