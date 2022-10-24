@@ -38,14 +38,14 @@ var (
 func init() {
 	// Help for command-line arguments
 	const (
-		sDomain    = "Domain to use for the UUIDv2 value (Person, Group, Org)"
-		sId        = "ID to use for the UUIDv2 value"
+		sDomain    = "Domain to use for the UUIDv2/v1 value Person/Group/Org"
+		sId        = "ID to use for the UUIDv2/v1 value"
 		sLong      = "Show the long UUID instead of the short one (default false)"
-		sName      = "Name to use for the UUIDv5 or v3 hash"
-		sNamespace = "Namespace to use for the UUIDv5 or v3 hash (DNS, OID, URL, X500)"
+		sName      = "Name to use for the UUIDv5/v3 hash"
+		sNamespace = "Namespace to use for the UUIDv5/v3 hash DNS/OID/URL/X500"
 		sQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		sQrTerm    = "Also output the UUID as a QR code to the terminal"
-		sTypeUuid  = "Generate a new UUID of version (type) v5/v4/v3/v2/v1"
+		sTypeUuid  = "Generate a new UUID of version (type) UUIDv5/v4/v3/v2/v1"
 		sUuid      = "Existing UUID to shorten or lengthen"
 		sVersion   = "Display build version information (default false)"
 		sXtra      = "Show extra details about the UUID (default false)"
