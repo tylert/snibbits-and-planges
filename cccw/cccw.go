@@ -55,6 +55,7 @@ func getVersion() string {
 			case "vcs.time":
 				btime = setting.Value
 			}
+			// NO DEFAULT CASE!!!
 		}
 	}
 	// If we didn't specify a version string, use the git commit
