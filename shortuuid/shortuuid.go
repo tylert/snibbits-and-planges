@@ -1,8 +1,6 @@
 package main
 
 import (
-	"errors"
-	"flag"
 	"fmt"
 	// "log"
 	"os"
@@ -11,75 +9,9 @@ import (
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
-	. "github.com/ian-kent/envconf"
-	"github.com/vharitonsky/iniflags"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
-	// uuid6 "github.com/bradleypeabody/gouuidv6"
-	// uuid7 "github.com/uuid6/uuid6go-proto"
 )
-
-// Command-line arguments
-var (
-	aDomain    string
-	aId        string
-	aLong      bool
-	aName      string
-	aNamespace string
-	aQrFile    string
-	aQrTerm    bool
-	aTypeUuid  string
-	aUuid      string
-	aVersion   bool
-	aXtra      bool
-)
-
-func init() {
-	// Help for command-line arguments
-	const (
-		sDomain    = "Domain to use for the UUIDv2/v1 value Person/Group/Org"
-		sId        = "ID to use for the UUIDv2/v1 value"
-		sLong      = "Show the long UUID instead of the short one (default false)"
-		sName      = "Name to use for the UUIDv5/v3 hash"
-		sNamespace = "Namespace to use for the UUIDv5/v3 hash DNS/OID/URL/X500"
-		sQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
-		sQrTerm    = "Also output the UUID as a QR code to the terminal"
-		sTypeUuid  = "Generate a new UUID of version (type) UUIDv5/v4/v3/v2/v1"
-		sUuid      = "Existing UUID to shorten or lengthen"
-		sVersion   = "Display build version information (default false)"
-		sXtra      = "Show extra details about the UUID (default false)"
-	)
-
-	flag.StringVar(&aDomain, "domain", FromEnvP("SHORTUUID_DOMAIN", "Person").(string), sDomain)
-	flag.StringVar(&aDomain, "d", FromEnvP("SHORTUUID_DOMAIN", "Person").(string), sDomain)
-	flag.StringVar(&aId, "id", FromEnvP("SHORTUUID_ID", "0").(string), sId)
-	flag.StringVar(&aId, "i", FromEnvP("SHORTUUID_ID", "0").(string), sId)
-	flag.BoolVar(&aLong, "long", FromEnvP("SHORTUUID_LONG", false).(bool), sLong)
-	flag.BoolVar(&aLong, "l", FromEnvP("SHORTUUID_LONG", false).(bool), sLong)
-	flag.StringVar(&aName, "name", FromEnvP("SHORTUUID_NAME", "").(string), sName)
-	flag.StringVar(&aName, "n", FromEnvP("SHORTUUID_NAME", "").(string), sName)
-	flag.StringVar(&aNamespace, "namespace", FromEnvP("SHORTUUID_NAMESPACE", "DNS").(string), sNamespace)
-	flag.StringVar(&aNamespace, "ns", FromEnvP("SHORTUUID_NAMESPACE", "DNS").(string), sNamespace)
-	flag.StringVar(&aQrFile, "qrfile", FromEnvP("SHORTUUID_QRFILE", "").(string), sQrFile)
-	flag.StringVar(&aQrFile, "qf", FromEnvP("SHORTUUID_QRFILE", "").(string), sQrFile)
-	flag.BoolVar(&aQrTerm, "qrterm", FromEnvP("SHORTUUID_QRTERM", false).(bool), sQrTerm)
-	flag.BoolVar(&aQrTerm, "qt", FromEnvP("SHORTUUID_QRTERM", false).(bool), sQrTerm)
-	flag.StringVar(&aTypeUuid, "typeuuid", FromEnvP("SHORTUUID_TYPEUUID", "4").(string), sTypeUuid)
-	flag.StringVar(&aTypeUuid, "t", FromEnvP("SHORTUUID_TYPEUUID", "4").(string), sTypeUuid)
-	flag.StringVar(&aUuid, "uuid", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
-	flag.StringVar(&aUuid, "u", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
-	flag.BoolVar(&aVersion, "version", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
-	flag.BoolVar(&aVersion, "v", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
-	flag.BoolVar(&aXtra, "xtra", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
-	flag.BoolVar(&aXtra, "x", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
-	iniflags.Parse()
-
-	if flag.NArg() > 0 {
-		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
-		flag.Usage()
-		os.Exit(1)
-	}
-}
 
 func main() {
 	// Print out the version information
@@ -207,75 +139,6 @@ func main() {
 // Other features???
 //   https://paulgorman.org/technical/blog/20171113164018.html  JSON config
 //   https://github.com/signintech/gopdf  generating a PDF
-
-func Genv1() (string, error) {
-	// uuid.SetClockSequence(-1)
-	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
-	// uuid.SetNodInterface("")
-	uu, err := uuid.NewUUID()
-	return uu.String(), err
-}
-
-func Genv2(domain string, id uint32) (string, error) {
-	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
-	// uuid.SetNodInterface("")
-	switch strings.ToLower(domain) {
-	case "person":
-		uu, err := uuid.NewDCESecurity(uuid.Person, id)
-		return uu.String(), err
-	case "group":
-		uu, err := uuid.NewDCESecurity(uuid.Group, id)
-		return uu.String(), err
-	case "org":
-		uu, err := uuid.NewDCESecurity(uuid.Org, id)
-		return uu.String(), err
-	default:
-		return uuid.Nil.String(), errors.New("Unsupported domain")
-	}
-}
-
-func Genv3(name string, namespace string) (string, error) {
-	switch strings.ToUpper(namespace) {
-	case "DNS":
-		uu := uuid.NewMD5(uuid.NameSpaceDNS, []byte(name))
-		return uu.String(), nil
-	case "OID":
-		uu := uuid.NewMD5(uuid.NameSpaceOID, []byte(name))
-		return uu.String(), nil
-	case "URL":
-		uu := uuid.NewMD5(uuid.NameSpaceURL, []byte(name))
-		return uu.String(), nil
-	case "X500":
-		uu := uuid.NewMD5(uuid.NameSpaceX500, []byte(name))
-		return uu.String(), nil
-	default:
-		return uuid.Nil.String(), errors.New("Unsupported namespace")
-	}
-}
-
-func Genv4() (string, error) {
-	uu, err := uuid.NewRandom()
-	return uu.String(), err
-}
-
-func Genv5(name string, namespace string) (string, error) {
-	switch strings.ToUpper(namespace) {
-	case "DNS":
-		uu := uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name))
-		return uu.String(), nil
-	case "OID":
-		uu := uuid.NewSHA1(uuid.NameSpaceOID, []byte(name))
-		return uu.String(), nil
-	case "URL":
-		uu := uuid.NewSHA1(uuid.NameSpaceURL, []byte(name))
-		return uu.String(), nil
-	case "X500":
-		uu := uuid.NewSHA1(uuid.NameSpaceX500, []byte(name))
-		return uu.String(), nil
-	default:
-		return uuid.Nil.String(), errors.New("Unsupported namespace")
-	}
-}
 
 func xtraInfo(luu uuid.UUID) string {
 	ver := strings.Split(luu.Version().String(), "_")
