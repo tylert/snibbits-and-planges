@@ -317,7 +317,7 @@ func xtraInfo(luu uuid.UUID) string {
 
 	switch ver[1] {
 	case "2":
-		output += fmt.Sprintf(" Domain:%s Id:%s", luu.Domain().String(), luu.ID())
+		output += fmt.Sprintf(" Domain:%s Id:%d", luu.Domain().String(), luu.ID())
 	}
 
 	return output
