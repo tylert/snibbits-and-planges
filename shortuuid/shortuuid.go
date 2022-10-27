@@ -6,18 +6,17 @@ import (
 	"fmt"
 	// "log"
 	"os"
-	"runtime/debug"
 	"strconv"
 	"strings"
 
 	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
 	. "github.com/ian-kent/envconf"
-	// "github.com/tv42/base58"
 	"github.com/vharitonsky/iniflags"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
-	// uuid2 "github.com/uuid6/uuid6go-proto"
+	// uuid6 "github.com/bradleypeabody/gouuidv6"
+	// uuid7 "github.com/uuid6/uuid6go-proto"
 )
 
 // Command-line arguments
@@ -80,39 +79,6 @@ func init() {
 		flag.Usage()
 		os.Exit(1)
 	}
-}
-
-// go build -ldflags "-X main.Version=$(git describe --always --dirty --tags)"
-var Version string
-
-func GetVersion() string {
-	var barch, bos, bmod, brev, btime, suffix string
-	if info, ok := debug.ReadBuildInfo(); ok {
-		for _, setting := range info.Settings {
-			switch setting.Key {
-			case "GOARCH":
-				barch = setting.Value
-			case "GOOS":
-				bos = setting.Value
-			case "vcs.modified":
-				bmod = setting.Value
-			case "vcs.revision":
-				brev = setting.Value[0:7]
-			case "vcs.time":
-				btime = setting.Value
-			}
-			// NO DEFAULT CASE!!!
-		}
-	}
-	// If we didn't specify a version string, use the git commit
-	if Version == "" {
-		Version = brev
-	}
-	// If the git repo wasn't clean, say so in the version string
-	if bmod == "true" {
-		suffix = "-dirty"
-	}
-	return fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime)
 }
 
 func main() {
@@ -217,10 +183,10 @@ func main() {
 }
 
 // Other UUID versions???
-//   https://github.com/uuid6/uuid6go-proto
 //   https://pkg.go.dev/github.com/google/uuid
 //   https://github.com/google/uuid
 //   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04
+//   http://gh.peabody.io/uuidv6/
 //   https://datatracker.ietf.org/doc/html/rfc4122
 //   https://en.wikipedia.org/wiki/Universally_unique_identifier
 
