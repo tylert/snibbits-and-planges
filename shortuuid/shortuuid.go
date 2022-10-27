@@ -57,9 +57,9 @@ func main() {
 
 		switch aTypeUuid {
 		case "1":
-			luu, err = Genv1()
+			luu, err = Genv1(aNodeId)
 		case "2":
-			luu, err = Genv2(aDomain, u32)
+			luu, err = Genv2(aNodeId, aDomain, u32)
 		case "3":
 			luu, err = Genv3(aName, aNamespace)
 		case "4":

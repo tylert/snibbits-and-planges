@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rand"
 	"errors"
 	"strings"
 
@@ -9,17 +10,35 @@ import (
 	// uuid7 "github.com/uuid6/uuid6go-proto"
 )
 
-func Genv1() (string, error) {
+func Genv1(nodeid string) (string, error) {
 	// uuid.SetClockSequence(-1)
-	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
-	// uuid.SetNodInterface("")
+	if nodeid == "none" {
+		b := make([]byte, 6)
+		_, err := rand.Read(b)
+		if err != nil {
+			panic("random fail")
+		}
+		uuid.SetNodeID(b)
+	} else {
+		uuid.SetNodeInterface(nodeid)
+	}
+
 	uu, err := uuid.NewUUID()
 	return uu.String(), err
 }
 
-func Genv2(domain string, id uint32) (string, error) {
-	// uuid.SetNodeID([]byte{00, 00, 00, 00, 00, 01})
-	// uuid.SetNodInterface("")
+func Genv2(nodeid string, domain string, id uint32) (string, error) {
+	if nodeid == "none" {
+		b := make([]byte, 6)
+		_, err := rand.Read(b)
+		if err != nil {
+			panic("random fail")
+		}
+		uuid.SetNodeID(b)
+	} else {
+		uuid.SetNodeInterface(nodeid)
+	}
+
 	switch strings.ToLower(domain) {
 	case "person":
 		uu, err := uuid.NewDCESecurity(uuid.Person, id)

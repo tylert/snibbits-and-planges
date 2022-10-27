@@ -16,6 +16,7 @@ var (
 	aLong      bool
 	aName      string
 	aNamespace string
+	aNodeId    string
 	aQrFile    string
 	aQrTerm    bool
 	aTypeUuid  string
@@ -27,14 +28,15 @@ var (
 func init() {
 	// Help for command-line arguments
 	const (
-		sDomain    = "Domain to use for the UUIDv2/v1 value Person/Group/Org"
-		sId        = "ID to use for the UUIDv2/v1 value"
+		sDomain    = "Domain to use for UUIDv2/v1 - Person/Group/Org"
+		sId        = "ID to use for UUIDv2/v1"
 		sLong      = "Show the long UUID instead of the short one (default false)"
 		sName      = "Name to use for the UUIDv5/v3 hash"
-		sNamespace = "Namespace to use for the UUIDv5/v3 hash DNS/OID/URL/X500"
+		sNamespace = "Namespace to use for UUIDv5/v3 hash - DNS/OID/URL/X500"
+		sNodeId    = "NodeID [interface] to use for UUIDv2/v1 - random if 'none'"
 		sQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		sQrTerm    = "Also output the UUID as a QR code to the terminal"
-		sTypeUuid  = "Generate a new UUID of version (type) UUIDv5/v4/v3/v2/v1"
+		sTypeUuid  = "Version [type] of UUID to generate - UUIDv5/v4/v3/v2/v1"
 		sUuid      = "Existing UUID to shorten or lengthen"
 		sVersion   = "Display build version information (default false)"
 		sXtra      = "Show extra details about the UUID (default false)"
@@ -50,6 +52,8 @@ func init() {
 	flag.StringVar(&aName, "n", FromEnvP("SHORTUUID_NAME", "").(string), sName)
 	flag.StringVar(&aNamespace, "namespace", FromEnvP("SHORTUUID_NAMESPACE", "DNS").(string), sNamespace)
 	flag.StringVar(&aNamespace, "ns", FromEnvP("SHORTUUID_NAMESPACE", "DNS").(string), sNamespace)
+	flag.StringVar(&aNodeId, "nodeid", FromEnvP("SHORTUUID_NODEID", "").(string), sNodeId)
+	flag.StringVar(&aNodeId, "o", FromEnvP("SHORTUUID_NODEID", "").(string), sNodeId)
 	flag.StringVar(&aQrFile, "qrfile", FromEnvP("SHORTUUID_QRFILE", "").(string), sQrFile)
 	flag.StringVar(&aQrFile, "qf", FromEnvP("SHORTUUID_QRFILE", "").(string), sQrFile)
 	flag.BoolVar(&aQrTerm, "qrterm", FromEnvP("SHORTUUID_QRTERM", false).(bool), sQrTerm)
