@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/btcsuite/btcd/btcutil/base58"
 	"github.com/google/uuid"
 	"github.com/yeqown/go-qrcode/v2"
 	"github.com/yeqown/go-qrcode/writer/standard"
@@ -55,23 +54,23 @@ func main() {
 			}
 		}
 
-		switch aTypeUuid {
+		switch strings.ToUpper(aTypeUuid) {
 		case "1":
-			luu, err = Genv1(aNodeId)
+			luu, err = GenUUIDv1(aNodeId)
 		case "2":
-			luu, err = Genv2(aNodeId, aDomain, u32)
+			luu, err = GenUUIDv2(aNodeId, aDomain, u32)
 		case "3":
-			luu, err = Genv3(aName, aNamespace)
+			luu, err = GenUUIDv3(aName, aNamespace)
 		case "4":
-			luu, err = Genv4()
+			luu, err = GenUUIDv4()
 		case "5":
-			luu, err = Genv5(aName, aNamespace)
+			luu, err = GenUUIDv5(aName, aNamespace)
 		// case "6":
-		// 	luu, err = Genv6()
+		// 	luu, err = GenUUIDv6()
 		// case "7":
-		// 	luu, err = Genv7()
+		// 	luu, err = GenUUIDv7()
 		// case "8":
-		// 	luu, err = Genv8()
+		// 	luu, err = GenUUIDv8()
 		default:
 			fmt.Println("Unsupported UUID version")
 			os.Exit(3)
@@ -85,13 +84,13 @@ func main() {
 
 	auu, _ := uuid.Parse(luu)
 	suu = enc.Encode(auu)
-	switch strings.ToLower(aEncoding) {
-	case "base58":
+	switch strings.ToUpper(aEncoding) {
+	case "BASE58":
 		fmt.Println(suu)
-	case "none":
+	case "NONE":
 		fmt.Println(luu)
 	default:
-		fmt.Println("Unrecognized encoding")
+		fmt.Println("Unsupported encoding")
 		os.Exit(4)
 	}
 
@@ -119,35 +118,13 @@ func main() {
 	}
 }
 
-// Other UUID versions???
-//   https://pkg.go.dev/github.com/google/uuid
-//   https://github.com/google/uuid
-//   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04
-//   http://gh.peabody.io/uuidv6/
-//   https://datatracker.ietf.org/doc/html/rfc4122
-//   https://en.wikipedia.org/wiki/Universally_unique_identifier
-
-// Other alphabets???
-//   https://datatracker.ietf.org/doc/html/draft-msporny-base58-03
-//   https://stackoverflow.com/questions/41996761/golang-number-base-conversion/48362821#48362821
-//   https://github.com/tv42/base58
-//   https://github.com/tv42/zbase32
-//   https://github.com/Dasio/base45/blob/main/base45.go
-//   https://cs.opensource.google/go/go/+/master:src/encoding/base64/base64.go
-//   https://www.rfc-editor.org/info/rfc9285
-// base57    '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-// base58    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-// base62    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-// base64    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/'
-// base64url '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'
-
 // Other features???
 //   https://paulgorman.org/technical/blog/20171113164018.html  JSON config
 //   https://github.com/signintech/gopdf  generating a PDF
 
 func xtraInfo(luu uuid.UUID) string {
 	ver := strings.Split(luu.Version().String(), "_")
-	output := fmt.Sprintf("UUID Version:%s Variant:%s", ver[1], luu.Variant())
+	output := fmt.Sprintf("UUIDv%s Variant:%s", ver[1], luu.Variant())
 
 	switch ver[1] {
 	case "2":
@@ -155,14 +132,4 @@ func xtraInfo(luu uuid.UUID) string {
 	}
 
 	return output
-}
-
-type base58Encoder struct{}
-
-func (enc base58Encoder) Encode(luu uuid.UUID) string {
-	return base58.Encode(luu[:])
-}
-
-func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
-	return uuid.FromBytes(base58.Decode(suu))
 }

@@ -28,12 +28,12 @@ var (
 func init() {
 	// Help for command-line arguments
 	const (
-		sDomain    = "Domain to use for UUIDv2/v1 - Person/Group/Org"
-		sEncoding  = "Encoding to use for shortening UUID - base58/none"
+		sDomain    = "Domain to use for UUIDv2/v1 - PERSON/GROUP/ORG"
+		sEncoding  = "Encoding to use for shortening UUID - BASE58/NONE"
 		sId        = "ID to use for UUIDv2/v1"
 		sName      = "Name to use for the UUIDv5/v3 hash"
 		sNamespace = "Namespace to use for UUIDv5/v3 hash - DNS/OID/URL/X500"
-		sNodeId    = "NodeID [interface name] to use for UUIDv2/v1 MAC - random/eth0/etc."
+		sNodeId    = "NodeID [interface name] to use for UUIDv2/v1 MAC - RANDOM/eth0/etc."
 		sQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		sQrTerm    = "Also output the UUID as a QR code to the terminal"
 		sTypeUuid  = "Version [type] of UUID to generate - UUIDv5/v4/v3/v2/v1"
@@ -42,10 +42,10 @@ func init() {
 		sXtra      = "Show extra details about the UUID (default false)"
 	)
 
-	flag.StringVar(&aDomain, "domain", FromEnvP("SHORTUUID_DOMAIN", "Person").(string), sDomain)
-	flag.StringVar(&aDomain, "d", FromEnvP("SHORTUUID_DOMAIN", "Person").(string), sDomain)
-	flag.StringVar(&aEncoding, "encoding", FromEnvP("SHORTUUID_ENCODING", "base58").(string), sEncoding)
-	flag.StringVar(&aEncoding, "e", FromEnvP("SHORTUUID_ENCODING", "base58").(string), sEncoding)
+	flag.StringVar(&aDomain, "domain", FromEnvP("SHORTUUID_DOMAIN", "PERSON").(string), sDomain)
+	flag.StringVar(&aDomain, "d", FromEnvP("SHORTUUID_DOMAIN", "PERSON").(string), sDomain)
+	flag.StringVar(&aEncoding, "encoding", FromEnvP("SHORTUUID_ENCODING", "BASE58").(string), sEncoding)
+	flag.StringVar(&aEncoding, "e", FromEnvP("SHORTUUID_ENCODING", "BASE58").(string), sEncoding)
 	flag.StringVar(&aId, "id", FromEnvP("SHORTUUID_ID", "0").(string), sId)
 	flag.StringVar(&aId, "i", FromEnvP("SHORTUUID_ID", "0").(string), sId)
 	flag.StringVar(&aName, "name", FromEnvP("SHORTUUID_NAME", "").(string), sName)

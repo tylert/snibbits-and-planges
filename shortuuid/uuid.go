@@ -11,9 +11,17 @@ import (
 	// uuid8 ???
 )
 
-func Genv1(nodeid string) (string, error) {
+// Other UUID stuff???
+//   https://pkg.go.dev/github.com/google/uuid
+//   https://github.com/google/uuid
+//   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04
+//   http://gh.peabody.io/uuidv6/
+//   https://datatracker.ietf.org/doc/html/rfc4122
+//   https://en.wikipedia.org/wiki/Universally_unique_identifier
+
+func GenUUIDv1(nodeid string) (string, error) {
 	// uuid.SetClockSequence(-1)
-	if strings.ToLower(nodeid) == "random" {
+	if strings.ToUpper(nodeid) == "RANDOM" {
 		b := make([]byte, 6)
 		_, err := rand.Read(b)
 		if err != nil {
@@ -28,9 +36,9 @@ func Genv1(nodeid string) (string, error) {
 	return uu.String(), err
 }
 
-func Genv2(nodeid string, domain string, id uint32) (string, error) {
+func GenUUIDv2(nodeid string, domain string, id uint32) (string, error) {
 	// uuid.SetClockSequence(-1)
-	if strings.ToLower(nodeid) == "random" {
+	if strings.ToUpper(nodeid) == "RANDOM" {
 		b := make([]byte, 6)
 		_, err := rand.Read(b)
 		if err != nil {
@@ -41,14 +49,14 @@ func Genv2(nodeid string, domain string, id uint32) (string, error) {
 		uuid.SetNodeInterface(nodeid)
 	}
 
-	switch strings.ToLower(domain) {
-	case "person":
+	switch strings.ToUpper(domain) {
+	case "PERSON":
 		uu, err := uuid.NewDCESecurity(uuid.Person, id)
 		return uu.String(), err
-	case "group":
+	case "GROUP":
 		uu, err := uuid.NewDCESecurity(uuid.Group, id)
 		return uu.String(), err
-	case "org":
+	case "ORG":
 		uu, err := uuid.NewDCESecurity(uuid.Org, id)
 		return uu.String(), err
 	default:
@@ -56,7 +64,7 @@ func Genv2(nodeid string, domain string, id uint32) (string, error) {
 	}
 }
 
-func Genv3(name string, namespace string) (string, error) {
+func GenUUIDv3(name string, namespace string) (string, error) {
 	switch strings.ToUpper(namespace) {
 	case "DNS":
 		uu := uuid.NewMD5(uuid.NameSpaceDNS, []byte(name))
@@ -75,12 +83,12 @@ func Genv3(name string, namespace string) (string, error) {
 	}
 }
 
-func Genv4() (string, error) {
+func GenUUIDv4() (string, error) {
 	uu, err := uuid.NewRandom()
 	return uu.String(), err
 }
 
-func Genv5(name string, namespace string) (string, error) {
+func GenUUIDv5(name string, namespace string) (string, error) {
 	switch strings.ToUpper(namespace) {
 	case "DNS":
 		uu := uuid.NewSHA1(uuid.NameSpaceDNS, []byte(name))
@@ -99,6 +107,6 @@ func Genv5(name string, namespace string) (string, error) {
 	}
 }
 
-// func Gen6() (string, error) {
-// func Gen7() (string, error) {
-// func Gen8() (string, error) {
+// func GenUUIDv6() (string, error) {
+// func GenUUIDv7() (string, error) {
+// func GenUUIDv8() (string, error) {
