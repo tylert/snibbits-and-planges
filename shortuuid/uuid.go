@@ -8,11 +8,12 @@ import (
 	"github.com/google/uuid"
 	// uuid6 "github.com/bradleypeabody/gouuidv6"
 	// uuid7 "github.com/uuid6/uuid6go-proto"
+	// uuid8 ???
 )
 
 func Genv1(nodeid string) (string, error) {
 	// uuid.SetClockSequence(-1)
-	if nodeid == "none" {
+	if strings.ToLower(nodeid) == "random" {
 		b := make([]byte, 6)
 		_, err := rand.Read(b)
 		if err != nil {
@@ -28,7 +29,8 @@ func Genv1(nodeid string) (string, error) {
 }
 
 func Genv2(nodeid string, domain string, id uint32) (string, error) {
-	if nodeid == "none" {
+	// uuid.SetClockSequence(-1)
+	if strings.ToLower(nodeid) == "random" {
 		b := make([]byte, 6)
 		_, err := rand.Read(b)
 		if err != nil {
@@ -96,3 +98,7 @@ func Genv5(name string, namespace string) (string, error) {
 		return uuid.Nil.String(), errors.New("Unsupported namespace")
 	}
 }
+
+// func Gen6() (string, error) {
+// func Gen7() (string, error) {
+// func Gen8() (string, error) {

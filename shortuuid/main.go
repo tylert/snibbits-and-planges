@@ -85,11 +85,16 @@ func main() {
 
 	auu, _ := uuid.Parse(luu)
 	suu = enc.Encode(auu)
-	if aLong {
-		fmt.Println(luu)
-	} else {
+	switch strings.ToLower(aEncoding) {
+	case "base58":
 		fmt.Println(suu)
+	case "none":
+		fmt.Println(luu)
+	default:
+		fmt.Println("Unrecognized encoding")
+		os.Exit(4)
 	}
+
 	if aXtra {
 		auu, _ := uuid.Parse(luu)
 		fmt.Println(xtraInfo(auu))
