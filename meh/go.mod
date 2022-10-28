@@ -1,4 +1,4 @@
-module mooyaml
+module meh
 
 go 1.19
 
