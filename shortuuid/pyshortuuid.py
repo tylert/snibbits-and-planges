@@ -6,34 +6,33 @@ import click
 import shortuuid
 
 
-# https://github.com/google/UUID/blob/v1.0.0/version1.go  UUIDv1
-# https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
-# https://en.wikipedia.org/wiki/Universally_unique_identifier
-# https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04  UUIDv6/v7/v8
-
-
-def genv1(node: str = None, clock_seq: str = None) -> str:
+def gen_uuidv1(node: str = None, clock_seq: str = None) -> str:
+    ''' '''
     return u.uuid1(node=node, clock_seq=clock_seq)
 
 
-def genv2(
+def gen_uuidv2(
     node: str = None, clock_seq: str = None, domain: str = None, id: int = 0
 ) -> str:
-    match domain.lower():
-        case 'person':
+    ''' '''
+    # https://github.com/google/UUID/blob/v1.0.0/version1.go  UUIDv1
+    # https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
+    match domain.upper():
+        case 'PERSON':
             uuid = u.uuid1(node=node, clock_seq=clock_seq)
             return uuid
-        case 'group':
+        case 'GROUP':
             uuid = u.uuid1(node=node, clock_seq=clock_seq)
             return uuid
-        case 'org':
+        case 'ORG':
             uuid = u.uuid1(node=node, clock_seq=clock_seq)
             return uuid
         case _:
             raise ValueError
 
 
-def genv3(name: str = None, namespace: str = None) -> str:
+def gen_uuidv3(name: str = None, namespace: str = None) -> str:
+    ''' '''
     match namespace.upper():
         case 'DNS':
             return u.uuid3(namespace=u.NAMESPACE_DNS, name=name)
@@ -47,11 +46,13 @@ def genv3(name: str = None, namespace: str = None) -> str:
             raise ValueError
 
 
-def genv4() -> str:
+def gen_uuidv4() -> str:
+    ''' '''
     return u.uuid4()
 
 
-def genv5(name: str = None, namespace: str = None) -> str:
+def gen_uuidv5(name: str = None, namespace: str = None) -> str:
+    ''' '''
     match namespace.upper():
         case 'DNS':
             return u.uuid5(namespace=u.NAMESPACE_DNS, name=name)
@@ -65,6 +66,21 @@ def genv5(name: str = None, namespace: str = None) -> str:
             raise ValueError
 
 
+# def gen_uuidv6() -> str:
+#     ''' '''
+#     return u.uuid6()
+
+
+# def gen_uuidv7() -> str:
+#     ''' '''
+#     return u.uuid7()
+
+
+# def gen_uuidv8() -> str:
+#     ''' '''
+#     return u.uuid8()
+
+
 @click.command()
 @click.option(
     '--alphabet',
@@ -75,40 +91,38 @@ def genv5(name: str = None, namespace: str = None) -> str:
 @click.option(
     '--clock_seq',
     '-c',
-    help='Clock sequence to use for UUIDv1 sequence number',
+    help='Clock sequence to use for UUIDv2/v1 sequence number',
     default=None,
 )
 @click.option(
-    '--long',
-    '-l',
-    help='Show the long UUID instead of the short one (default false)',
-    default=False,
-    is_flag=True,
-    show_default=True,  # click insists that the default remains hidden if the default value is false
+    '--encoding',
+    '-e',
+    help='Encoding to use for shortening UUID - BASE58/NONE',
+    default='BASE58',
 )
 @click.option(
     '--name',
     '-n',
-    help='Name to use for the UUIDv5 or v3 hash',
+    help='Name to use for the UUIDv5/v3 hash',
     default='',
 )
 @click.option(
     '--namespace',
     '-ns',
-    help='Namespace to use for the UUIDv5 or v3 hash (DNS, OID, URL, X500)',
+    help='Namespace to use for UUIDv5/v3 hash - DNS/OID/URL/X500',
     default='DNS',
     show_default=True,
 )
 @click.option(
     '--node',
     '-o',
-    help='Node to use for the UUIDv2 or v1 hash',
+    help='NodeID [interface name] to use for UUIDv2/v1 MAC - RANDOM/eth0/etc.',
     default=None,
 )
 @click.option(
     '--typeuuid',
     '-t',
-    help='Generate a new UUID of version (type) v5/v4/v3/v2/v1',
+    help='Version [type] of UUID to generate - UUIDv5/v4/v3/v2/v1',
     default='4',
     show_default=True,
 )
@@ -119,8 +133,8 @@ def genv5(name: str = None, namespace: str = None) -> str:
     default=None,
 )
 @click.help_option('--help', '-h')
-def main(alphabet, clock_seq, long, name, namespace, node, typeuuid, uuid):
-    '''Generate a short UUIDv4 if no parameters specified'''
+def main(alphabet, clock_seq, encoding, name, namespace, node, typeuuid, uuid):
+    '''Generate a shortened (encoded) UUID'''
 
     if uuid:
         try:
@@ -133,22 +147,28 @@ def main(alphabet, clock_seq, long, name, namespace, node, typeuuid, uuid):
         if name and typeuuid == '4':
             typeuuid = '5'
 
-        match typeuuid:
+        match typeuuid.upper():
             case '1':
-                luu = genv1(node=node, clock_seq=clock_seq)
+                luu = gen_uuidv1(node=node, clock_seq=clock_seq)
             # case '2':
-            #     luu = genv2(node=node, clock_seq=clock_seq, domain=domain, id=id)
+            #     luu = gen_uuidv2(node=node, clock_seq=clock_seq, domain=domain, id=id)
             case '3':
-                luu = genv3(name=name, namespace=namespace)
+                luu = gen_uuidv3(name=name, namespace=namespace)
             case '4':
-                luu = genv4()
+                luu = gen_uuidv4()
             case '5':
-                luu = genv5(name=name, namespace=namespace)
+                luu = gen_uuidv5(name=name, namespace=namespace)
+            # case '6':
+            #     luu = gen_uuidv6()
+            # case '7':
+            #     luu = gen_uuidv7()
+            # case '8':
+            #     luu = gen_uuidv8()
             case _:
                 raise ValueError
 
     suu = shortuuid.ShortUUID(alphabet=alphabet).encode(luu)
-    if long:
+    if encoding.upper() == 'NONE':
         print(luu)
     else:
         print(suu)
@@ -162,6 +182,8 @@ if __name__ == '__main__':
 # https://docs.python.org/3/library/typing.html
 # https://github.com/skorokithakis/shortuuid
 # https://pypi.org/project/shortuuid/
+# https://en.wikipedia.org/wiki/Universally_unique_identifier
+# https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04  UUIDv6/v7/v8
 # https://click.palletsprojects.com/en/8.1.x/
 
 # default alphabet '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base57)
