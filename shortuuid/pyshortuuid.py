@@ -4,6 +4,7 @@ import uuid as u
 
 import click
 import shortuuid
+import zbase32
 
 
 def gen_uuidv1(node: str = None, clock_seq: str = None) -> str:
@@ -97,7 +98,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
 @click.option(
     '--encoding',
     '-e',
-    help='Encoding to use for shortening UUID - BASE58/NONE',
+    help='Encoding to use for shortening UUID - BASE58/ZBASE32/NONE',
     default='BASE58',
 )
 @click.option(
@@ -167,9 +168,12 @@ def main(alphabet, clock_seq, encoding, name, namespace, node, typeuuid, uuid):
             case _:
                 raise ValueError
 
-    suu = shortuuid.ShortUUID(alphabet=alphabet).encode(luu)
     match encoding.upper():
         case 'BASE58':
+            suu = shortuuid.ShortUUID(alphabet=alphabet).encode(luu)
+            print(suu)
+        case 'ZBASE32':
+            suu = zbase32.encode(luu.bytes)
             print(suu)
         case 'NONE':
             print(luu)
