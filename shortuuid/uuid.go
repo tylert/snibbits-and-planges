@@ -107,6 +107,6 @@ func GenUUIDv5(name string, namespace string) (string, error) {
 	}
 }
 
-// func GenUUIDv6() (string, error) {
+// func GenUUIDv6(nodeid string) (string, error) {
 // func GenUUIDv7() (string, error) {
 // func GenUUIDv8() (string, error) {

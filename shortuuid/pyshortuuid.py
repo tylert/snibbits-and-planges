@@ -67,7 +67,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
             raise ValueError
 
 
-# def gen_uuidv6() -> str:
+# def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
 #     ''' '''
 #     return u.uuid6()
 
@@ -160,7 +160,7 @@ def main(alphabet, clock_seq, encoding, name, namespace, node, typeuuid, uuid):
             case '5':
                 luu = gen_uuidv5(name=name, namespace=namespace)
             # case '6':
-            #     luu = gen_uuidv6()
+            #     luu = gen_uuidv6(node=node, clock_seq=clock_seq)
             # case '7':
             #     luu = gen_uuidv7()
             # case '8':
