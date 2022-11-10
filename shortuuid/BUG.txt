@@ -1,8 +1,8 @@
-$ ./uuidshort.py -u jWNAus869vomZgM7VmzT5 -l
+$ ./pyshortuuid.py -u jWNAus869vomZgM7VmzT5 -e none
 05ef55cd-f0e4-4676-852a-765a6c384fcc
-$ ./uuidshort.py -u 1jWNAus869vomZgM7VmzT5 -l
+$ ./pyshortuuid.py -u 1jWNAus869vomZgM7VmzT5 -e none
 05ef55cd-f0e4-4676-852a-765a6c384fcc
-$ ./shortuuid -u jWNAus869vomZgM7VmzT5 -l
+$ ./shortuuid -u jWNAus869vomZgM7VmzT5 -e none
 05ef55cd-f0e4-4676-852a-765a6c384fcc
-$ ./shortuuid -u 1jWNAus869vomZgM7VmzT5 -l
+$ ./shortuuid -u 1jWNAus869vomZgM7VmzT5 -e none
 invalid UUID (got 17 bytes)

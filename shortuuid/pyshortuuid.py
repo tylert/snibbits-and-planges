@@ -168,10 +168,13 @@ def main(alphabet, clock_seq, encoding, name, namespace, node, typeuuid, uuid):
                 raise ValueError
 
     suu = shortuuid.ShortUUID(alphabet=alphabet).encode(luu)
-    if encoding.upper() == 'NONE':
-        print(luu)
-    else:
-        print(suu)
+    match encoding.upper():
+        case 'BASE58':
+            print(suu)
+        case 'NONE':
+            print(luu)
+        case _:
+            raise ValueError
 
 
 if __name__ == '__main__':

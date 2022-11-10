@@ -1,4 +1,5 @@
 click
+python-zbase32
 reportlab
 segno
 shortuuid
