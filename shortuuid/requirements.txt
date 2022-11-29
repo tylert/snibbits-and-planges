@@ -5,7 +5,7 @@ Pillow==9.3.0
 python-zbase32==0.1.1
 reportlab==3.6.12
 segno==1.5.2
-shortuuid==1.0.10
+shortuuid==1.0.11
 svglib==1.4.1
 tinycss2==1.2.1
 webencodings==0.5.1
