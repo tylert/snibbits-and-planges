@@ -19,7 +19,7 @@ var (
 	aNodeId    string
 	aQrFile    string
 	aQrTerm    bool
-	aTypeUuid  string
+	aType      string
 	aUuid      string
 	aVersion   bool
 	aXtra      bool
@@ -36,7 +36,7 @@ func init() {
 		sNodeId    = "NodeID [interface name] to use for UUIDv2/v1 MAC - RANDOM/eth0/etc."
 		sQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		sQrTerm    = "Also output the UUID as a QR code to the terminal"
-		sTypeUuid  = "Version [type] of UUID to generate - UUIDv5/v4/v3/v2/v1"
+		sType      = "Version [type] of UUID to generate - UUIDv5/v4/v3/v2/v1"
 		sUuid      = "Existing UUID to shorten or lengthen"
 		sVersion   = "Display build version information (default false)"
 		sXtra      = "Show extra details about the UUID (default false)"
@@ -58,8 +58,8 @@ func init() {
 	flag.StringVar(&aQrFile, "qf", FromEnvP("SHORTUUID_QRFILE", "").(string), sQrFile)
 	flag.BoolVar(&aQrTerm, "qrterm", FromEnvP("SHORTUUID_QRTERM", false).(bool), sQrTerm)
 	flag.BoolVar(&aQrTerm, "qt", FromEnvP("SHORTUUID_QRTERM", false).(bool), sQrTerm)
-	flag.StringVar(&aTypeUuid, "typeuuid", FromEnvP("SHORTUUID_TYPEUUID", "4").(string), sTypeUuid)
-	flag.StringVar(&aTypeUuid, "t", FromEnvP("SHORTUUID_TYPEUUID", "4").(string), sTypeUuid)
+	flag.StringVar(&aType, "type", FromEnvP("SHORTUUID_TYPE", "4").(string), sType)
+	flag.StringVar(&aType, "t", FromEnvP("SHORTUUID_TYPE", "4").(string), sType)
 	flag.StringVar(&aUuid, "uuid", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
 	flag.StringVar(&aUuid, "u", FromEnvP("SHORTUUID_UUID", "").(string), sUuid)
 	flag.BoolVar(&aVersion, "version", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)

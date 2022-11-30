@@ -39,8 +39,8 @@ func main() {
 		luu = auu.String()
 	} else {
 		// A non-empty name but default type means we probably want UUIDv5
-		if aName != "" && aTypeUuid == "4" {
-			aTypeUuid = "5"
+		if aName != "" && aType == "4" {
+			aType = "5"
 		}
 
 		// Get the base10 uint32 value from the id string (always runs since default id is "0")
@@ -54,7 +54,7 @@ func main() {
 			}
 		}
 
-		switch strings.ToUpper(aTypeUuid) {
+		switch strings.ToUpper(aType) {
 		case "1":
 			luu, err = GenUUIDv1(aNodeId)
 		case "2":

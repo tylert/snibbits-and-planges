@@ -122,7 +122,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
     default=None,
 )
 @click.option(
-    '--typeuuid',
+    '--type',
     '-t',
     help='Version [type] of UUID to generate - UUIDv5/v4/v3/v2/v1',
     default='4',
@@ -135,7 +135,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
     default=None,
 )
 @click.help_option('--help', '-h')
-def main(alphabet, clock_seq, encoding, name, namespace, node, typeuuid, uuid):
+def main(alphabet, clock_seq, encoding, name, namespace, node, type, uuid):
     '''Generate a shortened (encoded) UUID'''
 
     if uuid:
@@ -146,10 +146,10 @@ def main(alphabet, clock_seq, encoding, name, namespace, node, typeuuid, uuid):
             luu = shortuuid.ShortUUID(alphabet=alphabet).decode(string=uuid)
     else:
         # A non-empty name but default type means we probably want UUIDv5
-        if name and typeuuid == '4':
-            typeuuid = '5'
+        if name and type == '4':
+            type = '5'
 
-        match typeuuid.upper():
+        match type.upper():
             case '1':
                 luu = gen_uuidv1(node=node, clock_seq=clock_seq)
             # case '2':
