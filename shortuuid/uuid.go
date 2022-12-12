@@ -14,6 +14,8 @@ import (
 // Other UUID stuff???
 //   https://pkg.go.dev/github.com/google/uuid
 //   https://github.com/google/uuid
+//   https://github.com/uuid6/uuid6-ietf-draft
+//   https://github.com/ietf-wg-uuidrev/rfc4122bis !!!
 //   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04
 //   http://gh.peabody.io/uuidv6/
 //   https://datatracker.ietf.org/doc/html/rfc4122
