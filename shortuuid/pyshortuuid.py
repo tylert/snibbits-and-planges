@@ -188,11 +188,10 @@ if __name__ == '__main__':
 
 # https://docs.python.org/3/library/uuid.html
 # https://docs.python.org/3/library/typing.html
+# https://click.palletsprojects.com/en/8.1.x/
+
 # https://github.com/skorokithakis/shortuuid
 # https://pypi.org/project/shortuuid/
-# https://en.wikipedia.org/wiki/Universally_unique_identifier
-# https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04  UUIDv6/v7/v8
-# https://click.palletsprojects.com/en/8.1.x/
 
 # default alphabet '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base57)
 # desired alphabet '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base58)
