@@ -57,7 +57,7 @@ def main(passwd, output_pdf, ssid, temp_svg, wifi_type):
     #                                     svgns=False)
 
     canv = canvas.Canvas(output_pdf, pagesize=letter)
-    wifi = f'WIFI:S:{ssid};T:{wifi_type};H:false;P:{passwd};;'
+    wifi = f'WIFI:S:{ssid};T:{wifi_type};P:{passwd};H:false;'
     # H = Hidden <true|false|blank>
     # T = Type <WEP|WPA|blank>
 
@@ -78,4 +78,5 @@ if __name__ == '__main__':
 # https://segno.readthedocs.io/en/latest/
 # https://github.com/deeplook/svglib
 
+# https://en.wikipedia.org/wiki/Wi-Fi#Securing_methods
 # https://github.com/zxing/zxing/wiki/Barcode-Contents#wi-fi-network-config-android-ios-11
