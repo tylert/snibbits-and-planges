@@ -21,3 +21,6 @@ Python bug!!! (weird leading 1 when first byte is 0???)::
     05ef55cd-f0e4-4676-852a-765a6c384fcc
     $ ./shortuuid -u 1jWNAus869vomZgM7VmzT5 -e none
     00000000-0000-0000-0000-000000000000
+
+* https://docs.crunchybridge.com/api-concepts/eid/
+* https://brandur.org/fragments/base32-slugs
