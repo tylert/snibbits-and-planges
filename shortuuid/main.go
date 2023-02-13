@@ -34,7 +34,7 @@ func main() {
 		// It might be a short UUID already
 		if err != nil {
 			enc := base58Encoder{}
-			auu, err = enc.Decode(aUuid)
+			auu, err = enc.DecodeBase58(aUuid)
 		}
 		luu = auu.String()
 	} else {
@@ -82,11 +82,11 @@ func main() {
 		os.Exit(4)
 	}
 
-	auu, _ := uuid.Parse(luu)
-	enc := base58Encoder{}
-	suu = enc.Encode(auu)
 	switch strings.ToUpper(aEncoding) {
 	case "BASE58":
+		auu, _ := uuid.Parse(luu)
+		enc := base58Encoder{}
+		suu = enc.EncodeBase58(auu)
 		fmt.Println(suu)
 	case "NONE":
 		fmt.Println(luu)

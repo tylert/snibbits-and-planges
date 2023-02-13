@@ -21,10 +21,10 @@ import (
 
 type base58Encoder struct{}
 
-func (enc base58Encoder) Encode(luu uuid.UUID) string {
+func (enc base58Encoder) EncodeBase58(luu uuid.UUID) string {
 	return base58.Encode(luu[:])
 }
 
-func (enc base58Encoder) Decode(suu string) (uuid.UUID, error) {
+func (enc base58Encoder) DecodeBase58(suu string) (uuid.UUID, error) {
 	return uuid.FromBytes(base58.Decode(suu))
 }
