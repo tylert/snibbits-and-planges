@@ -102,7 +102,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
 #     '-d',
 #     help='Domain to use for UUIDv2 hash - PERSON/GROUP/ORG',
 #     default='PERSON',
-)
+# )
 @click.option(
     '--encoding',
     '-e',
