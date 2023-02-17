@@ -109,10 +109,16 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
     help='Encoding to use for shortening UUID - BASE58/ZBASE32/NONE',
     default='BASE58',
 )
+# @click.option(
+#     '--id',
+#     '-i',
+#     help='ID to use for UUIDv2 hash',
+#     default='0',
+# )
 @click.option(
     '--name',
     '-n',
-    help='Name to use for the UUIDv5/v3 hash',
+    help='Name to use for UUIDv5/v3 hash',
     default='',
 )
 @click.option(
