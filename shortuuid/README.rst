@@ -24,3 +24,8 @@ Python bug!!! (weird leading 1 when first byte is 0???)::
 
 * https://docs.crunchybridge.com/api-concepts/eid/
 * https://brandur.org/fragments/base32-slugs
+
+::
+
+    go version -m shortuuid
+    go tool objdump shortuuid

@@ -17,6 +17,7 @@ def gen_uuidv2(
     node: str = None, clock_seq: str = None, domain: str = None, id: int = 0
 ) -> str:
     ''' '''
+    # https://dev.to/this-is-learning/what-happened-to-uuidv2-en3
     # https://github.com/google/UUID/blob/v1.0.0/version1.go  UUIDv1
     # https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
     match domain.upper():
@@ -95,6 +96,12 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
     '-c',
     help='Clock sequence to use for UUIDv2/v1 sequence number',
     default=None,
+)
+# @click.option(
+#     '--domain',
+#     '-d',
+#     help='Domain to use for UUIDv2 hash - PERSON/GROUP/ORG',
+#     default='PERSON',
 )
 @click.option(
     '--encoding',
