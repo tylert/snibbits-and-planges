@@ -3,4 +3,5 @@
 go build \
     -a \
     -ldflags "-X main.Version=$(git describe --always --dirty --tags)" \
-    -mod='vendor'
+    -mod='vendor' \
+    -trimpath='true'
