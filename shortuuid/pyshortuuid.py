@@ -14,7 +14,7 @@ def gen_uuidv1(node: str = None, clock_seq: str = None) -> str:
 
 
 def gen_uuidv2(
-    node: str = None, clock_seq: str = None, domain: str = None, id: int = 0
+    node: str = None, clock_seq: str = None, domain: str = None, id: str = 0
 ) -> str:
     ''' '''
     # https://dev.to/this-is-learning/what-happened-to-uuidv2-en3
@@ -22,13 +22,16 @@ def gen_uuidv2(
     # https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
     match domain.upper():
         case 'PERSON':
-            uuid = u.uuid1(node=node, clock_seq=clock_seq)
+            x = u.uuid1(node=node, clock_seq=clock_seq).bytes
+            uuid = u.UUID(bytes=x)
             return uuid
         case 'GROUP':
-            uuid = u.uuid1(node=node, clock_seq=clock_seq)
+            x = u.uuid1(node=node, clock_seq=clock_seq).bytes
+            uuid = u.UUID(bytes=x)
             return uuid
         case 'ORG':
-            uuid = u.uuid1(node=node, clock_seq=clock_seq)
+            x = u.uuid1(node=node, clock_seq=clock_seq).bytes
+            uuid = u.UUID(bytes=x)
             return uuid
         case _:
             raise ValueError
@@ -97,24 +100,24 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
     help='Clock sequence to use for UUIDv2/v1 sequence number',
     default=None,
 )
-# @click.option(
-#     '--domain',
-#     '-d',
-#     help='Domain to use for UUIDv2 hash - PERSON/GROUP/ORG',
-#     default='PERSON',
-# )
+@click.option(
+    '--domain',
+    '-d',
+    help='Domain to use for UUIDv2 hash - PERSON/GROUP/ORG',
+    default='PERSON',
+)
 @click.option(
     '--encoding',
     '-e',
     help='Encoding to use for shortening UUID - BASE58/ZBASE32/NONE',
     default='BASE58',
 )
-# @click.option(
-#     '--id',
-#     '-i',
-#     help='ID to use for UUIDv2 hash',
-#     default='0',
-# )
+@click.option(
+    '--id',
+    '-i',
+    help='ID to use for UUIDv2 hash',
+    default='0',
+)
 @click.option(
     '--name',
     '-n',
@@ -148,7 +151,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
     default=None,
 )
 @click.help_option('--help', '-h')
-def main(alphabet, clock_seq, encoding, name, namespace, node, type, uuid):
+def main(alphabet, clock_seq, domain, encoding, id, name, namespace, node, type, uuid):
     '''Generate a shortened (encoded) UUID'''
 
     if uuid:
@@ -165,8 +168,8 @@ def main(alphabet, clock_seq, encoding, name, namespace, node, type, uuid):
         match type.upper():
             case '1':
                 luu = gen_uuidv1(node=node, clock_seq=clock_seq)
-            # case '2':
-            #     luu = gen_uuidv2(node=node, clock_seq=clock_seq, domain=domain, id=id)
+            case '2':
+                luu = gen_uuidv2(node=node, clock_seq=clock_seq, domain=domain, id=id)
             case '3':
                 luu = gen_uuidv3(name=name, namespace=namespace)
             case '4':
