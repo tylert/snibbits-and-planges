@@ -18,6 +18,7 @@ def gen_uuidv2(
 ) -> str:
     ''' '''
     # https://dev.to/this-is-learning/what-happened-to-uuidv2-en3
+    # https://stackoverflow.com/questions/20910653/how-to-shift-bits-in-a-2-5-byte-long-bytes-object-in-python
     # https://github.com/google/UUID/blob/v1.0.0/version1.go  UUIDv1
     # https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
     match domain.upper():
