@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	secret_list, err := diceware.Generate(12)
+	secret_list, err := diceware.GenerateWithWordList(12, diceware.WordListEffSmall())
 	if err != nil {
 		log.Fatal(err)
 	}
