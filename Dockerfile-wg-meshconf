@@ -1,0 +1,5 @@
+ARG FROM=python:3-alpine
+FROM ${FROM}
+RUN python -m pip install wg-meshconf
+ENTRYPOINT ["wg-meshconf"]
+# CMD ["--help"]
