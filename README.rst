@@ -46,3 +46,9 @@ pwgen
 -----
 
 * https://github.com/vuon9/pwgen-go
+
+
+sshping
+-------
+
+* https://github.com/jacobsa/ssh_ping
