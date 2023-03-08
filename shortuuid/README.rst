@@ -24,6 +24,8 @@ Python bug!!! (weird leading 1 when first byte is 0???)::
 
 * https://docs.crunchybridge.com/api-concepts/eid/
 * https://brandur.org/fragments/base32-slugs
+* https://github.com/taskcluster/slugid-go
+* https://blog.kowalczyk.info/article/JyRZ/generating-good-unique-ids-in-go.html
 
 ::
 

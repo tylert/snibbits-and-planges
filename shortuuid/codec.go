@@ -8,8 +8,10 @@ import (
 )
 
 // Other encodings???
-//   https://datatracker.ietf.org/doc/html/draft-msporny-base58-03
+//   https://github.com/uuid25/go-uuid25
+//   https://stackoverflow.com/questions/37934162/output-uuid-in-go-as-a-short-string
 //   https://stackoverflow.com/questions/41996761/golang-number-base-conversion/48362821#48362821
+//   https://datatracker.ietf.org/doc/html/draft-msporny-base58-03
 //   https://github.com/Dasio/base45/blob/main/base45.go
 //   https://cs.opensource.google/go/go/+/master:src/encoding/base64/base64.go
 //   https://www.rfc-editor.org/info/rfc9285
