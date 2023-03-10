@@ -32,6 +32,6 @@ func main() {
 	secret := strings.Join(secret_list, " ")
 	// seed := bip39.NewSeed(mnemonic, secret)
 
-	fmt.Println(mnemonic)
-	fmt.Println(secret)
+	fmt.Println("Mnemonic: ", mnemonic)
+	fmt.Println("Passphrase: ", secret)
 }

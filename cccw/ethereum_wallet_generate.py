@@ -13,45 +13,59 @@ import click
 
 @click.command()
 @click.option(
+    '--bits',
+    '-b',
+    help='Bit-depth [strength] of mnemonic generation (default "128")',
+    default=128,
+    required=False,
+)
+@click.option(
     '--language',
     '-l',
-    help='Use this language for the generated mnemnoic.',
+    help='Use this language for the generated mnemnoic (default "english")',
     default='english',
     required=False,
 )
 @click.option(
     '--mnemonic',
     '-m',
-    help='Use this mnemnoic rather than generate a new random one.',
+    help='Use this mnemnoic rather than generate a new random one',
     default=None,
+    required=False,
+)
+@click.option(
+    '--numwords',
+    '-n',
+    help='Number of words to generate for passphrase (default "12")',
+    default=12,
     required=False,
 )
 @click.option(
     '--passphrase',
     '-p',
-    help='Use this passphrase rather than generate a new random one.',
+    help='Use existing passphrase rather than generate a new random one',
     default=None,
     required=False,
 )
 @click.option(
     '--subwallets',
     '-s',
-    help='Generate this number of subwallets (default 3).',
+    help='Generate this number of subwallets (default "3")',
     default=3,
     required=False,
 )
 @click.option(
     '--wordlist',
     '-w',
-    help='Use this wordlist file for the random passphrase generation.',
-    default='/tmp/eff_short_1.wordlist',
+    help='Use this wordlist file for the random passphrase generation (default "./eff_short_1.wl.txt")',
+    default='./eff_short_1.wl.txt',
     required=False,
 )
-def main(language, mnemonic, passphrase, subwallets, wordlist):
+def main(bits, language, mnemonic, numwords, passphrase, subwallets, wordlist):
 
     if mnemonic is None:
         # Generate english mnemonic words
-        MNEMONIC: str = generate_mnemonic(language=language, strength=256)
+        MNEMONIC: str = generate_mnemonic(language=language, strength=bits)
     else:
         MNEMONIC: str = mnemonic
 
@@ -60,7 +74,7 @@ def main(language, mnemonic, passphrase, subwallets, wordlist):
         # PASSPHRASE: Optional[str] = ''
         with open(wordlist) as f:
             words = [word.strip() for word in f]
-            PASSPHRASE: str = ' '.join(choice(words) for i in range(24))
+            PASSPHRASE: str = ' '.join(choice(words) for i in range(numwords))
     else:
         PASSPHRASE: str = passphrase
 
@@ -73,12 +87,12 @@ def main(language, mnemonic, passphrase, subwallets, wordlist):
     # Clean default BIP44 derivation indexes/paths
     bip44_hdwallet.clean_derivation()
 
-    print('Mnemonic:', bip44_hdwallet.mnemonic())
-    print('Passphrase:', bip44_hdwallet.passphrase())
+    print(f'Mnemonic:  {bip44_hdwallet.mnemonic()}')
+    print(f'Passphrase:  {bip44_hdwallet.passphrase()}')
     print()
 
-    print('Private Key:', bip44_hdwallet.private_key())
-    print('Public Key:', bip44_hdwallet.public_key())
+    print(f'Private Key:  {bip44_hdwallet.private_key()}')
+    print(f'Public Key:  {bip44_hdwallet.public_key()}')
     print()
 
     # Get Ethereum BIP44HDWallet information from address index
