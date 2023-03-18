@@ -24,12 +24,12 @@ func init() {
 		sVersion = "Display build version information (default false)"
 	)
 
-	flag.StringVar(&aExport, "export", FromEnvP("MOOYAML_EXPORT", "").(string), sExport)
-	flag.StringVar(&aExport, "e", FromEnvP("MOOYAML_EXPORT", "").(string), sExport)
-	flag.StringVar(&aImport, "import", FromEnvP("MOOYAML_IMPORT", "").(string), sImport)
-	flag.StringVar(&aImport, "i", FromEnvP("MOOYAML_IMPORT", "").(string), sImport)
-	flag.BoolVar(&aVersion, "version", FromEnvP("MOOYAML_VERSION", false).(bool), sVersion)
-	flag.BoolVar(&aVersion, "v", FromEnvP("MOOYAML_VERSION", false).(bool), sVersion)
+	flag.StringVar(&aExport, "export", FromEnvP("MEH_EXPORT", "").(string), sExport)
+	flag.StringVar(&aExport, "e", FromEnvP("MEH_EXPORT", "").(string), sExport)
+	flag.StringVar(&aImport, "import", FromEnvP("MEH_IMPORT", "").(string), sImport)
+	flag.StringVar(&aImport, "i", FromEnvP("MEH_IMPORT", "").(string), sImport)
+	flag.BoolVar(&aVersion, "version", FromEnvP("MEH_VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aVersion, "v", FromEnvP("MEH_VERSION", false).(bool), sVersion)
 	iniflags.Parse()
 
 	if flag.NArg() > 0 {
