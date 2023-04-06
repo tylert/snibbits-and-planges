@@ -29,5 +29,12 @@ Python bug!!! (weird leading 1 when first byte is 0???)::
 
 ::
 
+    # Dump info about a binary that was already built
     go version -m shortuuid
     go tool objdump shortuuid
+
+    # Show all possible GOOS/GOARCH combos for builds
+    go tool dist list
+
+    # Show help for linker options for builds
+    go tool link
