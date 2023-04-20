@@ -1,6 +1,6 @@
 module cccw
 
-go 1.19
+go 1.20
 
 require (
 	github.com/ian-kent/envconf v0.0.0-20141026121121-c19809918c02
@@ -10,6 +10,6 @@ require (
 )
 
 require (
-	github.com/smartystreets/goconvey v1.7.2 // indirect
-	golang.org/x/crypto v0.7.0 // indirect
+	github.com/smartystreets/goconvey v1.8.0 // indirect
+	golang.org/x/crypto v0.8.0 // indirect
 )
