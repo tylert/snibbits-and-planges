@@ -45,7 +45,7 @@ def dump_qr_code(thing, filename):
 @click.option(
     '--wifi_type',
     '-w',
-    help='Type to encode in the barcode',
+    help='Type to encode in the barcode (default "WPA")',
     default='WPA',
 )
 @click.help_option('--help', '-h')
