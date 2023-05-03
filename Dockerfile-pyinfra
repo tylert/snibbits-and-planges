@@ -1,5 +1,0 @@
-ARG FROM=python:3-alpine
-FROM ${FROM}
-RUN python -m pip install pyinfra
-ENTRYPOINT ["pyinfra"]
-# CMD ["--help"]

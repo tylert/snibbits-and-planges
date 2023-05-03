@@ -1,5 +1,11 @@
 ARG FROM=python:3-alpine
 FROM ${FROM}
-RUN python -m pip install wg-meshconf
+RUN apk add --no-cache gcc libffi-dev musl-dev && python -m pip install wg-meshconf
 ENTRYPOINT ["wg-meshconf"]
-# CMD ["--help"]
+CMD ["--help"]
+
+# XXX FIXME TODO  Maybe do a multi-stage build for this???
+
+# run --interactive --rm --tty \
+#   --volume $(pwd):/moo --workdir /moo \
+#   ${IMAGE} --database /moo/wg.csv init
