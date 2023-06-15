@@ -48,6 +48,14 @@ cat
 * https://github.com/koki-develop/gat
 
 
+ls
+--
+
+* https://tekao.net/posts/ls
+* https://github.com/timob/ls
+* https://pkg.go.dev/github.com/timob/ls
+
+
 pwgen
 -----
 
