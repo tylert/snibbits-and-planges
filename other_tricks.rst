@@ -12,6 +12,13 @@ Python Stuff
 * https://codingdose.info/2019/06/15/how-to-use-a-progress-bar-in-python/
 * https://github.com/niltonvolpato/python-progressbar/blob/master/examples.py
 * https://bhave.sh/micropython-docker/
+* https://til.simonwillison.net/python/stdlib-cli-tools
+
+::
+
+    echo ${JSON_GOOP} | python -m json.tool  # pretty-print
+    python -m base64 -h                      # encode/decode base64 strings
+    python -m calendar                       # show a full year calendar
 
 ::
 
