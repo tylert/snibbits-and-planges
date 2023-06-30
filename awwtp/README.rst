@@ -1,9 +1,0 @@
-* https://github.com/simukti/totp
-* https://pkg.go.dev/github.com/simukti/totp
-* https://gitlab.com/pschlump/htotp
-* https://pkg.go.dev/gitlab.com/pschlump/htotp
-* https://github.com/hgfischer/go-otp
-* https://pkg.go.dev/github.com/hgfischer/go-otp
-* https://github.com/pquerna/otp
-* https://pkg.go.dev/github.com/pquerna/otp
-* https://github.com/KEINOS/go-totp
