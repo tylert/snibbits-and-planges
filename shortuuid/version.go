@@ -32,11 +32,16 @@ func GetVersion() string {
 	// If we didn't specify a version string, use the git commit
 	if Version == "" {
 		Version = brev
+	}
 
-		// If the git repo wasn't clean, say so in the version string
-		if bmod == "true" {
-			suffix = "-dirty"
-		}
+	// If the git repo wasn't clean, say so in the version string
+	if bmod == "true" {
+		suffix = "-dirty"
+	}
+
+	// Or, we might be running via "go run" instead
+	if Version == "" {
+		Version = "NO_BUILD_INFO"
 	}
 
 	return fmt.Sprintf("%s%s %s %s %s", Version, suffix, bos, barch, btime)
