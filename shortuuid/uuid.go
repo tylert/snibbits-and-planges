@@ -17,11 +17,11 @@ import (
 //   https://pkg.go.dev/github.com/google/uuid
 //   https://github.com/google/uuid
 //   https://github.com/uuid6/uuid6-ietf-draft
-//   https://github.com/ietf-wg-uuidrev/rfc4122bis !!!
-//   https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04
+//   https://github.com/ietf-wg-uuidrev/rfc4122bis
+//   https://www.ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-07.html
 //   http://gh.peabody.io/uuidv6/
 //   https://datatracker.ietf.org/doc/html/rfc4122
-//   https://en.wikipedia.org/wiki/Universally_unique_identifier
+//   https://en.wikipedia.org/wikiwiki/Universally_unique_identifier
 
 func GenUUIDv1(nodeid string) (string, error) {
 	// uuid.SetClockSequence(-1)
