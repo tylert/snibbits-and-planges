@@ -89,6 +89,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
 
 
 @click.command()
+@click.help_option('--help', '-h')
 @click.option(
     '--alphabet',
     '-a',
@@ -151,7 +152,6 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
     help='Existing UUID to shorten or lengthen',
     default=None,
 )
-@click.help_option('--help', '-h')
 def main(alphabet, clock_seq, domain, encoding, id, name, namespace, node, type, uuid):
     '''Generate a shortened (encoded) UUID'''
 
@@ -205,7 +205,6 @@ if __name__ == '__main__':
 
 # https://docs.python.org/3/library/uuid.html
 # https://docs.python.org/3/library/typing.html
-# https://click.palletsprojects.com/en/8.1.x/
 
 # https://github.com/skorokithakis/shortuuid
 # https://pypi.org/project/shortuuid/
