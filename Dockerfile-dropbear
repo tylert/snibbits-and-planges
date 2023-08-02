@@ -1,0 +1,5 @@
+ARG FROM=alpine:edge
+FROM ${FROM}
+RUN apk add --no-cache dropbear
+# ENTRYPOINT [""]
+# CMD ["-h"]
