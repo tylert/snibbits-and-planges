@@ -11,5 +11,5 @@ require (
 
 require (
 	github.com/smartystreets/goconvey v1.8.0 // indirect
-	golang.org/x/crypto v0.11.0 // indirect
+	golang.org/x/crypto v0.12.0 // indirect
 )
