@@ -1,5 +1,5 @@
 base58==2.1.1
-click==8.1.6
+click==8.1.7
 ecdsa==0.18.0
 hdwallet==2.2.1
 mnemonic==0.20
