@@ -5,6 +5,7 @@ import uuid as u
 
 import click
 import shortuuid
+import uuid6
 import zbase32
 
 
@@ -14,7 +15,7 @@ def gen_uuidv1(node: str = None, clock_seq: str = None) -> str:
 
 
 def gen_uuidv2(
-    node: str = None, clock_seq: str = None, domain: str = None, id: str = 0
+    node: str = None, clock_seq: str = None, domain: str = 'PERSON', id: str = 0
 ) -> str:
     ''' '''
     # https://dev.to/this-is-learning/what-happened-to-uuidv2-en3
@@ -38,7 +39,7 @@ def gen_uuidv2(
             raise ValueError
 
 
-def gen_uuidv3(name: str = None, namespace: str = None) -> str:
+def gen_uuidv3(name: str = '', namespace: str = 'DNS') -> str:
     ''' '''
     match namespace.upper():
         case 'DNS':
@@ -58,7 +59,7 @@ def gen_uuidv4() -> str:
     return u.uuid4()
 
 
-def gen_uuidv5(name: str = None, namespace: str = None) -> str:
+def gen_uuidv5(name: str = '', namespace: str = 'DNS') -> str:
     ''' '''
     match namespace.upper():
         case 'DNS':
@@ -73,9 +74,9 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
             raise ValueError
 
 
-# def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
-#     ''' '''
-#     return u.uuid6()
+def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
+    ''' '''
+    return uuid6.uuid6(node=node, clock_seq=clock_seq)
 
 
 # def gen_uuidv7() -> str:
@@ -99,7 +100,7 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
 @click.option(
     '--clock_seq',
     '-c',
-    help='Clock sequence to use for UUIDv2/v1 sequence number',
+    help='Clock sequence to use for UUIDv6/v2/v1 sequence number',
     default=None,
 )
 @click.option(
@@ -136,13 +137,13 @@ def gen_uuidv5(name: str = None, namespace: str = None) -> str:
 @click.option(
     '--node',
     '-o',
-    help='NodeID [interface name] to use for UUIDv2/v1 MAC - RANDOM/eth0/etc.',
+    help='NodeID [interface name] to use for UUIDv6/v2/v1 MAC - RANDOM/eth0/etc.',
     default=None,
 )
 @click.option(
     '--type',
     '-t',
-    help='Version [type] of UUID to generate - UUIDv5/v4/v3/v2/v1',
+    help='Version [type] of UUID to generate - UUIDv6/v5/v4/v3/v2/v1',
     default='4',
     show_default=True,
 )
@@ -177,8 +178,8 @@ def main(alphabet, clock_seq, domain, encoding, id, name, namespace, node, type,
                 luu = gen_uuidv4()
             case '5':
                 luu = gen_uuidv5(name=name, namespace=namespace)
-            # case '6':
-            #     luu = gen_uuidv6(node=node, clock_seq=clock_seq)
+            case '6':
+                luu = gen_uuidv6(node=node, clock_seq=clock_seq)
             # case '7':
             #     luu = gen_uuidv7()
             # case '8':

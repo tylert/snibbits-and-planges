@@ -8,4 +8,5 @@ segno==1.5.2
 shortuuid==1.0.11
 svglib==1.5.1
 tinycss2==1.2.1
+uuid6==2023.5.2
 webencodings==0.5.1
