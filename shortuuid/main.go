@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	// "log"
 	"os"
 	"strconv"
 	"strings"
@@ -60,11 +59,11 @@ func main() {
 		case "2":
 			luu, err = GenUUIDv2(aNode, aDomain, u32)
 		case "3":
-			luu, err = GenUUIDv3(aName, aNamespace)
+			luu, err = GenUUIDv3(aNamespace, aName)
 		case "4":
 			luu, err = GenUUIDv4()
 		case "5":
-			luu, err = GenUUIDv5(aName, aNamespace)
+			luu, err = GenUUIDv5(aNamespace, aName)
 		// case "6":
 		// 	luu, err = GenUUIDv6()
 		// case "7":

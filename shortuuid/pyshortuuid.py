@@ -107,19 +107,19 @@ def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
 @click.option(
     '--clock_seq',
     '-c',
-    help='Clock sequence to use for UUIDv6/v2/v1',
+    help='Clock sequence [14-bit number] to use for UUIDv6/v2/v1',
     default=None,
 )
 @click.option(
     '--domain',
     '-d',
-    help='Domain to use for UUIDv2 - PERSON/GROUP/ORG',
+    help='Domain [PERSON/GROUP/ORG] to use for UUIDv2',
     default='PERSON',
 )
 @click.option(
     '--encoding',
     '-e',
-    help='Encoding to use for shortening UUID - BASE58/ZBASE32/NONE',
+    help='Encoding [BASE58/ZBASE32/NONE] to use for shortening UUID',
     default='BASE58',
 )
 @click.option(
@@ -137,20 +137,20 @@ def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
 @click.option(
     '--namespace',
     '-ns',
-    help='Namespace to use for UUIDv5/v3 - DNS/OID/URL/X500',
+    help='Namespace [DNS/OID/URL/X500] to use for UUIDv5/v3',
     default='DNS',
     show_default=True,
 )
 @click.option(
     '--node',
     '-o',
-    help='Node [interface name] to use for UUIDv6/v2/v1 - RANDOM/eth0/etc.',
+    help='Node [48-bit MAC] to use for UUIDv6/v2/v1',
     default=None,
 )
 @click.option(
     '--type',
     '-t',
-    help='Version [type] of UUID to generate - UUIDv6/v5/v4/v3/v2/v1',
+    help='Type (version) [UUIDv6/v5/v4/v3/v2/v1] of UUID to generate',
     default='4',
     show_default=True,
 )
@@ -211,6 +211,7 @@ if __name__ == '__main__':
     main()
 
 
+# https://github.com/python/cpython/blob/main/Lib/uuid.py
 # https://docs.python.org/3/library/uuid.html
 # https://docs.python.org/3/library/typing.html
 
