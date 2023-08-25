@@ -23,9 +23,9 @@ import (
 //   https://datatracker.ietf.org/doc/html/rfc4122
 //   https://en.wikipedia.org/wikiwiki/Universally_unique_identifier
 
-func GenUUIDv1(nodeid string) (string, error) {
+func GenUUIDv1(node string) (string, error) {
 	// uuid.SetClockSequence(-1)
-	if strings.ToUpper(nodeid) == "RANDOM" {
+	if strings.ToUpper(node) == "RANDOM" {
 		b := make([]byte, 6)
 		_, err := rand.Read(b)
 		if err != nil {
@@ -33,16 +33,16 @@ func GenUUIDv1(nodeid string) (string, error) {
 		}
 		uuid.SetNodeID(b)
 	} else {
-		uuid.SetNodeInterface(nodeid)
+		uuid.SetNodeInterface(node)
 	}
 
 	uu, err := uuid.NewUUID()
 	return uu.String(), err
 }
 
-func GenUUIDv2(nodeid string, domain string, id uint32) (string, error) {
+func GenUUIDv2(node string, domain string, id uint32) (string, error) {
 	// uuid.SetClockSequence(-1)
-	if strings.ToUpper(nodeid) == "RANDOM" {
+	if strings.ToUpper(node) == "RANDOM" {
 		b := make([]byte, 6)
 		_, err := rand.Read(b)
 		if err != nil {
@@ -50,7 +50,7 @@ func GenUUIDv2(nodeid string, domain string, id uint32) (string, error) {
 		}
 		uuid.SetNodeID(b)
 	} else {
-		uuid.SetNodeInterface(nodeid)
+		uuid.SetNodeInterface(node)
 	}
 
 	switch strings.ToUpper(domain) {
@@ -111,6 +111,6 @@ func GenUUIDv5(name string, namespace string) (string, error) {
 	}
 }
 
-// func GenUUIDv6(nodeid string) (string, error) {
+// func GenUUIDv6(node string) (string, error) {
 // func GenUUIDv7() (string, error) {
 // func GenUUIDv8() (string, error) {

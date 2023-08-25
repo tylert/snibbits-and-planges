@@ -4,4 +4,3 @@ reportlab
 segno
 shortuuid
 svglib
-uuid6

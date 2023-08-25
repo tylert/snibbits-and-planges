@@ -5,41 +5,44 @@ import uuid as u
 
 import click
 import shortuuid
-import uuid6
 import zbase32
 
 
 def gen_uuidv1(node: str = None, clock_seq: str = None) -> str:
     ''' '''
-    return u.uuid1(node=node, clock_seq=clock_seq)
+    n = None
+    c = None
+    if node is not None:
+      n = int(node)
+    if clock_seq is not None:
+      c = int(clock_seq)
+    return u.uuid1(node=n, clock_seq=c)
 
 
 def gen_uuidv2(
-    node: str = None, clock_seq: str = None, domain: str = 'PERSON', id: str = 0
+    node: str = None, clock_seq: str = None, domain: str = 'PERSON', id: int = 0
 ) -> str:
     ''' '''
     # https://dev.to/this-is-learning/what-happened-to-uuidv2-en3
     # https://stackoverflow.com/questions/20910653/how-to-shift-bits-in-a-2-5-byte-long-bytes-object-in-python
     # https://github.com/google/UUID/blob/v1.0.0/version1.go  UUIDv1
     # https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
+    x = gen_uuidv1(node=node, clock_seq=clock_seq)
     match domain.upper():
         case 'PERSON':
-            x = u.uuid1(node=node, clock_seq=clock_seq).bytes
-            uuid = u.UUID(bytes=x)
-            return uuid
+            uu = u.UUID(bytes=x.bytes)
+            return uu
         case 'GROUP':
-            x = u.uuid1(node=node, clock_seq=clock_seq).bytes
-            uuid = u.UUID(bytes=x)
-            return uuid
+            uu = u.UUID(bytes=x.bytes)
+            return uu
         case 'ORG':
-            x = u.uuid1(node=node, clock_seq=clock_seq).bytes
-            uuid = u.UUID(bytes=x)
-            return uuid
+            uu = u.UUID(bytes=x.bytes)
+            return uu
         case _:
             raise ValueError
 
 
-def gen_uuidv3(name: str = '', namespace: str = 'DNS') -> str:
+def gen_uuidv3(namespace: str = 'DNS', name: str = '') -> str:
     ''' '''
     match namespace.upper():
         case 'DNS':
@@ -59,7 +62,7 @@ def gen_uuidv4() -> str:
     return u.uuid4()
 
 
-def gen_uuidv5(name: str = '', namespace: str = 'DNS') -> str:
+def gen_uuidv5(namespace: str = 'DNS', name: str = '') -> str:
     ''' '''
     match namespace.upper():
         case 'DNS':
@@ -76,7 +79,11 @@ def gen_uuidv5(name: str = '', namespace: str = 'DNS') -> str:
 
 def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
     ''' '''
-    return uuid6.uuid6(node=node, clock_seq=clock_seq)
+    # uuid1_to_uuid6() from https://github.com/oittaa/uuid6-python/blob/main/src/uuid6/__init__.py
+    uu = gen_uuidv1(node=node, clock_seq=clock_seq)
+    h = uu.hex
+    h = h[13:16] + h[8:12] + h[0:5] + '6' + h[5:8] + h[16:]
+    return u.UUID(hex=h, is_safe=uu.is_safe)
 
 
 # def gen_uuidv7() -> str:
@@ -100,13 +107,13 @@ def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
 @click.option(
     '--clock_seq',
     '-c',
-    help='Clock sequence to use for UUIDv6/v2/v1 sequence number',
+    help='Clock sequence to use for UUIDv6/v2/v1',
     default=None,
 )
 @click.option(
     '--domain',
     '-d',
-    help='Domain to use for UUIDv2 hash - PERSON/GROUP/ORG',
+    help='Domain to use for UUIDv2 - PERSON/GROUP/ORG',
     default='PERSON',
 )
 @click.option(
@@ -118,26 +125,26 @@ def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
 @click.option(
     '--id',
     '-i',
-    help='ID to use for UUIDv2 hash',
+    help='ID to use for UUIDv2',
     default='0',
 )
 @click.option(
     '--name',
     '-n',
-    help='Name to use for UUIDv5/v3 hash',
+    help='Name to use for UUIDv5/v3',
     default='',
 )
 @click.option(
     '--namespace',
     '-ns',
-    help='Namespace to use for UUIDv5/v3 hash - DNS/OID/URL/X500',
+    help='Namespace to use for UUIDv5/v3 - DNS/OID/URL/X500',
     default='DNS',
     show_default=True,
 )
 @click.option(
     '--node',
     '-o',
-    help='NodeID [interface name] to use for UUIDv6/v2/v1 MAC - RANDOM/eth0/etc.',
+    help='Node [interface name] to use for UUIDv6/v2/v1 - RANDOM/eth0/etc.',
     default=None,
 )
 @click.option(
@@ -173,11 +180,11 @@ def main(alphabet, clock_seq, domain, encoding, id, name, namespace, node, type,
             case '2':
                 luu = gen_uuidv2(node=node, clock_seq=clock_seq, domain=domain, id=id)
             case '3':
-                luu = gen_uuidv3(name=name, namespace=namespace)
+                luu = gen_uuidv3(namespace=namespace, name=name)
             case '4':
                 luu = gen_uuidv4()
             case '5':
-                luu = gen_uuidv5(name=name, namespace=namespace)
+                luu = gen_uuidv5(namespace=namespace, name=name)
             case '6':
                 luu = gen_uuidv6(node=node, clock_seq=clock_seq)
             # case '7':

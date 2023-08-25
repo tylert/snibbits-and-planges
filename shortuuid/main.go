@@ -56,9 +56,9 @@ func main() {
 
 		switch strings.ToUpper(aType) {
 		case "1":
-			luu, err = GenUUIDv1(aNodeId)
+			luu, err = GenUUIDv1(aNode)
 		case "2":
-			luu, err = GenUUIDv2(aNodeId, aDomain, u32)
+			luu, err = GenUUIDv2(aNode, aDomain, u32)
 		case "3":
 			luu, err = GenUUIDv3(aName, aNamespace)
 		case "4":
