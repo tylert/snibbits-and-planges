@@ -17,5 +17,5 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/smartystreets/goconvey v1.8.0 // indirect
 	github.com/yeqown/reedsolomon v1.0.0 // indirect
-	golang.org/x/image v0.11.0 // indirect
+	golang.org/x/image v0.12.0 // indirect
 )

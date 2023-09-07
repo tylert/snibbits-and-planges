@@ -33,7 +33,7 @@ github.com/yeqown/go-qrcode/writer/standard/imgkit
 ## explicit
 github.com/yeqown/reedsolomon
 github.com/yeqown/reedsolomon/binary
-# golang.org/x/image v0.11.0
+# golang.org/x/image v0.12.0
 ## explicit; go 1.12
 golang.org/x/image/draw
 golang.org/x/image/font
