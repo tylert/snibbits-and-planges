@@ -2,6 +2,8 @@ Add a "phone-home feature"
 --------------------------
 
 * https://github.com/tcnksm/go-latest
+* https://github.com/minio/selfupdate
+* https://blog.cloudflare.com/the-complete-guide-to-golang-net-http-timeouts
 
 
 ssss
@@ -11,12 +13,6 @@ ssss
 * https://pkg.go.dev/github.com/simonfrey/s4 -> https://pkg.go.dev/github.com/corvus-ch/shamir ???
 * https://github.com/simonfrey/s4 -> https://github.com/corvus-ch/shamir ???
 * https://github.com/simonfrey/s4 -> https://github.com/hashicorp/vault/tree/main/shamir ???
-
-
-yaml2json/json2yaml
--------------------
-
-* https://github.com/goccy/go-yaml
 
 
 zbase32
