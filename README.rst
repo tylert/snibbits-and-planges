@@ -6,6 +6,12 @@ Add a "phone-home feature"
 * https://blog.cloudflare.com/the-complete-guide-to-golang-net-http-timeouts
 
 
+httpd
+-----
+
+* https://github.com/eliben/static-server
+
+
 ssss
 ----
 
