@@ -15,7 +15,7 @@ httpd
 ssss
 ----
 
-* http://point-at-infinity.org/ssss/  original C version
+* http://point-at-infinity.org/ssss  original C version
 * https://pkg.go.dev/github.com/simonfrey/s4 -> https://pkg.go.dev/github.com/corvus-ch/shamir ???
 * https://github.com/simonfrey/s4 -> https://github.com/corvus-ch/shamir ???
 * https://github.com/simonfrey/s4 -> https://github.com/hashicorp/vault/tree/main/shamir ???

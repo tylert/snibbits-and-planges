@@ -1,9 +1,9 @@
 click==8.1.7
 cssselect2==0.7.0
 lxml==4.9.3
-Pillow==10.0.0
+Pillow==10.0.1
 python-zbase32==0.1.1
-reportlab==4.0.4
+reportlab==4.0.5
 segno==1.5.2
 shortuuid==1.0.11
 svglib==1.5.1
