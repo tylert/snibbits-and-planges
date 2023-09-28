@@ -29,7 +29,7 @@ var (
 func init() {
 	// Help for command-line arguments
 	const (
-		//sClockSeq  = "Clock sequence [14-bit number] to use for UUIDv2/v1"
+		// sClockSeq  = "Clock sequence [14-bit number] to use for UUIDv2/v1"
 		sDomain    = "Domain [PERSON/GROUP/ORG] to use for UUIDv2"
 		sEncoding  = "Encoding [BASE58/NONE] to use for shortening UUID"
 		sId        = "ID to use for UUIDv2"
@@ -44,8 +44,8 @@ func init() {
 		sXtra      = "Show extra details about the UUID (default false)"
 	)
 
-	//flag.StringVar(&aClockSeq, "clockseq", FromEnvP("SHORTUUID_CLOCKSEQ", "").(string), sClockSeq)
-	//flag.StringVar(&aClockSeq, "c", FromEnvP("SHORTUUID_CLOCKSEQ", "").(string), sClockSeq)
+	// flag.StringVar(&aClockSeq, "clockseq", FromEnvP("SHORTUUID_CLOCKSEQ", "").(string), sClockSeq)
+	// flag.StringVar(&aClockSeq, "c", FromEnvP("SHORTUUID_CLOCKSEQ", "").(string), sClockSeq)
 	flag.StringVar(&aDomain, "domain", FromEnvP("SHORTUUID_DOMAIN", "PERSON").(string), sDomain)
 	flag.StringVar(&aDomain, "d", FromEnvP("SHORTUUID_DOMAIN", "PERSON").(string), sDomain)
 	flag.StringVar(&aEncoding, "encoding", FromEnvP("SHORTUUID_ENCODING", "BASE58").(string), sEncoding)
@@ -70,6 +70,8 @@ func init() {
 	flag.BoolVar(&aVersion, "v", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aXtra, "xtra", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
 	flag.BoolVar(&aXtra, "x", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
+	iniflags.SetAllowMissingConfigFile(true)
+	iniflags.SetConfigFile("./meh.ini")
 	iniflags.Parse()
 
 	if flag.NArg() > 0 {
