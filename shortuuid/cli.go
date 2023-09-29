@@ -70,9 +70,24 @@ func init() {
 	flag.BoolVar(&aVersion, "v", FromEnvP("SHORTUUID_VERSION", false).(bool), sVersion)
 	flag.BoolVar(&aXtra, "xtra", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
 	flag.BoolVar(&aXtra, "x", FromEnvP("SHORTUUID_XTRA", false).(bool), sXtra)
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+		flag.PrintDefaults()
+		// flag.VisitAll(func(f *flag.Flag) {
+		//   fmt.Fprintf(os.Stderr, "%v %v %v\n", f.Name, f.Value, f.Usage)
+		// })
+	}
+
+	// FlagSet for sub-commands???
+	// https://www.digitalocean.com/community/tutorials/how-to-use-the-flag-package-in-go
+
+	// Attempt to gracefully load things from a known config file location
 	iniflags.SetAllowMissingConfigFile(true)
-	iniflags.SetConfigFile("./meh.ini")
-	iniflags.Parse()
+	home, _ := os.UserHomeDir()
+	iniflags.SetConfigFile(fmt.Sprintf("%s/.config/shortuuid/defaults", home))
+	iniflags.Parse() // Replace with flag.Parse() eventually?!?
+	// "github.com/go-ini/ini"
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
