@@ -87,7 +87,8 @@ func init() {
 	home, _ := os.UserHomeDir()
 	iniflags.SetConfigFile(fmt.Sprintf("%s/.config/shortuuid/defaults", home))
 	iniflags.Parse() // Replace with flag.Parse() eventually?!?
-	// "github.com/go-ini/ini"
+	// "gopkg.in/ini.v1"
+	// https://github.com/go-ini/ini
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
