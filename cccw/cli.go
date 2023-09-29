@@ -15,13 +15,13 @@ var (
 )
 
 func init() {
-	// Help for command-line arguments
+	// Usage for command-line arguments
 	const (
-		sVersion = "Display build version information (default false)"
+		uVersion = "Display build version information (default false)"
 	)
 
-	flag.BoolVar(&aVersion, "version", FromEnvP("CCCW_VERSION", false).(bool), sVersion)
-	flag.BoolVar(&aVersion, "v", FromEnvP("CCCW_VERSION", false).(bool), sVersion)
+	flag.BoolVar(&aVersion, "version", FromEnvP("CCCW_VERSION", false).(bool), uVersion)
+	flag.BoolVar(&aVersion, "v", FromEnvP("CCCW_VERSION", false).(bool), uVersion)
 	iniflags.Parse()
 
 	if flag.NArg() > 0 {
