@@ -19,9 +19,6 @@ github.com/ian-kent/envconf
 github.com/pkg/errors
 # github.com/smartystreets/goconvey v1.8.0
 ## explicit; go 1.18
-# github.com/vharitonsky/iniflags v0.0.0-20180513140207-a33cd0b5f3de
-## explicit
-github.com/vharitonsky/iniflags
 # github.com/yeqown/go-qrcode/v2 v2.2.2
 ## explicit; go 1.18
 github.com/yeqown/go-qrcode/v2
@@ -33,10 +30,13 @@ github.com/yeqown/go-qrcode/writer/standard/imgkit
 ## explicit
 github.com/yeqown/reedsolomon
 github.com/yeqown/reedsolomon/binary
-# golang.org/x/image v0.12.0
-## explicit; go 1.12
+# golang.org/x/image v0.13.0
+## explicit; go 1.18
 golang.org/x/image/draw
 golang.org/x/image/font
 golang.org/x/image/font/basicfont
 golang.org/x/image/math/f64
 golang.org/x/image/math/fixed
+# gopkg.in/ini.v1 v1.67.0
+## explicit
+gopkg.in/ini.v1

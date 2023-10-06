@@ -6,7 +6,7 @@ import (
 	"os"
 
 	. "github.com/ian-kent/envconf"
-	"github.com/vharitonsky/iniflags"
+	"gopkg.in/ini.v1"
 )
 
 // Command-line arguments
@@ -22,8 +22,23 @@ func init() {
 
 	flag.BoolVar(&aVersion, "version", FromEnvP("CCCW_VERSION", false).(bool), uVersion)
 	flag.BoolVar(&aVersion, "v", FromEnvP("CCCW_VERSION", false).(bool), uVersion)
-	iniflags.Parse()
 
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+		flag.PrintDefaults()
+		// flag.VisitAll(func(f *flag.Flag) {
+		//   fmt.Fprintf(os.Stderr, "%v %v %v\n", f.Name, f.Value, f.Usage)
+		// })
+	}
+
+	// FlagSet for sub-commands???
+	// https://www.digitalocean.com/community/tutorials/how-to-use-the-flag-package-in-go
+
+	// Attempt to gracefully load things from a known config file location
+	// home, _ := os.UserHomeDir()
+	// cfg, err := ini.Load(fmt.Sprintf("%s/.config/yabba/defaults", home))
+
+	flag.Parse()
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
 		flag.Usage()

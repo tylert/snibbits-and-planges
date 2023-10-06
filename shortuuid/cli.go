@@ -6,7 +6,7 @@ import (
 	"os"
 
 	. "github.com/ian-kent/envconf"
-	"github.com/vharitonsky/iniflags"
+	"gopkg.in/ini.v1"
 )
 
 // Command-line arguments
@@ -83,13 +83,10 @@ func init() {
 	// https://www.digitalocean.com/community/tutorials/how-to-use-the-flag-package-in-go
 
 	// Attempt to gracefully load things from a known config file location
-	iniflags.SetAllowMissingConfigFile(true)
-	home, _ := os.UserHomeDir()
-	iniflags.SetConfigFile(fmt.Sprintf("%s/.config/shortuuid/defaults", home))
-	iniflags.Parse() // Replace with flag.Parse() eventually?!?
-	// "gopkg.in/ini.v1"
-	// https://github.com/go-ini/ini
+	// home, _ := os.UserHomeDir()
+	// cfg, err := ini.Load(fmt.Sprintf("%s/.config/shortuuid/defaults", home))
 
+	flag.Parse()
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "Error: Unused command line arguments detected.\n")
 		flag.Usage()
