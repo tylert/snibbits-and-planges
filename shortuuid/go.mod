@@ -1,6 +1,6 @@
 module shortuuid
 
-go 1.20
+go 1.21
 
 require (
 	github.com/btcsuite/btcd/btcutil v1.1.3
@@ -8,7 +8,6 @@ require (
 	github.com/ian-kent/envconf v0.0.0-20141026121121-c19809918c02
 	github.com/yeqown/go-qrcode/v2 v2.2.2
 	github.com/yeqown/go-qrcode/writer/standard v1.2.2
-	gopkg.in/ini.v1 v1.67.0
 )
 
 require (

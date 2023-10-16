@@ -37,6 +37,3 @@ golang.org/x/image/font
 golang.org/x/image/font/basicfont
 golang.org/x/image/math/f64
 golang.org/x/image/math/fixed
-# gopkg.in/ini.v1 v1.67.0
-## explicit
-gopkg.in/ini.v1

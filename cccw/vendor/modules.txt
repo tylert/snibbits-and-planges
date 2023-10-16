@@ -6,8 +6,6 @@ github.com/ian-kent/envconf
 github.com/sethvargo/go-diceware/diceware
 # github.com/smartystreets/goconvey v1.8.0
 ## explicit; go 1.18
-# github.com/stretchr/testify v1.8.4
-## explicit; go 1.20
 # github.com/tyler-smith/go-bip39 v1.1.0
 ## explicit; go 1.14
 github.com/tyler-smith/go-bip39
@@ -15,6 +13,3 @@ github.com/tyler-smith/go-bip39/wordlists
 # golang.org/x/crypto v0.14.0
 ## explicit; go 1.17
 golang.org/x/crypto/pbkdf2
-# gopkg.in/ini.v1 v1.67.0
-## explicit
-gopkg.in/ini.v1
