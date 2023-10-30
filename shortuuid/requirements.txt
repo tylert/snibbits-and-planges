@@ -4,10 +4,8 @@ lxml==4.9.3
 Pillow==10.1.0
 python-zbase32==0.1.1
 reportlab==4.0.6
-segno==1.5.2
-setuptools==68.2.2
+segno==1.5.3
 shortuuid==1.0.11
 svglib==1.5.1
 tinycss2==1.2.1
 webencodings==0.5.1
-wheel==0.41.2
