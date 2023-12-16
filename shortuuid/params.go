@@ -29,16 +29,16 @@ var (
 func init() {
 	// Usage for command-line arguments
 	const (
-		// uClockSeq  = "Clock sequence [14-bit number] to use for UUIDv2/v1"
+		// uClockSeq  = "Clock sequence [14-bit number] to use for UUIDv6/v2/v1"
 		uDomain    = "Domain [PERSON/GROUP/ORG] to use for UUIDv2"
 		uEncoding  = "Encoding [BASE58/NONE] to use for shortening UUID"
 		uId        = "ID to use for UUIDv2"
 		uName      = "Name to use for UUIDv5/v3"
 		uNamespace = "Namespace [DNS/OID/URL/X500] to use for UUIDv5/v3"
-		uNode      = "Node [48-bit MAC] to use for UUIDv2/v1"
+		uNode      = "Node [48-bit MAC] to use for UUIDv6/v2/v1"
 		uQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		uQrTerm    = "Also output the UUID as a QR code to the terminal"
-		uType      = "Type (version) [UUIDv5/v4/v3/v2/v1] of UUID to generate"
+		uType      = "Type (version) [UUIDv6/v5/v4/v3/v2/v1] of UUID to generate"
 		uUuid      = "Existing UUID to shorten or lengthen"
 		uVersion   = "Display build version information (default false)"
 		uXtra      = "Show extra details about the UUID (default false)"

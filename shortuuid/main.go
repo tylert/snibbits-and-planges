@@ -64,8 +64,8 @@ func main() {
 			luu, err = GenUUIDv4()
 		case "5":
 			luu, err = GenUUIDv5(aNamespace, aName)
-		// case "6":
-		// 	luu, err = GenUUIDv6()
+		case "6":
+			luu, err = GenUUIDv6(aNode)
 		// case "7":
 		// 	luu, err = GenUUIDv7()
 		// case "8":

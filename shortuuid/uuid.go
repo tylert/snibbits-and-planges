@@ -6,9 +6,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	// uuid6 "github.com/bradleypeabody/gouuidv6"
 	// uuid7 "github.com/uuid6/uuid6go-proto"
-	// uuid8 ???
 )
 
 // Other UUID stuff???
@@ -111,38 +109,21 @@ func GenUUIDv5(namespace string, name string) (string, error) {
 	}
 }
 
-// func GenUUIDv6(node string) (string, error) {
-//   uu, err := GenUUIDv1(node)
+func GenUUIDv6(node string) (string, error) {
+	// uuid.SetClockSequence(-1)
+	if strings.ToUpper(node) == "RANDOM" {
+		b := make([]byte, 6)
+		_, err := rand.Read(b)
+		if err != nil {
+			panic("random fail")
+		}
+		uuid.SetNodeID(b)
+	} else {
+		uuid.SetNodeInterface(node)
+	}
 
-// #include <stdio.h>
-// #include <stdint.h>
-// #include <inttypes.h>
-// #include <arpa/inet.h>
-// #include <uuid/uuid.h>
-//
-// /* Converts UUID version 1 to version 6 in place. */
-// void uuidv1tov6(uuid_t u) {
-//
-//   uint64_t ut;
-//   unsigned char *up = (unsigned char *)u;
-//
-//   // load ut with the first 64 bits of the UUID
-//   ut = ((uint64_t)ntohl(*((uint32_t*)up))) << 32;
-//   ut |= ((uint64_t)ntohl(*((uint32_t*)&up[4])));
-//
-//   // dance the bit-shift...
-//   ut =
-//     ((ut >> 32) & 0x0FFF) | // 12 least significant bits
-//     (0x6000) | // version number
-//     ((ut >> 28) & 0x0000000FFFFF0000) | // next 20 bits
-//     ((ut << 20) & 0x000FFFF000000000) | // next 16 bits
-//     (ut << 52); // 12 most significant bits
-//
-//   // store back in UUID
-//   *((uint32_t*)up) = htonl((uint32_t)(ut >> 32));
-//   *((uint32_t*)&up[4]) = htonl((uint32_t)(ut));
-//
-// }
+	uu, err := uuid.NewV6()
+	return uu.String(), err
+}
 
 // func GenUUIDv7() (string, error) {
-// func GenUUIDv8() (string, error) {
