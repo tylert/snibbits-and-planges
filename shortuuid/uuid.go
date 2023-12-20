@@ -6,20 +6,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	// uuid7 "github.com/uuid6/uuid6go-proto"
 )
-
-// Other UUID stuff???
-//   https://pkg.go.dev/github.com/pborman/uuid
-//   https://github.com/pborman/uuid
-//   https://pkg.go.dev/github.com/google/uuid
-//   https://github.com/google/uuid
-//   https://github.com/uuid6/uuid6-ietf-draft
-//   https://github.com/ietf-wg-uuidrev/rfc4122bis
-//   https://www.ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-07.html
-//   http://gh.peabody.io/uuidv6/
-//   https://datatracker.ietf.org/doc/html/rfc4122
-//   https://en.wikipedia.org/wikiwiki/Universally_unique_identifier
 
 func GenUUIDv1(node string) (string, error) {
 	// uuid.SetClockSequence(-1)
@@ -126,4 +113,7 @@ func GenUUIDv6(node string) (string, error) {
 	return uu.String(), err
 }
 
-// func GenUUIDv7() (string, error) {
+func GenUUIDv7() (string, error) {
+	uu, err := uuid.NewV7()
+	return uu.String(), err
+}

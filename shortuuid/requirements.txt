@@ -1,10 +1,11 @@
+chardet==5.2.0
 click==8.1.7
 cssselect2==0.7.0
-lxml==4.9.3
+lxml==4.9.4
 Pillow==10.1.0
 python-zbase32==0.1.1
-reportlab==4.0.6
-segno==1.5.3
+reportlab==4.0.8
+segno==1.6.0
 shortuuid==1.0.11
 svglib==1.5.1
 tinycss2==1.2.1

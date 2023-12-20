@@ -38,7 +38,7 @@ func init() {
 		uNode      = "Node [48-bit MAC] to use for UUIDv6/v2/v1"
 		uQrFile    = "Also output the UUID as a QR code to a specified JPEG file"
 		uQrTerm    = "Also output the UUID as a QR code to the terminal"
-		uType      = "Type (version) [UUIDv6/v5/v4/v3/v2/v1] of UUID to generate"
+		uType      = "Type (version) [UUIDv7/v6/v5/v4/v3/v2/v1] of UUID to generate"
 		uUuid      = "Existing UUID to shorten or lengthen"
 		uVersion   = "Display build version information (default false)"
 		uXtra      = "Show extra details about the UUID (default false)"

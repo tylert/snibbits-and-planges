@@ -13,9 +13,9 @@ def gen_uuidv1(node: str = None, clock_seq: str = None) -> str:
     n = None
     c = None
     if node is not None:
-      n = int(node)
+        n = int(node)
     if clock_seq is not None:
-      c = int(clock_seq)
+        c = int(clock_seq)
     return u.uuid1(node=n, clock_seq=c)
 
 
@@ -23,7 +23,6 @@ def gen_uuidv2(
     node: str = None, clock_seq: str = None, domain: str = 'PERSON', id: int = 0
 ) -> str:
     ''' '''
-    # https://dev.to/this-is-learning/what-happened-to-uuidv2-en3
     # https://stackoverflow.com/questions/20910653/how-to-shift-bits-in-a-2-5-byte-long-bytes-object-in-python
     # https://github.com/google/UUID/blob/v1.0.0/version1.go  UUIDv1
     # https://github.com/google/UUID/blob/v1.0.0/dce.go       UUIDv2 is built upon UUIDv1
