@@ -3,7 +3,7 @@ module shortuuid
 go 1.21.5
 
 require (
-	github.com/btcsuite/btcd/btcutil v1.1.4
+	github.com/btcsuite/btcd/btcutil v1.1.5
 	github.com/google/uuid v1.5.0
 	github.com/ian-kent/envconf v0.0.0-20141026121121-c19809918c02
 	github.com/yeqown/go-qrcode/v2 v2.2.2
