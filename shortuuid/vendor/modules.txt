@@ -11,14 +11,9 @@ github.com/golang/freetype/truetype
 # github.com/google/uuid v1.5.0
 ## explicit
 github.com/google/uuid
-# github.com/ian-kent/envconf v0.0.0-20141026121121-c19809918c02
-## explicit
-github.com/ian-kent/envconf
 # github.com/pkg/errors v0.9.1
 ## explicit
 github.com/pkg/errors
-# github.com/smartystreets/goconvey v1.8.0
-## explicit; go 1.18
 # github.com/yeqown/go-qrcode/v2 v2.2.2
 ## explicit; go 1.18
 github.com/yeqown/go-qrcode/v2
@@ -30,7 +25,7 @@ github.com/yeqown/go-qrcode/writer/standard/imgkit
 ## explicit
 github.com/yeqown/reedsolomon
 github.com/yeqown/reedsolomon/binary
-# golang.org/x/image v0.14.0
+# golang.org/x/image v0.15.0
 ## explicit; go 1.18
 golang.org/x/image/draw
 golang.org/x/image/font
