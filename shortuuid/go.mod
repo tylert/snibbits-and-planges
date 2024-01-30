@@ -4,7 +4,7 @@ go 1.21.5
 
 require (
 	github.com/btcsuite/btcd/btcutil v1.1.5
-	github.com/google/uuid v1.5.0
+	github.com/google/uuid v1.6.0
 	github.com/yeqown/go-qrcode/v2 v2.2.2
 	github.com/yeqown/go-qrcode/writer/standard v1.2.2
 )
