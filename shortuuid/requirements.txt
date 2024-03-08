@@ -4,9 +4,9 @@ cssselect2==0.7.0
 lxml==5.1.0
 pillow==10.2.0
 python-zbase32==0.1.1
-reportlab==4.0.9
-segno==1.6.0
-shortuuid==1.0.11
+reportlab==4.1.0
+segno==1.6.1
+shortuuid==1.0.12
 svglib==1.5.1
 tinycss2==1.2.1
 webencodings==0.5.1

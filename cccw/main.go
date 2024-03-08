@@ -21,7 +21,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	mnemonic, err := bip39.NewMnemonic(entropy)
+	mnemonic, err := bip39.NewMnemonic(entropy) // XXX FIXME TODO  Select language
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,3 +35,16 @@ func main() {
 	fmt.Println("Mnemonic: ", mnemonic)
 	fmt.Println("Passphrase: ", secret)
 }
+
+// hdwallet.NewKey(
+//   hdwallet.Mnemonic("bango"),
+//   hdwallet.Password("foop"),
+//   hdwallet.Language("english"),
+// )
+
+// https://iancoleman.io/bip39
+// https://github.com/go-chain/go-hdwallet
+// https://github.com/foxnut/go-hdwallet
+// https://github.com/bchainhub/go-core-hdwallet
+// https://github.com/tyler-smith/go-bip39
+// https://github.com/tyler-smith/go-bip32
