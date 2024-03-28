@@ -1,6 +1,6 @@
 module shortuuid
 
-go 1.21.7
+go 1.22.1
 
 require (
 	github.com/btcsuite/btcd/btcutil v1.1.5
