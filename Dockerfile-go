@@ -1,0 +1,9 @@
+ARG FROM=busybox:latest
+FROM ${FROM}
+ARG OS=linux
+ARG ARCH=amd64
+ARG VERSION=1.22.3
+RUN wget --no-check-certificate https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz && \
+  tar xvfz /go${VERSION}.${OS}-${ARCH}.tar.gz && \
+  rm /go${VERSION}.${OS}-${ARCH}.tar.gz && \
+  ln -sf /go/bin/go /usr/bin/go
