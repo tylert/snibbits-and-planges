@@ -1,5 +1,6 @@
 ARG FROM=busybox:latest
 FROM ${FROM}
+ARG FROM
 ARG OS=linux
 ARG ARCH=amd64
 ARG VERSION=1.22.3
