@@ -14,13 +14,13 @@ import segno
 from svglib.svglib import svg2rlg
 
 
-def get_short_uuid(alphabet):
+def get_short_uuid(alphabet: str = None) -> str:
     ''' '''
 
     return ShortUUID(alphabet=alphabet).encode(uuid4())
 
 
-def dump_qr_code(shortuuid, filename):
+def dump_qr_code(shortuuid, filename) -> None:
     ''' '''
 
     segno.make(shortuuid).save(filename)
@@ -52,7 +52,7 @@ def dump_qr_code(shortuuid, filename):
     default='moo.svg',
 )
 @click.help_option('--help', '-h')
-def main(alphabet, banner, pdf, svg):
+def main(alphabet, banner, pdf, svg) -> None:
     ''' '''
 
     # buff = io.BytesIO()

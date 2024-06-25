@@ -159,7 +159,9 @@ def gen_uuidv6(node: str = None, clock_seq: str = None) -> str:
     help='Existing UUID to shorten or lengthen',
     default=None,
 )
-def main(alphabet, clock_seq, domain, encoding, id, name, namespace, node, type, uuid):
+def main(
+    alphabet, clock_seq, domain, encoding, id, name, namespace, node, type, uuid
+) -> None:
     '''Generate a shortened (encoded) UUID'''
 
     if uuid:
