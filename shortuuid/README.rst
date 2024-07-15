@@ -21,6 +21,7 @@ UUID Stuff
 * https://blog.devgenius.io/analyzing-new-unique-identifier-formats-uuidv6-uuidv7-and-uuidv8-d6cc5cd7391a
 * https://medium.com/geekculture/the-wild-world-of-unique-identifiers-uuid-ulid-etc-17cfb2a38fce
 * https://github.com/rs/xid
+* https://github.com/ulid/spec  Universally Unique Lexicographically Sortable Identifier
 
 ::
 
