@@ -1,6 +1,6 @@
 module shortuuid
 
-go 1.22.4
+go 1.22.6
 
 require (
 	github.com/btcsuite/btcd/btcutil v1.1.5
@@ -14,5 +14,5 @@ require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/yeqown/reedsolomon v1.0.0 // indirect
-	golang.org/x/image v0.17.0 // indirect
+	golang.org/x/image v0.19.0 // indirect
 )
