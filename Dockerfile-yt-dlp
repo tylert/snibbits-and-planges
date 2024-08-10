@@ -1,5 +1,5 @@
-ARG FROM=python:3-alpine
+ARG FROM=alpine:edge
 FROM ${FROM}
-RUN python -m pip install yt-dlp
+RUN apk add --no-cache yt-dlp
 ENTRYPOINT ["yt-dlp"]
-# CMD [""]
+# CMD ["--version"]
