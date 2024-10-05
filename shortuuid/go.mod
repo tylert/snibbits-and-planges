@@ -1,9 +1,9 @@
 module shortuuid
 
-go 1.23.0
+go 1.23.2
 
 require (
-	github.com/btcsuite/btcd/btcutil v1.1.5
+	github.com/btcsuite/btcd/btcutil v1.1.6
 	github.com/google/uuid v1.6.0
 	github.com/yeqown/go-qrcode/v2 v2.2.4
 	github.com/yeqown/go-qrcode/writer/standard v1.2.4
@@ -14,5 +14,5 @@ require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/yeqown/reedsolomon v1.0.0 // indirect
-	golang.org/x/image v0.19.0 // indirect
+	golang.org/x/image v0.21.0 // indirect
 )
