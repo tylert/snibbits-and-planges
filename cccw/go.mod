@@ -1,6 +1,6 @@
 module cccw
 
-go 1.23.5
+go 1.23.6
 
 require (
 	github.com/sethvargo/go-diceware v0.4.0
