@@ -3,7 +3,7 @@ FROM ${FROM}
 ARG FROM
 ARG OS=linux
 ARG ARCH=amd64
-ARG VERSION=1.23.6
+ARG VERSION=1.24.0
 RUN wget --no-check-certificate https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz && \
   tar xvfz /go${VERSION}.${OS}-${ARCH}.tar.gz && \
   rm /go${VERSION}.${OS}-${ARCH}.tar.gz && \

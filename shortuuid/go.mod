@@ -1,12 +1,12 @@
 module shortuuid
 
-go 1.23.6
+go 1.24.0
 
 require (
 	github.com/btcsuite/btcd/btcutil v1.1.6
 	github.com/google/uuid v1.6.0
-	github.com/yeqown/go-qrcode/v2 v2.2.4
-	github.com/yeqown/go-qrcode/writer/standard v1.2.4
+	github.com/yeqown/go-qrcode/v2 v2.2.5
+	github.com/yeqown/go-qrcode/writer/standard v1.2.5
 )
 
 require (

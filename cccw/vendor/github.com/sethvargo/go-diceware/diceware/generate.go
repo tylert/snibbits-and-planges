@@ -1,20 +1,8 @@
-// Copyright \d{4} .*
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-// [\t\f]+|[ ]{2,}http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 package diceware
 
 import (
 	"crypto/rand"
+	"fmt"
 	"io"
 	"math"
 	"math/big"
@@ -80,6 +68,13 @@ func NewGenerator(i *GeneratorInput) (*Generator, error) {
 // non-overlapping words, use a single invocation of the function and split the
 // resulting string list.
 func (g *Generator) Generate(numWords int) ([]string, error) {
+	if typ, ok := g.wordList.(WordListNumWordser); ok {
+		if l := typ.NumWords(); numWords > l {
+			return nil, fmt.Errorf("number of requested words (%d) cannot exceed the size of the wordlist (%d)",
+				numWords, l)
+		}
+	}
+
 	list := make([]string, 0, numWords)
 	seen := make(map[string]struct{}, numWords)
 
@@ -177,7 +172,7 @@ func RollWord(d int) (int, error) {
 func (g *Generator) RollDie() (int, error) {
 	r, err := rand.Int(g.randReader, sides)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("failed to generate a random number: %w", err)
 	}
 	return int(r.Int64()) + 1, nil
 }
