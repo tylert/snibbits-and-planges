@@ -1,0 +1,11 @@
+ARG FROM=python:3-alpine
+FROM ${FROM}
+RUN python -m pip install adafruit-nrfutil nomadnet rns
+ENTRYPOINT ["rnodeconf"]
+CMD ["--help"]
+
+# XXX FIXME TODO  Maybe do a multi-stage build for this???
+
+# run --interactive --rm --tty \
+#   --volume $(pwd):/moo --workdir /moo \
+#   ${IMAGE} --database /moo/wg.csv init
