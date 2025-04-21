@@ -1,10 +1,10 @@
 module cccw
 
-go 1.24.1
+go 1.24.2
 
 require (
 	github.com/sethvargo/go-diceware v0.5.0
 	github.com/tyler-smith/go-bip39 v1.1.0
 )
 
-require golang.org/x/crypto v0.36.0 // indirect
+require golang.org/x/crypto v0.37.0 // indirect

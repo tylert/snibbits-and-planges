@@ -54,9 +54,9 @@ func moo(w http.ResponseWriter, r *http.Request) {
 // https://tutorialedge.net/golang/creating-restful-api-with-golang/#building-our-router
 // https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 // https://www.devdungeon.com/content/working-images-go
-// https://freshman.tech/snippets/go/image-to-base64/
+// https://freshman.tech/snippets/go/image-to-base64
 // https://stackoverflow.com/questions/50889810/go-set-header-for-all-handlers
-// https://golang.org/doc/articles/wiki/
-// https://cryptic.io/go-http/
+// https://golang.org/doc/articles/wiki
+// https://cryptic.io/go-http
 // https://medium.com/rungo/running-multiple-http-servers-in-go-d15300f4e59f
 // https://golang.org/src/net/http/server.go
