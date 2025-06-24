@@ -74,6 +74,17 @@ func WithFgColorRGBHex(hex string) ImageOption {
 	})
 }
 
+// WithFgGradient QR gradient
+func WithFgGradient(g *LinearGradient) ImageOption {
+	return newFuncOption(func(oo *outputImageOptions) {
+		if g == nil || len(g.Stops) == 0 {
+			return
+		}
+
+		oo.qrGradient = g
+	})
+}
+
 // WithLogoImage image should only has 1/5 width of QRCode at most
 func WithLogoImage(img image.Image) ImageOption {
 	return newFuncOption(func(oo *outputImageOptions) {
@@ -224,5 +235,12 @@ func WithHalftone(path string) ImageOption {
 func WithLogoSizeMultiplier(multiplier int) ImageOption {
 	return newFuncOption(func(oo *outputImageOptions) {
 		oo.logoSizeMultiplier = multiplier
+	})
+}
+
+// WithLogoSafeZone enables the safe zone logic around the logo area.
+func WithLogoSafeZone() ImageOption {
+	return newFuncOption(func(oo *outputImageOptions) {
+		oo.logoSafeZone = true
 	})
 }

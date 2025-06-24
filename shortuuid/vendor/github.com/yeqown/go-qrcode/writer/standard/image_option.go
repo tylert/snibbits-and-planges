@@ -37,11 +37,18 @@ type outputImageOptions struct {
 	// qrColor is the foreground color of the QR code.
 	qrColor color.RGBA
 
+	// qrGradient is an optional linear gradient to apply to QR modules instead of a solid color.
+	qrGradient *LinearGradient
+
 	// logo this icon image would be put the center of QR Code image
 	// NOTE: logo only should have 1 / logoSizeMultiplier size of QRCode image
 	logo image.Image
 
 	logoSizeMultiplier int
+
+	// logoSafeZone indicates whether to reserve a clear area around the logo,
+	// preventing QR code blocks from being drawn underneath it.
+	logoSafeZone bool
 
 	// qrWidth width of each qr block
 	qrWidth int
