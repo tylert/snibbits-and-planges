@@ -1,8 +1,8 @@
 charset-normalizer==3.4.2
 click==8.2.1
 cssselect2==0.8.0
-lxml==5.4.0
-pillow==11.2.1
+lxml==6.0.0
+pillow==11.3.0
 python-zbase32==0.1.1
 reportlab==4.4.2
 segno==1.6.6
