@@ -6,6 +6,15 @@ Add a "phone-home feature"
 * https://blog.cloudflare.com/the-complete-guide-to-golang-net-http-timeouts
 
 
+myrepos
+-------
+
+* https://github.com/wezm/git-grab  git clone into a "standard" local directory structure
+* https://stackoverflow.com/questions/45342640/golang-git-pulling-a-repo  go-git
+* https://linuxcommandlibrary.com/man/git-bulk  manage lots of git repos all at once (a la "git -C")
+* https://github.com/tj/git-extras/blob/master/Commands.md#git-bulk
+
+
 httpd
 -----
 
