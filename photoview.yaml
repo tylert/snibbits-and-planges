@@ -1,0 +1,46 @@
+# https://photoview.github.io
+# https://github.com/photoview/photoview
+# https://hub.docker.com/r/photoview/photoview
+
+# https://mariushosting.com/how-to-install-photoview-on-your-synology-nas
+# https://fossengineer.com/selfhosting-Photoview-docker
+# https://blog.sethcorker.com/traefik-routing-for-web-apps
+# https://ineiti.ch/posts/traefik-101/traefik-101
+# https://snorre.io/blog/2021-03-31-host-local-dev-http-server
+services:
+  photoview:
+    image: photoview/photoview:latest
+    container_name: photoview
+    hostname: photoview
+    # mem_limit: 2g
+    # cpu_shares: 1024
+    restart: unless-stopped
+    stop_grace_period: 10s
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    devices:
+      - /dev/dri:/dev/dri
+    ports:
+      - 8000:80
+    healthcheck:
+      test: curl -f http://localhost:4001 || exit 1
+    environment:
+      PHOTOVIEW_DATABASE_DRIVER: sqlite
+      PHOTOVIEW_SQLITE_PATH: /app/database/photoview.db
+      PHOTOVIEW_LISTEN_IP: photoview
+      PHOTOVIEW_LISTEN_PORT: 4001
+      PHOTOVIEW_SERVE_UI: 1
+      PHOTOVIEW_MEDIA_CACHE: /app/cache
+      PHOTOVIEW_DISABLE_FACE_RECOGNITION: 1
+      PHOTOVIEW_DISABLE_VIDEO_ENCODING: 1
+      PHOTOVIEW_DISABLE_RAW_PROCESSING: 1
+    volumes:
+      - /etc/localtime:/etc/localtime:ro  # use localtime from host
+      - /etc/timezone:/etc/timezone:ro    # use timezone from host
+      - /your/media/photos:/photos:ro
+      - api_cache:/app/cache:rw
+      - db_data:/app/database:rw
+volumes:
+  api_cache:
+  db_data:
