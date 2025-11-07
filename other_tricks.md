@@ -1,26 +1,21 @@
-Python Stuff
-------------
+# Python Stuff
 
-* http://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask
-* http://flask-restful.readthedocs.org/en/0.3.5/quickstart.html#a-minimal-api
-* http://locust.io/
-* https://pypi.python.org/pypi/pip2pi/0.6.8
-* https://github.com/pypiserver/pypiserver
-* http://book.pythontips.com/en/latest/
-* http://qpleple.com/add-progress-bars-to-your-python-loops/
-* https://click.palletsprojects.com/en/7.x/utils/#showing-progress-bars
-* https://codingdose.info/2019/06/15/how-to-use-a-progress-bar-in-python/
-* https://github.com/niltonvolpato/python-progressbar/blob/master/examples.py
-* https://bhave.sh/micropython-docker/
-* https://til.simonwillison.net/python/stdlib-cli-tools
-
-::
+* <http://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask>
+* <http://flask-restful.readthedocs.org/en/0.3.5/quickstart.html#a-minimal-api>
+* <http://locust.io>
+* <https://pypi.python.org/pypi/pip2pi/0.6.8>
+* <https://github.com/pypiserver/pypiserver>
+* <http://book.pythontips.com/en/latest>
+* <http://qpleple.com/add-progress-bars-to-your-python-loops>
+* <https://click.palletsprojects.com/en/7.x/utils/#showing-progress-bars>
+* <https://codingdose.info/2019/06/15/how-to-use-a-progress-bar-in-python>
+* <https://github.com/niltonvolpato/python-progressbar/blob/master/examples.py>
+* <https://bhave.sh/micropython-docker>
+* <https://til.simonwillison.net/python/stdlib-cli-tools>
 
     echo ${JSON_GOOP} | python -m json.tool  # pretty-print
     python -m base64 -h                      # encode/decode base64 strings
     python -m calendar                       # show a full year calendar
-
-::
 
     import itertools
 
@@ -31,21 +26,15 @@ Python Stuff
     # "setec astronomy" is an anagram for "too many secrets"
     # "keynote shogun" is an anagram for "not enough keys"
 
-
-Bash Stuff
-----------
-
-::
+# Bash Stuff
 
     kl5() { echo "${1}"|tr ABC 2|tr DEF 3|tr GHI 4|tr JKL 5|tr MNO 6|tr PQRS 7|tr TUV 8|tr WXYZ 9;}
     # kl5 877-PINK-EYE
     # 877-7465-393
 
+# HDWallet Zipapp
 
-HDWallet Zipapp
----------------
-
-Do the following::
+Do the following:
 
     # Install all pip requirements for the app in an empty directory
     python -m pip install ${MY_PIP_OPTIONS} --target ${MY_APP_DIRECTORY}
@@ -63,36 +52,29 @@ Do the following::
     # Bundle everything in the directory into an executable zip file
     python -m zipapp -p '/usr/bin/env python' ${MY_APP_DIRECTORY}
 
-Replace all the "sha3.keccak_256()" calls with just "sha3_256()" in
-hdwallet/hdwallet.py and hdwallet/libs/base58.py and all "import sha3" lines
-with "from hashlib import sha3_256" (assumes you are on Python 3.6+).  This
-removes the redundant, non-pure-Python module.
+Replace all the \"sha3.keccak_256()\" calls with just \"sha3_256()\" in
+hdwallet/hdwallet.py and hdwallet/libs/base58.py and all \"import sha3\"
+lines with \"from hashlib import sha3_256\" (assumes you are on Python
+3.6+). This removes the redundant, non-pure-Python module.
 
-You'll also have to replace all the "mnemonic/wordlist/\*.txt" files with an
-equivalent .py file for each language, import them into the appropriate place
-at the top of the mnemonic module and do an "eval(language)" and some split()
-magic in its init() to get it to spit out the correct stuff.  This is needed
-because I haven't yet figured out a good way to read a file packed inside the
-zip file that's currently executing.
+You\'ll also have to replace all the \"mnemonic/wordlist/\*.txt\" files
+with an equivalent .py file for each language, import them into the
+appropriate place at the top of the mnemonic module and do an
+\"eval(language)\" and some split() magic in its init() to get it to
+spit out the correct stuff. This is needed because I haven\'t yet
+figured out a good way to read a file packed inside the zip file that\'s
+currently executing.
 
-* https://docs.python.org/3/library/zipapp.html
-* https://stackoverflow.com/questions/5355694/python-can-executable-zip-files-include-data-files
+* <https://docs.python.org/3/library/zipapp.html>
+* <https://stackoverflow.com/questions/5355694/python-can-executable-zip-files-include-data-files>
 
-
-Unix Timestamps
----------------
-
-::
+# Unix Timestamps
 
     >>> from datetime import datetime
     >>> datetime.fromtimestamp(1649451192)
     datetime.datetime(2022, 4, 8, 16, 53, 12)
 
-
-IPv4 Calculations
------------------
-
-::
+# IPv4 Calculations
 
     >>> import ipaddress
     >>> list(ipaddress.ip_network('163.123.192.190/29', strict=False).hosts())
@@ -112,18 +94,12 @@ IPv4 Calculations
     >>> ipaddress.ip_network('163.123.192.190/29', strict=False).hostmask
     IPv4Address('0.0.0.7')
 
-::
-
     import ipaddress
     ip1 = int(ipaddress.IPv4Address('10.1.200.202'))
     ip2 = int(ipaddress.IPv4Address('10.1.200.207'))
     print(ip2 - ip1 + 1)  # how many exist between these addresses?
 
-
-Binary Subnet Mask:	11111111.11111111.11111111.11111000
-Binary ID:	10100011011110111100000010111110
-Integer ID:	2742796478
-Hex ID:	0xa37bc0be
-in-addr.arpa:	190.192.123.163.in-addr.arpa
-IPv4 Mapped Address:	::ffff:a37b.c0be
-6to4 Prefix:	2002:a37b.c0be::/48
+Binary Subnet Mask: 11111111.11111111.11111111.11111000 Binary ID:
+10100011011110111100000010111110 Integer ID: 2742796478 Hex ID:
+0xa37bc0be in-addr.arpa: 190.192.123.163.in-addr.arpa IPv4 Mapped
+Address: ::ffff:a37b.c0be 6to4 Prefix: 2002:a37b.c0be::/48
