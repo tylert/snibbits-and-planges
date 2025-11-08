@@ -241,4 +241,4 @@ if __name__ == '__main__':
 # https://stackoverflow.com/questions/5649407/hexadecimal-string-to-byte-array-in-python
 # https://stackoverflow.com/questions/6624453/whats-the-correct-way-to-convert-bytes-to-a-hex-string-in-python-3
 # https://stackoverflow.com/questions/8244204/ntp-timestamps-in-python
-# https://www.devdungeon.com/content/working-binary-data-python
+# https://devdungeon.com/content/working-binary-data-python

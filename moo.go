@@ -50,10 +50,10 @@ func moo(w http.ResponseWriter, r *http.Request) {
 }
 
 // https://stackoverflow.com/questions/46021330/how-can-i-read-a-header-from-an-http-request-in-golang
-// https://www.alexedwards.net/blog/golang-response-snippets
+// https://alexedwards.net/blog/golang-response-snippets
 // https://tutorialedge.net/golang/creating-restful-api-with-golang/#building-our-router
-// https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
-// https://www.devdungeon.com/content/working-images-go
+// https://sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
+// https://devdungeon.com/content/working-images-go
 // https://freshman.tech/snippets/go/image-to-base64
 // https://stackoverflow.com/questions/50889810/go-set-header-for-all-handlers
 // https://golang.org/doc/articles/wiki

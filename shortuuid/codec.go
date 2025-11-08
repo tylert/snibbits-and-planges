@@ -14,7 +14,7 @@ import (
 //   https://datatracker.ietf.org/doc/html/draft-msporny-base58-03
 //   https://github.com/Dasio/base45/blob/main/base45.go
 //   https://cs.opensource.google/go/go/+/master:src/encoding/base64/base64.go
-//   https://www.rfc-editor.org/info/rfc9285
+//   https://rfc-editor.org/info/rfc9285
 // base57    '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base58    '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 // base62    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'

@@ -9,14 +9,14 @@
 * <https://github.com/google/uuid>
 * <https://github.com/uuid6/uuid6-ietf-draft>
 * <https://github.com/ietf-wg-uuidrev/rfc4122bis>
-* <https://www.ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-07.html>
+* <https://ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-07.html>
 * <http://gh.peabody.io/uuidv6>
 * <https://datatracker.ietf.org/doc/html/rfc4122>
 * <https://docs.crunchybridge.com/api-concepts/eid/>
 * <https://brandur.org/fragments/base32-slugs>
 * <https://github.com/taskcluster/slugid-go>
 * <https://blog.kowalczyk.info/article/JyRZ/generating-good-unique-ids-in-go.html>
-* <https://www.ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-07.html>
+* <https://ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-07.html>
 * <https://blog.devgenius.io/analyzing-new-unique-identifier-formats-uuidv6-uuidv7-and-uuidv8-d6cc5cd7391a>
 * <https://medium.com/geekculture/the-wild-world-of-unique-identifiers-uuid-ulid-etc-17cfb2a38fce>
 * <https://github.com/rs/xid>

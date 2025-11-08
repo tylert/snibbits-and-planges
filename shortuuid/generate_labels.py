@@ -128,6 +128,6 @@ if __name__ == '__main__':
     main()
 
 
-# https://www.blog.pythonlibrary.org/2018/04/12/adding-svg-files-in-reportlab/
-# https://segno.readthedocs.io/en/latest/
+# https://blog.pythonlibrary.org/2018/04/12/adding-svg-files-in-reportlab
+# https://segno.readthedocs.io/en/latest
 # https://github.com/deeplook/svglib

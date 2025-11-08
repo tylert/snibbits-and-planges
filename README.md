@@ -1,4 +1,4 @@
-# Add a \"phone-home feature\"
+# Add a 'phone-home feature'
 
 * <https://github.com/tcnksm/go-latest>
 * <https://github.com/minio/selfupdate>
