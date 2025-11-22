@@ -27,7 +27,7 @@ gen_ssh_keypair() {
         return 3
     else
         ssh-keygen                       \
-            -a 2147483647                \
+            -a 16                        \
             -C "${comment}"              \
             -f "${private_key_filename}" \
             -N ''                        \
