@@ -217,7 +217,7 @@ if __name__ == '__main__':
 # https://docs.python.org/3/library/typing.html
 
 # https://github.com/skorokithakis/shortuuid
-# https://pypi.org/project/shortuuid/
+# https://pypi.org/project/shortuuid
 
 # default alphabet '23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base57)
 # desired alphabet '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz' (base58)
