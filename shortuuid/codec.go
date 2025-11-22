@@ -8,6 +8,7 @@ import (
 )
 
 // Other encodings???
+//   https://devtoolsdaily.com/blog/short-uuid
 //   https://github.com/uuid25/go-uuid25
 //   https://stackoverflow.com/questions/37934162/output-uuid-in-go-as-a-short-string
 //   https://stackoverflow.com/questions/41996761/golang-number-base-conversion/48362821#48362821

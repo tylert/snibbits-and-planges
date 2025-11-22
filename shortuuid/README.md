@@ -1,4 +1,4 @@
-# UUID Stuff
+# Unique ID Stuff
 
 * <https://blog.scaledcode.com/blog/analyzing-new-unique-id>
 * <https://en.wikipedia.org/wikiwiki/Universally_unique_identifier>
@@ -12,7 +12,7 @@
 * <https://ietf.org/archive/id/draft-ietf-uuidrev-rfc4122bis-07.html>
 * <http://gh.peabody.io/uuidv6>
 * <https://datatracker.ietf.org/doc/html/rfc4122>
-* <https://docs.crunchybridge.com/api-concepts/eid/>
+* <https://docs.crunchybridge.com/api-concepts/eid>
 * <https://brandur.org/fragments/base32-slugs>
 * <https://github.com/taskcluster/slugid-go>
 * <https://blog.kowalczyk.info/article/JyRZ/generating-good-unique-ids-in-go.html>
@@ -21,6 +21,9 @@
 * <https://medium.com/geekculture/the-wild-world-of-unique-identifiers-uuid-ulid-etc-17cfb2a38fce>
 * <https://github.com/rs/xid>
 * <https://github.com/ulid/spec> Universally Unique Lexicographically Sortable Identifier
+* <https://devtoolsdaily.com/blog/short-uuid>
+* <https://github.com/lithammer/shortuuid>
+* <https://hexdocs.pm/short_uuid/ShortUUID.html>
 
     $ ./shortuuid -u PxhKe6exuntRFbEqgNqaVe
     PxhKe6exuntRFbEqgNqaVe
@@ -43,15 +46,3 @@ Python bug!!! (weird leading 1 when first nibble is 0):
     05ef55cd-f0e4-4676-852a-765a6c384fcc
     $ ./shortuuid -u 1jWNAus869vomZgM7VmzT5 -e none
     00000000-0000-0000-0000-000000000000
-
-# Go Stuff
-
-    # Dump info about a binary that was already built
-    go version -m shortuuid
-    go tool objdump shortuuid
-
-    # Show all possible GOOS/GOARCH combos for builds
-    go tool dist list
-
-    # Show help for linker options for builds
-    go tool link
