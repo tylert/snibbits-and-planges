@@ -47,4 +47,5 @@ func main() {
 // https://github.com/foxnut/go-hdwallet
 // https://github.com/bchainhub/go-core-hdwallet
 // https://github.com/tyler-smith/go-bip39
+// https://github.com/ProjectxFi/go-bip39
 // https://github.com/tyler-smith/go-bip32
