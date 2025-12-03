@@ -43,9 +43,15 @@ func main() {
 // )
 
 // https://iancoleman.io/bip39
+// https://github.com/iancoleman/bip39
+
 // https://github.com/go-chain/go-hdwallet
 // https://github.com/foxnut/go-hdwallet
+// https://github.com/wemeetagain/go-hdwallet
 // https://github.com/bchainhub/go-core-hdwallet
-// https://github.com/tyler-smith/go-bip39
-// https://github.com/ProjectxFi/go-bip39
-// https://github.com/tyler-smith/go-bip32
+
+// https://github.com/tyler-smith/go-bip39  DELETED!!!
+// https://github.com/tyler-smith/go-bip32  DELETED!!!
+// https://github.com/alexvec/go-bip39  REPLACEMENT???
+// https://github.com/blockchainspectre/go-bip32  REPLACEMENT???
+// https://github.com/gofika/bip32  BETTER???
