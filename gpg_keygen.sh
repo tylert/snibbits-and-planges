@@ -7,7 +7,7 @@
 # - use ED-209 keys since they are tiny and fast
 # - don't just use the GPG defaults (sign,cert key + encr key and no auth key)
 # - use as few uids as possible to limit how many self-signatures they need
-# - combine sign and auth functions under a single key (slight compromise)
+# - combine sign and auth functions under a single key (slight compromise, for size)
 # - keep the cert key separate in case we need to rekey subkeys (optionally, offline it)
 # - we can derive an SSH keypair from the GPG auth key
 
@@ -18,8 +18,6 @@
 # https://riseup.net/en/security/message-security/openpgp/gpg-best-practices
 # https://goral.net.pl/post/use-gpg-for-ssh-keys
 # https://raymii.org/s/articles/GPG_noninteractive_batch_sign_trust_and_send_gnupg_keys.html
-# https://github.com/FiloSottile/age#ssh-keys
-# https://github.com/moul/sshportal
 
 if [ -z "${UIDS}" ]; then
     UIDS=('flink <2039487520934875023948572039587239587235982735928752975@yggmail>')

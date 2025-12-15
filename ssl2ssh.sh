@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-# Convert an OpenSSL private key to an OpenSSH private key.  Only supports
-# ed25519 keys.  See https://security.stackexchange.com/a/268151 or
+# Convert an OpenSSL private key to an OpenSSH one.  Only supports ed25519
+# keys.  See https://security.stackexchange.com/a/268151 or
 # https://security.stackexchange.com/questions/267711/how-can-i-convert-an-ed25519-key-in-pkcs8-to-openssh-private-key-format/268151#268151
 # for details.
 
 # Tools required:  bash, coreutils (base64, cat, dd, echo, printf, test), grep, openssl
 
 # Invocation:
-#   openssl genpkey -algorithm ed25519 | ./${0}
-#   openssl genpkey -algorithm ed25519 -out key.txt ; ./${0} key.txt
+#   (umask 0077 ; openssl genpkey -algorithm ed25519 | ./${0} > ssh.key)
+#   openssl genpkey -algorithm ed25519 -out ssl.txt ; (umask 0077 ; ./${0} ssl.txt > ssh.key)
 
-# Bugs:  The SSH private key is unencrypted by default.
+# Bugs:  The resulting SSH private key is unencrypted by default.
 # Workaround:  Encrypt it afterwards.
 #   (umask 0077 ; openssl genpkey -algorithm ed25519 | ./${0} > ssh.key)
 #   ssh-keygen -f ssh.key -p  # set symmetric passphrase
 
-# Bugs:  If you send an encrypted private key, you'll get an error about base64 invalid input.
+# Bugs:  If you send an encrypted SSL private key, you'll get an error about base64 invalid input.
 # Workaround:  Disable encryption on the key temporarily.
 #   openssl genpkey -algorithm ed25519 > clr.key  # generate clear private key
 #   openssl pkey -in clr.key -aes256 > enc.key    # set symmetric passphrase
