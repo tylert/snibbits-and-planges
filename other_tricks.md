@@ -26,11 +26,13 @@
     # "setec astronomy" is an anagram for "too many secrets"
     # "keynote shogun" is an anagram for "not enough keys"
 
+
 # Bash Stuff
 
     kl5() { echo "${1}"|tr ABC 2|tr DEF 3|tr GHI 4|tr JKL 5|tr MNO 6|tr PQRS 7|tr TUV 8|tr WXYZ 9;}
     # kl5 877-PINK-EYE
     # 877-7465-393
+
 
 # HDWallet Zipapp
 
@@ -68,11 +70,13 @@ currently executing.
 * <https://docs.python.org/3/library/zipapp.html>
 * <https://stackoverflow.com/questions/5355694/python-can-executable-zip-files-include-data-files>
 
+
 # Unix Timestamps
 
     >>> from datetime import datetime
     >>> datetime.fromtimestamp(1649451192)
     datetime.datetime(2022, 4, 8, 16, 53, 12)
+
 
 # IPv4 Calculations
 
