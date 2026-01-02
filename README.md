@@ -1,7 +1,8 @@
-# Add a 'phone-home feature'
+# Phone Home and Update Binaries
 
 * <https://github.com/tcnksm/go-latest>
 * <https://github.com/minio/selfupdate>
+* <https://github.com/zeitlos/knockknock>
 * <https://blog.cloudflare.com/the-complete-guide-to-golang-net-http-timeouts>
 
 
