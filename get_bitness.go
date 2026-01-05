@@ -47,7 +47,7 @@ func main() {
 	// NO DEFAULT CASE HERE
 }
 
-/// XXX FIXME TODO  I couldn't get any OpenWRT boxen to run binaries built for mips/mips64/mips64le/mipsle!!!
+// See https://go.dev/wiki/GoMips for building binaries suitable for OpenWRT
 
 /*
 The document at https://wicg.github.io/ua-client-hints defines the following headers...
