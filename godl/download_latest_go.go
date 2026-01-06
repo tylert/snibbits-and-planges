@@ -5,10 +5,11 @@
 
 /* XXX FIXME TODO
 - Waaaaay better checking of the desired dest location and filename
-- Check if the latest version is already installed so we can skip unnecessary downloading
 - Allow picking os and arch to fetch
+- Check if the latest version is already installed so we can skip unnecessary downloading
 - Unzip the archive somewhere in the $PATH like "/usr/local/"
 - Find a better way than printf to report download progress
+- Throw errors from functions and handle fatal calls from main
 */
 
 package main
