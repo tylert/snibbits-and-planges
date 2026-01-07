@@ -50,7 +50,7 @@ func FetchLatestGo() {
 	hash := SHA256File(dest)
 	fmt.Println(hash)
 
-	ExtractTarGzFileToDisk(dest)
+	ExtractTarballToDisk(dest)
 }
 
 func FindGoReleaseTarballLink(os string, arch string) (string, string) {
@@ -176,14 +176,15 @@ func SHA256File(file string) string {
 	return fmt.Sprintf("%x", hash.Sum(nil))
 }
 
-func ExtractTarGzFileToDisk(file string) {
+func ExtractTarballToDisk(file string) {
 	fd, err := os.OpenFile(file, os.O_RDONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer fd.Close()
 
-	// https://mustafanafizdurukan.github.io/posts/understanding-io-limitreader
+	// https://pkg.go.dev/archive/tar
+	// https://pkg.go.dev/os
 
 	ungz, err := gzip.NewReader(fd)
 	// foo := io.LimitReader(ungz, n)
