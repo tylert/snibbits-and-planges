@@ -1,13 +1,14 @@
 /*usr/bin/env go run "$0" "$@"; exit;*/
 
-/* Download the latest version of the Go compiler suite via HTTP, verify the
+/* Download the latest version of the Go compiler via HTTP, verify the
    checksum and extract it so we can start using it. */
 
 /* XXX FIXME TODO
-- Waaaaay better checking of the desired dest location and filename
-- Allow picking os and arch to fetch
-- Check if the latest version is already installed so we can skip unnecessary downloading
-- Unzip the archive somewhere in the $PATH like "/usr/local/"
+- Fix executable bits getting squashed when extracting the tarball
+- Allow fetching other release versions
+- Waaaaay better handling of desired locations and filenames
+- Check if we already have the desired version of the compiler installed
+- Better handling when the tarball has already been downloaded
 - Find a better way than printf to report download progress
 - Throw errors from functions and handle fatal calls from main
 */
@@ -15,14 +16,17 @@
 package main
 
 import (
+	"archive/tar"
+	"compress/gzip"
 	"crypto/sha256"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
-	//"path"
+	"path"
 	//"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 
@@ -35,20 +39,22 @@ func main() {
 
 func FetchLatestGo() {
 	// Figure out the link to the latest version (and the expected checksum)
-	url, checksum := DetermineLatestGo("linux", "amd64")
+	url, checksum := FindGoReleaseTarballLink(runtime.GOOS, runtime.GOARCH)
 	fmt.Println(url)
 	fmt.Println(checksum)
 
 	// Download the latest version from the provided link
-	dest := FetchFile(url, "/tmp/foo.tar.gz")
+	dest := HTTPGetFile(url, "")
 
 	// Verify the checksum against the one we are expecting
-	hash := HashFileSHA256(dest)
+	hash := SHA256File(dest)
 	fmt.Println(hash)
+
+	ExtractTarGzFileToDisk(dest)
 }
 
-func DetermineLatestGo(os string, arch string) (string, string) {
-	// Do a bit of web-scraping to determine the latest version checksum
+func FindGoReleaseTarballLink(os string, arch string) (string, string) {
+	// Do a bit of web-scraping to get a link to the latest version tarball and its checksum
 	client := http.Client{
 		Timeout: 5 * time.Second,
 	}
@@ -84,13 +90,13 @@ func DetermineLatestGo(os string, arch string) (string, string) {
 
 	// We don't know how to download nothing
 	if link == "" {
-		log.Fatal(fmt.Sprintf("Can't find an archive link for os=%s, arch=%s.", os, arch))
+		log.Fatal(fmt.Sprintf("Can't find a tarball link for os=%s, arch=%s.", os, arch))
 	}
 
 	return link, checksum
 }
 
-func FetchFile(url string, dest string) string {
+func HTTPGetFile(url string, dest string) string {
 	// Connect to the desired endpoint
 	res, err := http.Get(url)
 	if err != nil {
@@ -101,25 +107,33 @@ func FetchFile(url string, dest string) string {
 		log.Fatalf("Status code error: %d %s", res.StatusCode, res.Status)
 	}
 
-	/*
-	     dir := path.Dir(dest)
-	     file := path.Base(dest)
-	     if strings.HasSuffix(dest, "/") {
-	       dir = dest
-	   		file = path.Base(res.Request.URL.String())
-	     }
-	     fmt.Println(dir)
-	     fmt.Println(file)
-	   	fullpath := filepath.Join(dir, file)
-	*/
+	// Figure out what to name the file and where to put it
 	fullpath := dest
+	if dest == "" {
+		fullpath = path.Base(res.Request.URL.String())
+	}
 
-	// Create the local file
-	fh, err := os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	/*
+		if _, err := os.Stat(dest); errors.Is(err, os.ErrNoExist) {
+			// it does not exist
+		}
+		if info, err := os.Stat(dest); err != nil {
+			// it does exist but now we can figure out if it's a dir or a file
+		}
+		if info.IsDir() {
+		}
+
+		dir := path.Dir(dest)
+		file := path.Base(dest)
+		fullpath := filepath.Join(dir, file)
+	*/
+
+	// Create the local file (fail if the file already exists)
+	fd, err := os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer fh.Close()
+	defer fd.Close()
 
 	// Write to the buffer in 32 kB chunks and count downloaded bytes
 	buffer := make([]byte, 32*1024)
@@ -128,7 +142,7 @@ func FetchFile(url string, dest string) string {
 	for {
 		n, err := res.Body.Read(buffer)
 		if n > 0 {
-			_, writeErr := fh.Write(buffer[:n])
+			_, writeErr := fd.Write(buffer[:n])
 			if writeErr != nil {
 				log.Fatal(err)
 			}
@@ -147,17 +161,68 @@ func FetchFile(url string, dest string) string {
 	return fullpath
 }
 
-func HashFileSHA256(file string) string {
-	fh, err := os.Open(file)
+func SHA256File(file string) string {
+	fd, err := os.OpenFile(file, os.O_RDONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer fh.Close()
+	defer fd.Close()
 
 	hash := sha256.New()
-	if _, err := io.Copy(hash, fh); err != nil {
+	if _, err := io.Copy(hash, fd); err != nil {
 		log.Fatal(err)
 	}
 
 	return fmt.Sprintf("%x", hash.Sum(nil))
+}
+
+func ExtractTarGzFileToDisk(file string) {
+	fd, err := os.OpenFile(file, os.O_RDONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer fd.Close()
+
+	// https://mustafanafizdurukan.github.io/posts/understanding-io-limitreader
+
+	ungz, err := gzip.NewReader(fd)
+	// foo := io.LimitReader(ungz, n)
+	// bar := bufio.NewReader(foo)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer ungz.Close()
+
+	unt := tar.NewReader(ungz)
+	// baz := io.LimitReader(unt, n)
+	// quux := bufio.NewReader(baz)
+	var header *tar.Header
+	for header, err = unt.Next(); err == nil; header, err = unt.Next() {
+		switch header.Typeflag {
+		case tar.TypeDir:
+			if err := os.Mkdir(header.Name, 0755); err != nil {
+				log.Fatal(err)
+			}
+		case tar.TypeReg:
+			// Skip any weird muckOS resource files
+			if !strings.HasPrefix(header.Name, "._") {
+				out, err := os.OpenFile(header.Name, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0644)
+				if err != nil {
+					log.Fatal(err)
+				}
+				if _, err := io.Copy(out, unt); err != nil {
+					out.Close()
+					log.Fatal(err)
+				}
+				if err := out.Close(); err != nil {
+					log.Fatal(err)
+				}
+			}
+		default: // hope that nobody is expecting symlinks or other non-regular file types to survive
+			log.Fatal("You should never see this error")
+		}
+	}
+	if err != io.EOF {
+		log.Fatal("There was some kind of unexplained error")
+	}
 }

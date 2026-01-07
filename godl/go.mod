@@ -1,4 +1,4 @@
-module aria2
+module godl
 
 go 1.25.5
 
