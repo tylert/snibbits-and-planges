@@ -24,6 +24,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	//"os/exec"
 	"path"
 	//"path/filepath"
 	"regexp"
@@ -74,7 +75,7 @@ func FindGoReleaseTarballLink(ver string, os string, arch string) (string, strin
 		log.Fatal(err)
 	}
 
-	// Do a first pass, stop after finding the first match (should be the latest stable release)
+	// The first match found should have the latest release
 	reg := regexp.MustCompile(`\d+?\.\d+?\.\d+`)
 	latest := ""
 	doc.Find("tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
@@ -97,7 +98,7 @@ func FindGoReleaseTarballLink(ver string, os string, arch string) (string, strin
 		wanted = ver
 	}
 
-	// Do the actual search looking for the desired version, os and arch combo
+	// Perform the actual search looking for the desired version, os and arch combo
 	link := ""
 	checksum := ""
 	doc.Find("tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
