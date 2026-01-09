@@ -1,11 +1,11 @@
 /*usr/bin/env go run "$0" "$@"; exit;*/
 
-/* Download the latest version of the Go compiler via HTTP, verify the
-   checksum and extract it so we can start using it. */
+/* Lay a chicken that can lay eggs.
+   Download the latest version of the Go compiler via HTTP, verify the checksum
+   and extract it so we can start using it. */
 
 /* XXX FIXME TODO
 - Fix executable bits getting squashed when extracting the tarball
-- Allow fetching other release versions
 - Waaaaay better handling of desired locations and filenames
 - Check if we already have the desired version of the compiler installed
 - Better handling when the tarball has already been downloaded
@@ -26,6 +26,7 @@ import (
 	"os"
 	"path"
 	//"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 	"time"
@@ -39,7 +40,7 @@ func main() {
 
 func FetchLatestGo() {
 	// Figure out the link to the latest version (and the expected checksum)
-	url, checksum := FindGoReleaseTarballLink(runtime.GOOS, runtime.GOARCH)
+	url, checksum := FindGoReleaseTarballLink("latest", runtime.GOOS, runtime.GOARCH)
 	fmt.Println(url)
 	fmt.Println(checksum)
 
@@ -53,7 +54,7 @@ func FetchLatestGo() {
 	ExtractTarballToDisk(dest)
 }
 
-func FindGoReleaseTarballLink(os string, arch string) (string, string) {
+func FindGoReleaseTarballLink(ver string, os string, arch string) (string, string) {
 	// Do a bit of web-scraping to get a link to the latest version tarball and its checksum
 	client := http.Client{
 		Timeout: 5 * time.Second,
@@ -71,7 +72,31 @@ func FindGoReleaseTarballLink(os string, arch string) (string, string) {
 		log.Fatal(err)
 	}
 
+	// Do a first pass so we know the latest version
 	// Stop after finding the first match (should be the newest release)
+	reg := regexp.MustCompile(`\d+?\.\d+?\.\d+`)
+	latest := ""
+	doc.Find("tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
+		a := s.Find("td.filename a")
+		href, ok := a.Attr("href")
+		if ok {
+			if strings.Contains(href, fmt.Sprintf("%s-%s.tar.gz", os, arch)) {
+				latest = reg.FindString(href)
+				return false
+			}
+		}
+		return true
+	})
+
+	// Now we know what version string to use for the search
+	wanted := ""
+	if ver == "latest" {
+		wanted = latest
+	} else {
+		wanted = ver
+	}
+
+	// Do the actual search looking for the desired version, os and arch combo
 	link := ""
 	checksum := ""
 	doc.Find("tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
@@ -79,7 +104,7 @@ func FindGoReleaseTarballLink(os string, arch string) (string, string) {
 		tt := s.Find("td tt").Text()
 		href, ok := a.Attr("href")
 		if ok {
-			if strings.Contains(href, fmt.Sprintf("%s-%s.tar.gz", os, arch)) {
+			if strings.Contains(href, fmt.Sprintf("go%s.%s-%s.tar.gz", wanted, os, arch)) {
 				link = fmt.Sprintf("https://go.dev%s", href)
 				checksum = tt
 				return false
@@ -185,6 +210,7 @@ func ExtractTarballToDisk(file string) {
 
 	// https://pkg.go.dev/archive/tar
 	// https://pkg.go.dev/os
+	// https://pkg.go.dev/io
 
 	ungz, err := gzip.NewReader(fd)
 	// foo := io.LimitReader(ungz, n)
