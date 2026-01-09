@@ -39,23 +39,25 @@ func main() {
 }
 
 func FetchLatestGo() {
-	// Figure out the link to the latest version (and the expected checksum)
+	// Figure out the link to the desired version (and its expected checksum)
 	url, checksum := FindGoReleaseTarballLink("latest", runtime.GOOS, runtime.GOARCH)
 	fmt.Println(url)
 	fmt.Println(checksum)
 
-	// Download the latest version from the provided link
+	// Download the file using the provided link
 	dest := HTTPGetFile(url, "")
 
 	// Verify the checksum against the one we are expecting
 	hash := SHA256File(dest)
-	fmt.Println(hash)
+	if checksum != hash {
+		log.Fatalf("Checksums don't match.")
+	}
 
 	ExtractTarballToDisk(dest)
 }
 
 func FindGoReleaseTarballLink(ver string, os string, arch string) (string, string) {
-	// Do a bit of web-scraping to get a link to the latest version tarball and its checksum
+	// Do a bit of web-scraping
 	client := http.Client{
 		Timeout: 5 * time.Second,
 	}
@@ -72,8 +74,7 @@ func FindGoReleaseTarballLink(ver string, os string, arch string) (string, strin
 		log.Fatal(err)
 	}
 
-	// Do a first pass so we know the latest version
-	// Stop after finding the first match (should be the newest release)
+	// Do a first pass, stop after finding the first match (should be the latest stable release)
 	reg := regexp.MustCompile(`\d+?\.\d+?\.\d+`)
 	latest := ""
 	doc.Find("tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
@@ -227,7 +228,7 @@ func ExtractTarballToDisk(file string) {
 	for header, err = unt.Next(); err == nil; header, err = unt.Next() {
 		switch header.Typeflag {
 		case tar.TypeDir:
-			if err := os.Mkdir(header.Name, 0755); err != nil {
+			if err := os.Mkdir(header.Name, 0755); err != nil { // header.Mode int64 -> uint21
 				log.Fatal(err)
 			}
 		case tar.TypeReg:
