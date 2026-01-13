@@ -88,6 +88,15 @@ def get_mac_serial(mac_serial='', random_mac=False, random_seed=None):
     # 6 bytes long
     return bytearray.fromhex(str(mac)).hex()
 
+# A random MAC address should look like:
+#   all 48-bits were toggled by drunken monkies
+#   then AND it with 0xfeffffffffff (I/G = Individual/Group bit a.k.a. "set it to 0 for unicast")
+#   then OR it with 0x020000000000 (LAA = Locally-Administered Address bit)
+# This means a randomized macaddr will typically start with ?2, ?6, ?A or ?E
+
+# Equivalent shell command
+# echo "$(printf "%012X" $(( 0x$(hexdump -n6 -e '/1 "%02X"' /dev/random) & 0xFEFFFFFFFFFF | 0x020000000000 )) | sed 's/.\{2\}/&:/g' | sed s/:$//g)"
+
 
 def get_global_id(mac_serial='', ntp_time='', random_mac=False, random_seed=None):
     '''Grab last 40 bits of the SHA1 digest of NTP + MAC bytes for the Global
